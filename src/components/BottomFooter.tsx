@@ -5,7 +5,7 @@ import {FaUser} from 'react-icons/fa'
 const BottomFooter = () => {
     return(
         <Footer
-            style={{position: 'sticky', bottom: 0, backgroundColor: 'white'}}>
+            style={{position: 'sticky', bottom: 0, backgroundColor: 'white', height:'7vh'}}>
                 
             <Button icon={<Archive/>} onClick={() => {}}></Button>
             <Button icon={<HomeRounded/>} onClick={() => {}}></Button>

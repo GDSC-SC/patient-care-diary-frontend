@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const TopHeader = () =>{
     return(
         <Header className="header" 
-            style={{ position: 'sticky', top: 0,backgroundColor: 'white'}}>
+            style={{ position: 'sticky', top: 0,backgroundColor: 'white', height:'5vh'}}>
             <Button icon={<Previous/>} onClick={() => {
                 
             }}/>
