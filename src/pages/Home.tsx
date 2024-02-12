@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { MainLayout } from "../components/MainLayout";
 import { FaCamera, FaCheck, FaCheckCircle, FaChevronDown, FaIcons } from "react-icons/fa";
-import styled from "styled-components";
-import './Home.css';
+import '../styles/Home.css'
 
 function Box({children}:any){
     return(
@@ -28,7 +27,7 @@ export function Home(){
         <MainLayout>
             <div style={{display:'flex', flexDirection: 'column',height: '100vh', backgroundColor: 'green', overflow:'scroll'}}>
                 {/* <Box><h1 style={{}}>Dairy of {today}</h1></Box> */}
-                <LargeCategoryList largeCategoryList={['Large Category1', 'LargeCategory2']}/>
+                <LargeCategoryList largeCategoryList={['Large Categ햐ory1', 'LargeCategory2']}/>
             </div>
         </MainLayout>
     );
