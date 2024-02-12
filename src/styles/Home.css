@@ -1,29 +1,11 @@
-.BoxL{
-    margin: 1vh;
-    padding: 0.5vh 1vw;
-    border-radius: 30px;
-    border-style: solid;
-    border-color: #E5E5E5;
-}
-
-.BoxM{
-    display: flex;
-    flex-direction: column;
-    padding: 0.5vh 2vw;
-    margin: 1vh;
-    border-radius: 2vh;
-    border: solid;
-    border-color: #E5E5E5;
-}
-
 h1{
     padding: 0 5vw;
 }
 
 .RoundIconDivLStyle{
-    border-radius: 50px;
-    height: 100px;
-    width: 100px;
+    border-radius: 100%;
+    height: 10vh;
+    width: 10vh;
     display: flex;
     align-items: center;
     justify-content: center;

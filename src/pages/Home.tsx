@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { MainLayout } from "../components/MainLayout";
-import { FaCamera, FaCheck, FaCheckCircle, FaChevronDown, FaChevronUp, FaIcons } from "react-icons/fa";
-import styled from "styled-components";
+import { MainLayout } from "../components/layout/MainLayout";
+import { FaCamera, FaCheck, FaChevronDown, FaChevronUp, FaIcons } from "react-icons/fa";
 import '../styles/Home.css';
+import '../styles/Icon.css';
+import '../styles/Box.css';
 import 'autosize';
 import autosize from "autosize";
+import { DateBox } from "../components/DateBox";
 
 interface LargeCategoryProps{
     items: {category_id: string, title: string, subtitle: string[], color: string}
@@ -17,13 +19,10 @@ interface LargeCategoryListProps{
 // 기능 : 기록.
 export function Home(){
     const date = new Date();
-    const today = `${date.getFullYear()}.${date.getMonth()}.${date.getDate()}`;
     return (
         <MainLayout>
-            <div style={{display:'flex', flexDirection: 'column',height: '100vh', overflow:'scroll'}}>
-                <div className="BoxL">
-                    <h1>Diary of {today}</h1>
-                </div>
+            <div className = "FlexColumn" style={{height: '100vh', overflow:'scroll'}}>
+                <DateBox date={date} needSave={true}/>
                 <LargeCategoryList largeCategoryList={['Large Category1', 'LargeCategory2']}/>
             </div>
         </MainLayout>
@@ -61,7 +60,7 @@ function LargeCategory(props: LargeCategoryProps){
 
 function CheckBtnCircle({isDone, setIsDone}: {isDone: boolean, setIsDone: React.Dispatch<React.SetStateAction<boolean>>}){
     return(
-        <div className="CheckBtnCircle" style={{backgroundColor: isDone? 'grey' : '#E5E5E5'}} onClick={() => (setIsDone(!isDone))}>
+        <div className="IconRound" style={{width: '3vh', height: '3vh', backgroundColor: isDone? 'grey' : '#E5E5E5'}} onClick={() => (setIsDone(!isDone))}>
                 {isDone? <FaCheck color="white"/>: null}
         </div>
     );
@@ -85,7 +84,7 @@ function MiddleCategory(){
 
     return(
         <div className = "BoxM">
-            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent:'space-between'}}>
+            <div className="FlexRow">
                 <CheckBtnCircle isDone ={isDone} setIsDone={setIsDone} />
                 <h2>Middel category</h2>
                 {isOpen? <FaChevronUp onClick={() => {setIsOpen(!isOpen)}}/> : <FaChevronDown onClick={() => {setIsOpen(!isOpen)}}/> }
@@ -93,7 +92,7 @@ function MiddleCategory(){
             
             {isOpen ? 
             <div className = "MiddleContents" > 
-                <div className="RoundIconDivLStyle">
+                <div className="IconRound" style={{height: '10vh', width: '10vh', backgroundColor: '#E5E5E5'}}>
                     <FaCamera style={{color: 'white'}} size={50}/>
                     </div>
                 <textarea
