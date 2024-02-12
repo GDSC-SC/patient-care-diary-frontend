@@ -1,13 +1,15 @@
 import { Grommet } from "grommet";
 import TopHeader from "./TopHeader";
 import BottomFooter from "./BottomFooter";
-import './MainLayout.css'
+import '../../styles/MainLayout.css'
 
 export function MainLayout({ children } : any){
     return(
-        <Grommet className="Page">
+        <Grommet>
             <TopHeader/>
-            {children}
+            <div className="Page">
+                {children}
+            </div>
             <BottomFooter/>
         </Grommet>
     );

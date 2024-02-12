@@ -1,0 +1,30 @@
+.BoxL{
+    margin: 1vh;
+    padding: 0.5vh 1vw;
+    border-radius: 30px;
+    border-style: solid;
+    border-color: #E5E5E5;
+}
+
+.BoxM{
+    display: flex;
+    flex-direction: column;
+    padding: 0.5vh 2vw;
+    margin: 1vh;
+    border-radius: 2vh;
+    border: solid;
+    border-color: #E5E5E5;
+}
+
+.FlexColumn{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.FlexRow{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}

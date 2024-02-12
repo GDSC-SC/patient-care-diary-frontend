@@ -3,8 +3,7 @@ import { Previous } from "grommet-icons";
 
 const TopHeader = () =>{
     return(
-        <Header className="header" 
-            style={{ position: 'sticky', top: 0,backgroundColor: 'white', height:'5vh'}}>
+        <Header className="Header">
             <Button icon={<Previous/>} onClick={() => {
                 
             }}/>
