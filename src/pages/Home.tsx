@@ -1,16 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MainLayout } from "../components/MainLayout";
-import { FaCamera, FaCheck, FaCheckCircle, FaChevronDown, FaIcons } from "react-icons/fa";
+import { FaCamera, FaCheck, FaCheckCircle, FaChevronDown, FaChevronUp, FaIcons } from "react-icons/fa";
 import styled from "styled-components";
-import './Home.css';
-
-function Box({children}:any){
-    return(
-        <div style={{height: '10vh', margin:10, borderRadius: 30, backgroundColor: 'white'}}>{children}</div>
-    )
-}
-
-
+import '../styles/Home.css';
+import 'autosize';
+import autosize from "autosize";
 
 interface LargeCategoryProps{
     items: {category_id: string, title: string, subtitle: string[], color: string}
@@ -26,8 +20,10 @@ export function Home(){
     const today = `${date.getFullYear()}.${date.getMonth()}.${date.getDate()}`;
     return (
         <MainLayout>
-            <div style={{display:'flex', flexDirection: 'column',height: '100vh', backgroundColor: 'green', overflow:'scroll'}}>
-                {/* <Box><h1 style={{}}>Dairy of {today}</h1></Box> */}
+            <div style={{display:'flex', flexDirection: 'column',height: '100vh', overflow:'scroll'}}>
+                <div className="BoxL">
+                    <h1>Diary of {today}</h1>
+                </div>
                 <LargeCategoryList largeCategoryList={['Large Category1', 'LargeCategory2']}/>
             </div>
         </MainLayout>
@@ -52,7 +48,7 @@ function LargeCategory(props: LargeCategoryProps){
     const items = props.items;
     console.log('라지 카테고리');
     return(
-        <div className="Box" style={{backgroundColor: "grey"}}>
+        <div className="BoxL">
             <h1>{items.title}</h1>
             {items.subtitle.map(() => {
                 return(
@@ -65,7 +61,7 @@ function LargeCategory(props: LargeCategoryProps){
 
 function CheckBtnCircle({isDone, setIsDone}: {isDone: boolean, setIsDone: React.Dispatch<React.SetStateAction<boolean>>}){
     return(
-        <div className="CheckBtnCircle" style={{backgroundColor: isDone? 'grey' : 'white'}} onClick={() => (setIsDone(!isDone))}>
+        <div className="CheckBtnCircle" style={{backgroundColor: isDone? 'grey' : '#E5E5E5'}} onClick={() => (setIsDone(!isDone))}>
                 {isDone? <FaCheck color="white"/>: null}
         </div>
     );
@@ -76,21 +72,37 @@ function MiddleCategory(){
     const [isDone, setIsDone] = useState<boolean>(false);
     // middle component 열림 여부 state
     const [isOpen, setIsOpen] = useState<boolean>(true);
+    // middle contents의 text 부분.
+    const [contentsText, setContentsText] = useState<string>('');
+    // contentsText의 textArea 높이 조절용 ref
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
+    
+    useEffect(() => {
+        if(textAreaRef) {
+            autosize(textAreaRef.current as HTMLTextAreaElement);
+        }
+    }, []);
+
     return(
-        <div style={{display: "flex", flexDirection: 'column',
-            margin: 10, padding: 10, borderRadius: 30, backgroundColor: 'lightgray'}}>
+        <div className = "BoxM">
             <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent:'space-between'}}>
                 <CheckBtnCircle isDone ={isDone} setIsDone={setIsDone} />
                 <h2>Middel category</h2>
-                <FaChevronDown onClick={() => {setIsOpen(!isOpen)}}/>
+                {isOpen? <FaChevronUp onClick={() => {setIsOpen(!isOpen)}}/> : <FaChevronDown onClick={() => {setIsOpen(!isOpen)}}/> }
             </div>
             
             {isOpen ? 
-            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}> 
+            <div className = "MiddleContents" > 
                 <div className="RoundIconDivLStyle">
                     <FaCamera style={{color: 'white'}} size={50}/>
                     </div>
-                <textarea style={{height: '100%', overflow:'auto'}}/>
+                <textarea
+                    className="ContentsTextArea"
+                    ref={textAreaRef}
+                    value={contentsText}
+                    onChange={(e) => {setContentsText(e.target.value);}}
+                    placeholder={"More info"}
+                    />
             </div>
             : undefined}
         </div>

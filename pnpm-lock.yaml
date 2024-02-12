@@ -26,6 +26,9 @@ dependencies:
   '@types/react-dom':
     specifier: ^18.2.18
     version: 18.2.18
+  autosize:
+    specifier: ^6.0.1
+    version: 6.0.1
   grommet:
     specifier: ^2.34.2
     version: 2.34.2(react-dom@18.2.0)(react@18.2.0)(styled-components@6.1.8)
@@ -53,6 +56,11 @@ dependencies:
   web-vitals:
     specifier: ^2.1.4
     version: 2.1.4
+
+devDependencies:
+  '@types/autosize':
+    specifier: ^4.0.3
+    version: 4.0.3
 
 packages:
 
@@ -2410,6 +2418,10 @@ packages:
     resolution: {integrity: sha512-rfT93uj5s0PRL7EzccGMs3brplhcrghnDoV26NqKhCAS1hVo+WdNsPvE/yb6ilfr5hi2MEk6d5EWJTKdxg8jVw==}
     dev: false
 
+  /@types/autosize@4.0.3:
+    resolution: {integrity: sha512-o0ZyU3ePp3+KRbhHsY4ogjc+ZQWgVN5h6j8BHW5RII4cFKi6PEKK9QPAcphJVkD0dGpyFnD3VRR0WMvHVjCv9w==}
+    dev: true
+
   /@types/babel__core@7.20.5:
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
     dependencies:
@@ -3297,6 +3309,10 @@ packages:
       picocolors: 1.0.0
       postcss: 8.4.33
       postcss-value-parser: 4.2.0
+    dev: false
+
+  /autosize@6.0.1:
+    resolution: {integrity: sha512-f86EjiUKE6Xvczc4ioP1JBlWG7FKrE13qe/DxBCpe8GCipCq2nFw73aO8QEBKHfSbYGDN5eB9jXWKen7tspDqQ==}
     dev: false
 
   /available-typed-arrays@1.0.5:

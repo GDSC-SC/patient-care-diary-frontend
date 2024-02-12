@@ -1,0 +1,12 @@
+.Header{
+    background-color: white;
+    height:5vh;
+}
+.Page{
+    height: 86vh;
+    overflow: scroll;
+}
+.Footer{
+    background-color: white;
+    height:7vh;
+}
