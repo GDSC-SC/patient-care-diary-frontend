@@ -1,7 +1,7 @@
 import { Grommet } from "grommet";
 import TopHeader from "./TopHeader";
 import BottomFooter from "./BottomFooter";
-import '../../styles/MainLayout.css'
+import '../../styles/components/MainLayout.css'
 
 export function MainLayout({ children } : any){
     return(

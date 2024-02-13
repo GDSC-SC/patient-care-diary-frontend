@@ -1,6 +1,6 @@
 import { FaSave } from "react-icons/fa";
-import '../styles/Box.css';
-import '../styles/Icon.css';
+import '../styles/components/Box.css';
+import '../styles/components/Icon.css';
 interface DateBoxProps{
     date: Date;
     needSave: boolean|false;
