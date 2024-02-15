@@ -1,6 +1,6 @@
 import { FaSave } from "react-icons/fa";
 import '../styles/components/Box.css';
-import '../styles/components/Icon.css';
+import '../styles/components/Round.css';
 interface DateBoxProps{
     date: Date;
     needSave: boolean|false;
@@ -9,21 +9,19 @@ interface DateBoxProps{
 export function DateBox(props: DateBoxProps){
     const date = props.date;
     return(
-        <div className="BoxL">
             <div className="FlexRow">
                 Diary of {formatDate(date)}
                 <div className= 'SaveBtn' onClick={() => {
 
                 }}>
                 {props.needSave? 
-                    <div className="IconRound" style={{height: '5vh', width:'5vh', backgroundColor: 'grey'}}>
+                    <div className="RoundCenter" style={{height: '5vh', width:'5vh', backgroundColor: 'grey'}}>
                         <FaSave size={'3vh'} color="white"/></div>
                     
                 : null}
                 </div>
                 
             </div>
-        </div>
     )
 }
 

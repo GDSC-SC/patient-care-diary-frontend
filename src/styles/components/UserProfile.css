@@ -1,0 +1,10 @@
+.UserProfile{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.ProfileID{
+    font-weight: bold;
+}

@@ -1,0 +1,8 @@
+.ReactionElements{
+    display: flex;
+    flex-direction: row;
+}
+.ReactionElementsSpace{
+    width: 1vw;
+
+}

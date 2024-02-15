@@ -41,7 +41,7 @@ function LargeCategory(props: LargeCategoryProps){
             <h1>{items.title}</h1>
             {items.subTitle.map((subtitle) => {
                 return(
-                    <MiddleCategory id="1" title={subtitle} photoSrc={undefined} text={undefined} isDone={undefined} color={undefined}/>
+                    <MiddleCategoryLarge id="1" title={subtitle} photoSrc={undefined} text={undefined} isDone={undefined} color={undefined}/>
                 )
             })}
         </div>
@@ -51,14 +51,14 @@ function LargeCategory(props: LargeCategoryProps){
 // MiddleCategory의 체크 버튼
 function CheckBtnCircle({isDone, setIsDone}: {isDone: boolean, setIsDone: React.Dispatch<React.SetStateAction<boolean>>}){
     return(
-        <div className="IconRound" style={{width: '3vh', height: '3vh', backgroundColor: isDone? 'grey' : '#E5E5E5'}} onClick={() => (setIsDone(!isDone))}>
+        <div className="RoundCenter" style={{width: '3vh', height: '3vh', backgroundColor: isDone? 'grey' : '#E5E5E5'}} onClick={() => (setIsDone(!isDone))}>
                 {isDone? <FaCheck color="white"/>: null}
         </div>
     );
 };
 
 // subTitle의 컨텐츠를 표시하는 
-function MiddleCategory(props: MiddleCategoryProps){
+function MiddleCategoryLarge(props: MiddleCategoryProps){
     // 체크 표시 state. isDone 값이 있으면 isDone 값을 넣고, 값이 없으면 false로 set.
     const [isDone, setIsDone] = useState<boolean>(props.isDone || false);
     // middle component 열림 여부 state
@@ -88,7 +88,7 @@ function MiddleCategory(props: MiddleCategoryProps){
             
             {isOpen ? 
                 <div className = "MiddleContents" > 
-                <div className="IconRound" style={{height: '10vh', width: '10vh', backgroundColor: '#E5E5E5'}}>
+                <div className="RoundCenter" style={{height: '10vh', width: '10vh', backgroundColor: '#E5E5E5'}}>
                     <FaCamera style={{color: 'white'}} size={50}/>
                     </div>
                 <textarea
@@ -102,4 +102,12 @@ function MiddleCategory(props: MiddleCategoryProps){
             : undefined}
         </div>
     )
+}
+
+export function MiddleCategorySmall(props: MiddleCategoryProps){
+    return(
+        <div className="RoundCenter" style={{borderRadius: '30vw',backgroundColor: props.color||'lightgrey', width:'50vw'}}>
+            <p>{props.title}</p>
+        </div>
+    );
 }
