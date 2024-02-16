@@ -106,8 +106,69 @@ function MiddleCategoryLarge(props: MiddleCategoryProps){
 
 export function MiddleCategorySmall(props: MiddleCategoryProps){
     return(
-        <div className="RoundCenter" style={{borderRadius: '30vw',backgroundColor: props.color||'lightgrey', width:'50vw'}}>
-            <p>{props.title}</p>
+        <div className="RoundCenter" style={{borderRadius: '30vw',backgroundColor: props.color||'lightgrey', width:'max-content'}}>
+            <p style={{padding: '1vw 3vw', margin:0}}>{props.title}</p>
         </div>
     );
+}
+
+export function FeedMiddleCategory (props: MiddleCategoryProps){
+
+    return(
+        <div className="FlexColumn" style={{padding: '2vw'}}>
+            <div style={{paddingBottom: '1vw'}}>
+            <MiddleCategorySmall id={""} title={props.title} photoSrc={undefined} text={undefined} isDone={undefined} color={undefined}/>
+            </div>
+            {
+                props.photoSrc!=''?
+                    <img src={props.photoSrc} alt=''/>
+                    :
+                    <></>
+            }
+            <div>
+                {props.text}
+            </div>
+        </div>
+    );
+}
+
+export function FeedLargeCategory(props: LargeCategoryProps){
+    return(
+        <div className="FlexColumn">
+            <h3>{props.items.title}</h3>
+            {props.items.subTitle.map((subtitle) =>{
+                return(
+                    <FeedMiddleCategory id={""} title={subtitle} photoSrc={'https://t1.daumcdn.net/cfile/tistory/9906804C5FB7337315'} text={'국가는 평생교육을 진흥하여야 한다. 국회는 상호원조 또는 안전보장에 관한 조약, 중요한 국제조직에 관한 조약, 우호통상항해조약, 주권의 제약에 관한 조약, 강화조약, 국가나 국민에게 중대한 재정적 부담을 지우는 조약 또는 입법사항에 관한 조약의 체결·비준에 대한 동의권을 가진다.'} isDone={undefined} color={undefined} />
+                );
+            })}
+        </div>
+    )
+}
+export function FeedListDetail(props: LargeCategoryListProps){
+    return(
+        <div>
+            {props.largeCategoryList.map((largeCategory) => 
+                <div className="BoxL" style={{padding: '3vw'}}>
+                <FeedLargeCategory items={{
+                    category_id: '1',
+                    title: largeCategory,
+                    subTitle:['Middle Category 1', 'Middle Category2'],
+                    color:'#fff' }}/>
+                </div>
+            )}
+        </div>
+    );
+}
+
+export function FeedListSimple(props: LargeCategoryListProps){
+    return(
+        <div>
+            {props.largeCategoryList.map((largeCategory) => {
+                return(
+                    <h3>{largeCategory}</h3>
+                    
+                );
+            })}
+        </div>
+    )
 }

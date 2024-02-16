@@ -4,7 +4,7 @@ import '../styles/components/Round.css';
 import '../styles/components/Box.css';
 import 'autosize';
 import { DateBox } from "../components/DateBox";
-import { LargeCategoryList, MiddleCategorySmall } from "../components/CategoryBox";
+import { FeedLargeCategory, FeedMiddleCategory, LargeCategoryList, MiddleCategorySmall } from "../components/CategoryBox";
 import { UserProfile } from "../components/UserProfile";
 import { ReactionBox } from "../components/ReactionBox";
 
@@ -17,14 +17,13 @@ export function Home(){
         <MainLayout>
 
             <div className = "FlexColumn" style={{height: '100vh', overflow:'scroll'}}>
-            <MiddleCategorySmall id={"Middle Category1"} title={"Middle Category1"} photoSrc={undefined} text={undefined} isDone={undefined} color={undefined} />
                 <div className="BoxL">
                     <MiddleCategorySmall id={"Middle Category1"} title={"Middle Category1"} photoSrc={undefined} text={undefined} isDone={undefined} color={undefined} />
                 </div>
                 <div className="BoxL">
                     <div className="FlexColumn" style={{padding:'3vw'}}>
                         <DateBox date={date} needSave={false}/>
-                        <UserProfile id={"ID"} description={"info..."} profileImgSrc={undefined} />
+                        <UserProfile id={"ID"} description={"info..."} profileImgSrc={'https://previews.123rf.com/images/estherpoon/estherpoon1706/estherpoon170600035/80108153-%EB%A1%9C%EB%94%A9-%EC%95%84%EC%9D%B4%EC%BD%98.jpg'} />
                         <div className="FlexRow" style={{marginTop:'1vh'}}>
                             <div style={{flex:1}}/>
                             <div style={{flex: 3}}>
@@ -33,6 +32,14 @@ export function Home(){
                             <div style={{flex:1}}/>
                         </div>
                     </div>
+                </div>
+                <div className="BoxL">
+                    <FeedLargeCategory items={{
+                        category_id: "1",
+                        title: "Large Title",
+                        subTitle: ['subTitle1', 'subTitle2'],
+                        color: ""
+                    }}/>
                 </div>
                 <LargeCategoryList largeCategoryList={['Large Category1', 'LargeCategory2']}/>
             </div>

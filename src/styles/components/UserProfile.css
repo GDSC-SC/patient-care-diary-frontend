@@ -8,3 +8,8 @@
 .ProfileID{
     font-weight: bold;
 }
+.ProfileImg{
+    height: 5vh;
+    width: 5vh;
+    margin-right: 3vw;
+}
