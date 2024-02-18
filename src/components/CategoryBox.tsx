@@ -1,6 +1,32 @@
 import autosize from "autosize";
 import { useEffect, useRef, useState } from "react";
 import { FaCamera, FaCheck, FaChevronDown, FaChevronUp } from "react-icons/fa";
+import '../styles/components/Box.css'
+
+const largeCategoryListSample={
+    LargeCategoryList: ['Large category 1', 'Large category 2']
+}
+
+function largeCategoryPropsSample(title:string) {
+    return(
+        {category_id: '1',
+    title: title,
+    subTitle:['Middle Category 1', 'middle1','Middle Category2'],
+    color:'#fff'}
+    );
+}
+
+function middleCategoryPropsSample(title:string){
+    return(
+        {id: '1',
+        title: title,
+        photoSrc: '',
+        text: 'descriptions....',
+        isDone: true,
+        color: '#bbb',}
+    );
+    
+}
 
 // LargeCategory function의 props
 interface LargeCategoryProps{
@@ -11,12 +37,12 @@ interface LargeCategoryListProps{
 };
 // MiddleCategory function의 props
 interface MiddleCategoryProps{
-    id: string,
+    items : {id: string,
     title: string,
     photoSrc: string|undefined,
     text: string|undefined,
     isDone: boolean|undefined,
-    color: string|undefined,
+    color: string|undefined,}
 }
 
 export function LargeCategoryList(props: LargeCategoryListProps){
@@ -35,13 +61,19 @@ export function LargeCategoryList(props: LargeCategoryListProps){
 
 function LargeCategory(props: LargeCategoryProps){
     const items = props.items;
-    console.log('라지 카테고리');
     return(
-        <div className="BoxL">
-            <h1>{items.title}</h1>
+        <div className="BoxL" style={{padding: '3vw'}}>
+            <h2>{items.title}</h2>
             {items.subTitle.map((subtitle) => {
                 return(
-                    <MiddleCategoryLarge id="1" title={subtitle} photoSrc={undefined} text={undefined} isDone={undefined} color={undefined}/>
+                    <MiddleCategoryLarge items={{
+                        id: "1",
+                        title: "1",
+                        photoSrc: undefined,
+                        text: undefined,
+                        isDone: undefined,
+                        color: undefined
+                    }}/>
                 )
             })}
         </div>
@@ -59,14 +91,15 @@ function CheckBtnCircle({isDone, setIsDone}: {isDone: boolean, setIsDone: React.
 
 // subTitle의 컨텐츠를 표시하는 
 function MiddleCategoryLarge(props: MiddleCategoryProps){
+    const items = props.items;
     // 체크 표시 state. isDone 값이 있으면 isDone 값을 넣고, 값이 없으면 false로 set.
-    const [isDone, setIsDone] = useState<boolean>(props.isDone || false);
+    const [isDone, setIsDone] = useState<boolean>(items.isDone || false);
     // middle component 열림 여부 state
     const [isOpen, setIsOpen] = useState<boolean>(false);
     // contents의 photoSrc 값 저장.
-    const [imgSrc, setImgSrc] = useState<string>(props.text || '');
+    const [imgSrc, setImgSrc] = useState<string>(items.text || '');
     // middle contents의 text 부분.
-    const [contentsText, setContentsText] = useState<string>(props.text || '');
+    const [contentsText, setContentsText] = useState<string>(items.text || '');
     // contentsText의 textArea 높이 조절용 ref
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -79,10 +112,13 @@ function MiddleCategoryLarge(props: MiddleCategoryProps){
 
 
     return(
-        <div className = "BoxM" style={{backgroundColor: props.color||'#fff'}}>
+        <div className = "BoxM" style={{backgroundColor: items.color||'#fff'}}>
             <div className="FlexRow">
-                <CheckBtnCircle isDone ={isDone} setIsDone={setIsDone} />
-                <h2>{props.title}</h2>
+                <div className="FlexRow" style={{gap: '3vw'}}>
+                    <CheckBtnCircle isDone ={isDone} setIsDone={setIsDone} />
+                    <h2>{items.title}</h2>
+                </div>
+                
                 {isOpen? <FaChevronUp onClick={() => {setIsOpen(!isOpen)}}/> : <FaChevronDown onClick={() => {setIsOpen(!isOpen)}}/> }
             </div>
             
@@ -105,28 +141,30 @@ function MiddleCategoryLarge(props: MiddleCategoryProps){
 }
 
 export function MiddleCategorySmall(props: MiddleCategoryProps){
+    const items = props.items;
     return(
-        <div className="RoundCenter" style={{borderRadius: '30vw',backgroundColor: props.color||'lightgrey', width:'max-content'}}>
-            <p style={{padding: '1vw 3vw', margin:0}}>{props.title}</p>
+        <div className="RoundCenter" style={{borderRadius: '30vw',backgroundColor: items.color||'lightgrey', width:'max-content'}}>
+            <p style={{padding: '1vw 3vw', margin:0}}>{items.title}</p>
         </div>
     );
 }
 
 export function FeedMiddleCategory (props: MiddleCategoryProps){
+    const items = props.items;
 
     return(
         <div className="FlexColumn" style={{padding: '2vw'}}>
             <div style={{paddingBottom: '1vw'}}>
-            <MiddleCategorySmall id={""} title={props.title} photoSrc={undefined} text={undefined} isDone={undefined} color={undefined}/>
+            <MiddleCategorySmall items={items}/>
             </div>
             {
-                props.photoSrc!=''?
-                    <img src={props.photoSrc} alt=''/>
+                items.photoSrc!=''?
+                    <img src={items.photoSrc} alt=''/>
                     :
                     <></>
             }
             <div>
-                {props.text}
+                {items.text}
             </div>
         </div>
     );
@@ -138,7 +176,7 @@ export function FeedLargeCategory(props: LargeCategoryProps){
             <h3>{props.items.title}</h3>
             {props.items.subTitle.map((subtitle) =>{
                 return(
-                    <FeedMiddleCategory id={""} title={subtitle} photoSrc={'https://t1.daumcdn.net/cfile/tistory/9906804C5FB7337315'} text={'국가는 평생교육을 진흥하여야 한다. 국회는 상호원조 또는 안전보장에 관한 조약, 중요한 국제조직에 관한 조약, 우호통상항해조약, 주권의 제약에 관한 조약, 강화조약, 국가나 국민에게 중대한 재정적 부담을 지우는 조약 또는 입법사항에 관한 조약의 체결·비준에 대한 동의권을 가진다.'} isDone={undefined} color={undefined} />
+                    <FeedMiddleCategory items={middleCategoryPropsSample(subtitle)} />
                 );
             })}
         </div>
@@ -152,7 +190,7 @@ export function FeedListDetail(props: LargeCategoryListProps){
                 <FeedLargeCategory items={{
                     category_id: '1',
                     title: largeCategory,
-                    subTitle:['Middle Category 1', 'Middle Category2'],
+                    subTitle:['Middle Category 1', 'Middle Category2',],
                     color:'#fff' }}/>
                 </div>
             )}
@@ -165,7 +203,20 @@ export function FeedListSimple(props: LargeCategoryListProps){
         <div>
             {props.largeCategoryList.map((largeCategory) => {
                 return(
-                    <h3>{largeCategory}</h3>
+                    <div>
+                        <h3>{largeCategory}</h3>
+                        <div className="container">
+                            {largeCategoryPropsSample(largeCategory).subTitle.map((midTitle) => {
+                                return(
+                                    <div style={{padding: '1vw 1vw'}}>
+                                        <MiddleCategorySmall items={middleCategoryPropsSample(midTitle)}/>
+                                    </div>
+                                    
+                                );
+                            })}
+                        </div>
+                        
+                    </div>
                     
                 );
             })}

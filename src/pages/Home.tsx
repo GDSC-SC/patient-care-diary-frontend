@@ -15,33 +15,11 @@ export function Home(){
     const date = new Date();
     return (
         <MainLayout>
-
+            <div className="BoxL">
+                <DateBox date={new Date()} needSave={true} />
+            </div>
             <div className = "FlexColumn" style={{height: '100vh', overflow:'scroll'}}>
-                <div className="BoxL">
-                    <MiddleCategorySmall id={"Middle Category1"} title={"Middle Category1"} photoSrc={undefined} text={undefined} isDone={undefined} color={undefined} />
-                </div>
-                <div className="BoxL">
-                    <div className="FlexColumn" style={{padding:'3vw'}}>
-                        <DateBox date={date} needSave={false}/>
-                        <UserProfile id={"ID"} description={"info..."} profileImgSrc={'https://previews.123rf.com/images/estherpoon/estherpoon1706/estherpoon170600035/80108153-%EB%A1%9C%EB%94%A9-%EC%95%84%EC%9D%B4%EC%BD%98.jpg'} />
-                        <div className="FlexRow" style={{marginTop:'1vh'}}>
-                            <div style={{flex:1}}/>
-                            <div style={{flex: 3}}>
-                                <ReactionBox thumb={0} check={0} like={0}/>
-                            </div>
-                            <div style={{flex:1}}/>
-                        </div>
-                    </div>
-                </div>
-                <div className="BoxL">
-                    <FeedLargeCategory items={{
-                        category_id: "1",
-                        title: "Large Title",
-                        subTitle: ['subTitle1', 'subTitle2'],
-                        color: ""
-                    }}/>
-                </div>
-                <LargeCategoryList largeCategoryList={['Large Category1', 'LargeCategory2']}/>
+                <LargeCategoryList largeCategoryList={['Large Category1', 'Large Category2']}/>
             </div>
         </MainLayout>
     );

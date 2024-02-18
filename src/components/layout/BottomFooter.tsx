@@ -7,9 +7,9 @@ const BottomFooter = () => {
     const navigator = useNavigate();
     return(
         <Footer className="Footer">
-            <Button icon={<Archive/>} onClick={() => {navigator('/CommunityFeed')}}></Button>
-            <Button icon={<HomeRounded/>} onClick={() => {}}></Button>
-            <Button icon={<FaUser/>} onClick={() => {}}></Button>
+            <Button icon={<Archive/>} onClick={() => {navigator('/communityHome')}}></Button>
+            <Button icon={<HomeRounded/>} onClick={() => {navigator('/')}}></Button>
+            <Button icon={<FaUser/>} onClick={() => {navigator('/myPage')}}></Button>
         </Footer>
     )
 }

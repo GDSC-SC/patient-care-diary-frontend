@@ -4,12 +4,13 @@ import '../styles/components/Round.css'
 import '../styles/components/UserProfile.css'
 import { useState } from 'react';
 interface UserProfileProps{
-    id: string,
+    user: {id: string,
     description: string | undefined,
-    profileImgSrc: string | undefined,
+    profileImgSrc: string | undefined,}
 }
 
 export function UserProfile(props: UserProfileProps){
+    const items = props.user;
     const [isImgLoaded, setIsImgLoaded] = useState<boolean>(false);
 
     return(
@@ -20,7 +21,7 @@ export function UserProfile(props: UserProfileProps){
                 <div className='RoundCenter'>
                     <img
                     className='ProfileImg'
-                    src={props.profileImgSrc}
+                    src={items.profileImgSrc}
                     onError={() => {setIsImgLoaded(false);}}
                     /> 
                 </div>
@@ -32,8 +33,8 @@ export function UserProfile(props: UserProfileProps){
             
             
             <div className='FlexColumn'>
-                <div className='ProfileID'>{props.id}</div>
-                <div className='ProfileDescription'>{props.description || '...'}</div>
+                <div className='ProfileID'>{items.id}</div>
+                <div className='ProfileDescription'>{items.description || '...'}</div>
             </div>
         </div>
     );
