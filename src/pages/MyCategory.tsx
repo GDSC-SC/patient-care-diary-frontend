@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { MainLayout } from "../components/layout/MainLayout";
-import { MiddleCategorySmall } from "../components/CategoryBox";
 import { More } from "grommet-icons";
+import { ColorSelector } from "../components/ColorSelector";
+import { SaveBtn } from "../components/SaveBtn";
 
 type LargeCategory = {
     id: number,
@@ -18,6 +19,15 @@ type MiddleCategory = {
     color: string | undefined,
 }
 
+// type MiddleCategory = {
+//     id: number,
+//     categoryCode : string,
+//     subtitle : string,
+//     color: string,
+//     visible: boolean,
+// }
+
+
 export function MyCategory(){
     const [largeCategoryList, setLargeCategoryList] = useState<Array<LargeCategory>>();
     const [largeCategory, setLargeCategory] = useState<LargeCategory>();
@@ -28,42 +38,14 @@ export function MyCategory(){
                 <div className="BoxL">
                     <div className="FlexRow">
                         <h2>My Category</h2>
+                        <SaveBtn/>
                     </div>
                 </div>
                 <div className="BoxL">
-                    <div className="FlexColumn">
-                        {largeCategoryList?.map((largeCategory) => {
-                            return(
-                                <div className="FlexColumn">
-                                    <h3>{largeCategory.titleL}</h3>
-                                    {largeCategory.middleCategories.map((middleCategory)=>{
-                                        return(
-                                            <div className="FlexRow">
-                                                <MiddleCategorySmall key={middleCategory.id} items={{
-                                                    id: '1',
-                                                    title: middleCategory.titleM,
-                                                    photoSrc: undefined,
-                                                    text: undefined,
-                                                    isDone: undefined,
-                                                    color: undefined
-                                                }}/>
-                                                <More onClick={()=>{
-                                                    
-                                                }}/>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            );
-                        })}
-                    </div>
                 </div>
-                <div>
-                    <button onClick={()=>{
-
-                    }}>
-                        <h2></h2>
-                    </button>
+                
+                <div className="BoxL">
+                    <ColorSelector/>
                 </div>
             </div>
         </MainLayout>
