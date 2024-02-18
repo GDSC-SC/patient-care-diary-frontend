@@ -4,7 +4,7 @@ import { ReactionBox } from "../components/ReactionBox";
 import { UserProfile } from "../components/UserProfile";
 import { MainLayout } from "../components/layout/MainLayout";
 
-export function CommunityFeed(){
+export function FeedDetail(){
     return(
         <MainLayout>
             <div className="BoxL">
