@@ -5,8 +5,12 @@ import '../styles/components/Box.css'
 import { Next } from "grommet-icons";
 import { useState } from "react";
 import { FeedListDetail } from "../components/CategoryBox";
+import { Calendar } from "react-calendar";
+import 'react-calendar/dist/Calendar.css';
+import '../styles/pages/MyPage.css';
 
-type MyPageLargeCategory= {
+
+type MyPageLargeCategory = {
     id: number,
     titleL : string,
     middleCategories : Array<MyPageMiddleCategory>,
@@ -20,7 +24,7 @@ type MyPageMiddleCategory = {
 
 export function MyPage(){
     const navigate = useNavigate();
-    const [selectedDate, setSelectedDate] = useState<Date>();
+    const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [categories, setCategories] = useState<MyPageMiddleCategory>();
     return(
         <MainLayout>
@@ -42,7 +46,10 @@ export function MyPage(){
                     </div>
                     
                 </div>
-                {/* 캘린더 컴포넌트 */}
+                <div className="BoxL">
+                    <Calendar onChange={(value) => setSelectedDate(value as Date)} value={selectedDate} />
+                </div>
+
                 {selectedDate?
                     <FeedListDetail largeCategoryList={['Large Category1', 'LargeCategory2']} />
                 : <></>}

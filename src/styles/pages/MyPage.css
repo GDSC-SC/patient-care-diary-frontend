@@ -1,0 +1,22 @@
+abbr {
+    text-decoration: none;
+}
+.react-calendar {
+    border-width: 0!important;
+    padding: 0.5vh 2vw;
+    border-radius: 2vh;
+    margin: 1vh;
+    width: auto!important;
+}
+.react-calendar__tile {
+    border-radius: 100%;
+    color: grey!important;;
+}
+.react-calendar__tile--now {
+    background: white!important;;
+    color: grey!important;
+   }
+.react-calendar__tile--active {
+    background: #BFD8AF!important;
+    color: white!important;
+}
