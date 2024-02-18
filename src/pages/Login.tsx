@@ -2,7 +2,6 @@ import axios from "axios";
 import { useState } from "react";
 import { useGoogleLogin } from "react-google-login";
 import { useNavigate } from "react-router-dom";
-import { CategoryProvider } from "../components/providers/CategoryProvider";
 export function Login(){
     const navigate = useNavigate();
     const googleClientId = process.env.REACT_APP_CLIENT_ID;
