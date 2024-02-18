@@ -5,8 +5,8 @@ import '../styles/components/Box.css'
 import { Next } from "grommet-icons";
 import { useState } from "react";
 import { FeedListDetail } from "../components/CategoryBox";
-import { Calendar } from "react-calendar";
-import 'react-calendar/dist/Calendar.css';
+// import { Calendar } from "react-calendar";
+// import 'react-calendar/dist/Calendar.css';
 import '../styles/pages/MyPage.css';
 
 
@@ -47,7 +47,7 @@ export function MyPage(){
                     
                 </div>
                 <div className="BoxL">
-                    <Calendar onChange={(value) => setSelectedDate(value as Date)} value={selectedDate} />
+                    {/* <Calendar onChange={(value) => setSelectedDate(value as Date)} value={selectedDate} /> */}
                 </div>
 
                 {selectedDate?

@@ -10,7 +10,9 @@
     "@types/node": "^16.18.76",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
+    "@uiw/react-color-circle": "^2.0.8",
     "autosize": "^6.0.1",
+    "axios": "^1.6.7",
     "grommet": "^2.34.2",
     "grommet-icons": "^4.12.0",
     "react": "^18.2.0",
@@ -48,5 +50,6 @@
   },
   "devDependencies": {
     "@types/autosize": "^4.0.3"
-  }
+  },
+  "proxy" : "https://patient-care-diary.fly.dev"
 }

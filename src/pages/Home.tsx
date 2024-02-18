@@ -8,33 +8,20 @@ import { FeedLargeCategory, FeedMiddleCategory, LargeCategoryList, MiddleCategor
 import { UserProfile } from "../components/UserProfile";
 import { ReactionBox } from "../components/ReactionBox";
 import axios from "axios";
+import { CategoryProvider } from "../components/providers/CategoryProvider";
+import { useEffect } from "react";
 
 
 // 본 화면은 로그인 후 처음으로 접근하는 화면입니다.
 // 기능 : 기록.
 export function Home(){
+    useEffect(() =>{
+        CategoryProvider();
+    },[]);
+    
     const data = {
         categoryId : 1,
     };
-    const instance = axios.create();
-    instance.interceptors.request.use(async (config) => {
-        let token: string | undefined;
-        token = ''
-      
-        config.headers.Authorization = `Bearer ${token}`;
-        config.data= {data};
-        return config;
-    });
-    
-
-    axios({
-        method: 'get',
-        url: 'https://patient-care-diary.fly.dev',
-        headers: {Authorization: '' }, 
-        data: {
-            categoryId : 1,
-        }
-    });
     
     // instance.get('https://patient-care-diary.fly.dev').then(r => console.log(r));
     const date = new Date();
