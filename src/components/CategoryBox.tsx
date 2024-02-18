@@ -68,7 +68,7 @@ function LargeCategory(props: LargeCategoryProps){
                 return(
                     <MiddleCategoryLarge items={{
                         id: "1",
-                        title: "1",
+                        title: subtitle,
                         photoSrc: undefined,
                         text: undefined,
                         isDone: undefined,
