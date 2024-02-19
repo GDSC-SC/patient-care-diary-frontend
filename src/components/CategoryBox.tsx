@@ -2,6 +2,7 @@ import autosize from "autosize";
 import { useEffect, useRef, useState } from "react";
 import { FaCamera, FaCheck, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import '../styles/components/Box.css'
+import { MidCategoryTile } from "./MidCategoryTile";
 
 const largeCategoryListSample={
     LargeCategoryList: ['Large category 1', 'Large category 2']
@@ -11,7 +12,7 @@ function largeCategoryPropsSample(title:string) {
     return(
         {category_id: '1',
     title: title,
-    subTitle:['Middle Category 1', 'middle1','Middle Category2'],
+    subTitle:['Middle1', 'Middle2', 'Middle3'],
     color:'#fff'}
     );
 }
@@ -42,7 +43,7 @@ interface MiddleCategoryProps{
     photoSrc: string|undefined,
     text: string|undefined,
     isDone: boolean|undefined,
-    color: string|undefined,}
+    color: string,}
 }
 
 export function LargeCategoryList(props: LargeCategoryListProps){
@@ -72,7 +73,7 @@ function LargeCategory(props: LargeCategoryProps){
                         photoSrc: undefined,
                         text: undefined,
                         isDone: undefined,
-                        color: undefined
+                        color: '#fff'
                     }}/>
                 )
             })}
@@ -142,22 +143,13 @@ function MiddleCategoryLarge(props: MiddleCategoryProps){
     )
 }
 
-export function MiddleCategorySmall(props: MiddleCategoryProps){
-    const items = props.items;
-    return(
-        <div className="RoundCenter" style={{borderRadius: '30vw',backgroundColor: items.color||'lightgrey', width:'max-content'}}>
-            <p style={{padding: '1vw 3vw', margin:0}}>{items.title}</p>
-        </div>
-    );
-}
-
 export function FeedMiddleCategory (props: MiddleCategoryProps){
     const items = props.items;
 
     return(
         <div className="FlexColumn" style={{padding: '2vw'}}>
             <div style={{paddingBottom: '1vw'}}>
-            <MiddleCategorySmall items={items}/>
+            <MidCategoryTile title={items.title} color={items.color}/>
             </div>
             {
                 items.photoSrc!=''?
@@ -198,30 +190,4 @@ export function FeedListDetail(props: LargeCategoryListProps){
             )}
         </div>
     );
-}
-
-export function FeedListSimple(props: LargeCategoryListProps){
-    return(
-        <div>
-            {props.largeCategoryList.map((largeCategory) => {
-                return(
-                    <div>
-                        <h3>{largeCategory}</h3>
-                        <div className="container">
-                            {largeCategoryPropsSample(largeCategory).subTitle.map((midTitle) => {
-                                return(
-                                    <div style={{padding: '1vw 1vw'}}>
-                                        <MiddleCategorySmall items={middleCategoryPropsSample(midTitle)}/>
-                                    </div>
-                                    
-                                );
-                            })}
-                        </div>
-                        
-                    </div>
-                    
-                );
-            })}
-        </div>
-    )
 }
