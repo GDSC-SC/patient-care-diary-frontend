@@ -4,9 +4,7 @@ import '../styles/components/Round.css';
 import '../styles/components/Box.css';
 import 'autosize';
 import { DateBox } from "../components/DateBox";
-import { FeedLargeCategory, FeedMiddleCategory, LargeCategoryList, MiddleCategorySmall } from "../components/CategoryBox";
-import { UserProfile } from "../components/UserProfile";
-import { ReactionBox } from "../components/ReactionBox";
+import { FeedLargeCategory, FeedMiddleCategory, LargeCategoryList, MiddleCategorySmall } from "../components/CategoryBox"; 
 import axios from "axios";
 import { CategoryApi } from "../api/CategoryApi";
 import { useEffect } from "react";
@@ -17,13 +15,13 @@ import { useEffect } from "react";
 export function Home(){
     const categoryapi = new CategoryApi();
     useEffect(() =>{
-        // categoryapi.my().then((data: any[]) => {
-        //     data.map((item: any) => {
-        //         console.log(item);
-        //     });
-        // }).catch((error: any) => {
-        //     console.error(error);
-        // });
+        categoryapi.my().then((data: any[]) => {
+            data.map((item: any) => {
+                console.log(item);
+            });
+        }).catch((error: any) => {
+            console.error(error);
+        });
 
         // categoryapi.create({categoryCode: "C002", subtitle:"testSubtitle", color:"fff"});
 
