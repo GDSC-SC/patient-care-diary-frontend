@@ -12,12 +12,12 @@ function App(){
   return(
     <Routes>
       <Route path="/" element={<Login/>}/>
-      <Route path="/auth/callback" element={<LoginCallback/>}/>
       <Route path="/home" element={<Home/>}/>
-      <Route path="/feedDetail" element={<FeedDetail/>}/>
-      <Route path="/feed" element={<Feed/>}/>
+      {/* <Route path="/communityFeed" element={<CommunityFeed/>}/>
+      <Route path="/communityHome" element={<CommunityHome/>}/> */}
       <Route path="/myPage" element={<MyPage/>}/>
       <Route path="/myCategory" element={<MyCategory/>}/>
+      <Route path="/login/callback" element={<LoginCallback/>}/>
     </Routes>
   );
 }

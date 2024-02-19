@@ -126,7 +126,9 @@ function MiddleCategoryLarge(props: MiddleCategoryProps){
             {isOpen ? 
                 <div className = "MiddleContents" > 
                 <div className="RoundCenter" style={{height: '10vh', width: '10vh', backgroundColor: '#E5E5E5'}}>
-                    <FaCamera style={{color: 'white'}} size={50}/>
+                    <FaCamera style={{color: 'white'}} size={50} onClick={()=>{
+                        
+                    }}/>
                     </div>
                 <textarea
                     className="ContentsTextArea"
