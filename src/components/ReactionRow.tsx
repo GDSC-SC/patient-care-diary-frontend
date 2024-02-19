@@ -1,6 +1,6 @@
 import { FaCheckCircle, FaHeart, FaThumbsUp } from 'react-icons/fa';
 import '../styles/components/Box.css'
-import '../styles/components/ReactionBox.css'
+import '../styles/components/ReactionRow.css'
 import { useState } from 'react';
 interface ReactionBoxProps{
     thumb: number | undefined,
@@ -8,14 +8,13 @@ interface ReactionBoxProps{
     like: number | undefined,
 }
 
-
 // clickable : reaction의 숫자를 변화시킬 수 있는지.
-export function ReactionBox({reactions, clickable}: {reactions: ReactionBoxProps, clickable: boolean}){
+function ReactionBox({reactions, clickable}: {reactions: ReactionBoxProps, clickable: boolean}){
     const [thumb, setThumb] = useState<number>(reactions.thumb||0);
     const [check, setCheck] = useState<number>(reactions.check||0);
     const [like, setLike] = useState<number>(reactions.like||0);
     return(
-        <div className="FlexRow">
+        <div className="FlexRow" style={{margin: '0 auto'}}>
             <div className='ReactionElements' onClick={()=>{
                     if (clickable)
                         setThumb(thumb+1);
@@ -42,4 +41,16 @@ export function ReactionBox({reactions, clickable}: {reactions: ReactionBoxProps
             </div>
         </div>
     );
+}
+
+export function ReactionRow({reactions, clickable}: {reactions: ReactionBoxProps, clickable: boolean}){
+    return(
+        <div className="FlexRow" style={{marginTop:'1vh'}}>
+                        <div style={{flex:1}}/>
+                        <div style={{flex: 3}}>
+                            <ReactionBox reactions={reactions} clickable={clickable}/>
+                        </div>
+                        <div style={{flex:1}}/>
+        </div>
+    )
 }

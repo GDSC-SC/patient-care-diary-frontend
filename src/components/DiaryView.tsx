@@ -1,7 +1,9 @@
+import { FeedListDetail } from "../components/CategoryBox";
+
 export function DiaryView(){
     return(
         <div>
-            Diary View Component
+            <FeedListDetail largeCategoryList={['Large Category1', 'LargeCategory2']} />
         </div>
     );
 }

@@ -4,7 +4,7 @@ import '../styles/components/Round.css';
 import '../styles/components/Box.css';
 import 'autosize';
 import { DateBox } from "../components/DateBox";
-import { FeedLargeCategory, FeedMiddleCategory, LargeCategoryList, MiddleCategorySmall } from "../components/CategoryBox"; 
+import { FeedLargeCategory, FeedMiddleCategory, LargeCategoryList, } from "../components/CategoryBox";
 import axios from "axios";
 import { CategoryApi } from "../api/CategoryApi";
 import { useEffect } from "react";
