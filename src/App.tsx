@@ -13,8 +13,8 @@ function App(){
     <Routes>
       <Route path="/" element={<Login/>}/>
       <Route path="/home" element={<Home/>}/>
-      {/* <Route path="/communityFeed" element={<CommunityFeed/>}/>
-      <Route path="/communityHome" element={<CommunityHome/>}/> */}
+      <Route path="/feed" element={<Feed/>}/>
+      <Route path="/feedDetail" element={<FeedDetail/>}/>
       <Route path="/myPage" element={<MyPage/>}/>
       <Route path="/myCategory" element={<MyCategory/>}/>
       <Route path="/login/callback" element={<LoginCallback/>}/>

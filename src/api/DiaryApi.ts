@@ -1,10 +1,8 @@
 import { GET, POST } from ".";
 
 export class DiaryApi{
-    diaryBaseUrl = 'api/diarys';
-
     makeUrl(url:string){
-        return `api/diarys/${url}`;
+        return `/api/diarys/${url}`;
     }
 
     create(date:Date){

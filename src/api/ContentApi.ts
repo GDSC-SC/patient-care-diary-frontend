@@ -2,7 +2,7 @@ import { DELETE, GET, POST } from ".";
 
 export class ContentApi{
     makeUrl(url:string){
-        return `api/contents/${url}`;
+        return `/api/contents/${url}`;
     }
 
 

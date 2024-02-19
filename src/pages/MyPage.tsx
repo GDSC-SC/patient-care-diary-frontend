@@ -32,7 +32,7 @@ export function MyPage(){
                     
                 </div>
                 <div className="BoxL">
-                    {/* <Calendar onChange={(value) => setSelectedDate(value as Date)} value={selectedDate} /> */}
+                    <Calendar onChange={(value) => setSelectedDate(value as Date)} value={selectedDate} />
                 </div>
 
                 {selectedDate? <DiaryView/> : <></>}

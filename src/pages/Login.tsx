@@ -15,17 +15,17 @@ export function Login() {
     localStorage.setItem('accessToken', token||'');
     localStorage.setItem('refreshToken', refreshToken||'');
     
-    console.log(token);
-    console.log(refreshToken);
+    // console.log(token);
+    // console.log(refreshToken);
     
-    // useEffect(() => {
-    //     if(localStorage.getItem('accessToken') !=='' && null)
-    //         navigate('/home');
-    // },[accessToken]);
+    useEffect(() => {
+        if(localStorage.getItem('accessToken') !== '' && localStorage.getItem('accessToken') !== null)
+            navigate('/home');
+    },[accessToken, navigate]);
 
     return (
         <div>
-            <button onClick={fetchData}>Go to Other Page</button>
+            <button onClick={fetchData}>Login</button>
         </div>
     );
 }
