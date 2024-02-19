@@ -4,32 +4,20 @@ import '../styles/components/Round.css';
 import '../styles/components/Box.css';
 import 'autosize';
 import { DateBox } from "../components/DateBox";
-import { FeedLargeCategory, FeedMiddleCategory, LargeCategoryList, } from "../components/CategoryBox";
-import axios from "axios";
-import { CategoryApi } from "../api/CategoryApi";
+import { LargeCategoryList, } from "../components/CategoryBox";
 import { useEffect } from "react";
-
+import { Authentication } from "../services/Authentication";
 
 // 본 화면은 로그인 후 처음으로 접근하는 화면입니다.
 // 기능 : 기록.
 export function Home(){
-    const categoryapi = new CategoryApi();
-    useEffect(() =>{
-        categoryapi.my().then((data: any[]) => {
-            data.map((item: any) => {
-                console.log(item);
-            });
-        }).catch((error: any) => {
-            console.error(error);
-        });
+    useEffect(() => {
+        const auth = new Authentication();
+        if(!auth.isLoggedIn()) {
+            auth.login();
+        }
+    }, []);
 
-        // categoryapi.create({categoryCode: "C002", subtitle:"testSubtitle", color:"fff"});
-
-        // categoryapi.visible(4);
-
-        // categoryapi.modify({categoryId: 1,categoryCode: "C001", subtitle: "hello", color:'000'});
-    },[]);
-    
     const date = new Date();
     return (
         <MainLayout>
