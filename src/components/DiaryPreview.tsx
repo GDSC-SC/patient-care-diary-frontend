@@ -1,30 +1,24 @@
 import { useNavigate } from "react-router-dom";
-import { FeedListSimple } from "../components/CategoryBox";
-import { ReactionBox } from "../components/ReactionBox";
+import { ReactionRow } from "./ReactionRow";
 import { UserProfile } from "../components/UserProfile";
+import { MidCategoryTile } from "./MidCategoryTile";
 
-export function DiaryPreview(){
+export function DiaryPreview() {
     const navigate = useNavigate();
-    return(
-        <div>
-            <div className="BoxL" style={{padding: '3vw'}}>
-                <div onClick={() =>{navigate('/communityFeed')}}>
+
+    return (
+        <div className="BoxL" style={{ padding: '3vw' }}>
+                <div onClick={() => { navigate('/feedDetail') }}>
                     <UserProfile user={{
-                        id: "아이디",
-                        description: '이 부분은 설명입니다.',
-                        profileImgSrc: undefined
-                    }}/>
-                    <FeedListSimple largeCategoryList={['Large Category1', 'Second Category']}/>
+                        id: "name",
+                        description: "illness",
+                        profileImgSrc: "picture",
+                    }} />
+                    <h2>Category</h2>
+                    <MidCategoryTile title="Middle Category1" color="#fff" />
+                    <MidCategoryTile title="Middle Category2" color="#fff" />
                 </div>
-                
-                <div className="FlexRow" style={{marginTop:'1vh'}}>
-                        <div style={{flex:1}}/>
-                        <div style={{flex: 3}}>
-                            <ReactionBox reactions={{thumb:0, check: 0, like: 0}} clickable={true} />
-                        </div>
-                        <div style={{flex:1}}/>
-                </div>
-            </div>
+            <ReactionRow reactions={{ thumb: 0, check: 0, like: 0 }} clickable={true} />
         </div>
     );
 }
