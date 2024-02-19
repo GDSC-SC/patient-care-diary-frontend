@@ -4,28 +4,14 @@ import { MainLayout } from "../components/layout/MainLayout";
 import '../styles/components/Box.css'
 import { Next } from "grommet-icons";
 import { useState } from "react";
-import { FeedListDetail } from "../components/CategoryBox";
 import { Calendar } from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import '../styles/pages/MyPage.css';
-
-
-type MyPageLargeCategory = {
-    id: number,
-    titleL : string,
-    middleCategories : Array<MyPageMiddleCategory>,
-}
-
-type MyPageMiddleCategory = {
-    id : number,
-    titleM : string,
-    color : string,
-}
+import { DiaryView } from "../components/DiaryView";
 
 export function MyPage(){
     const navigate = useNavigate();
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-    const [categories, setCategories] = useState<MyPageMiddleCategory>();
     return(
         <MainLayout>
             <div className="FlexColumn">
@@ -50,9 +36,7 @@ export function MyPage(){
                     <Calendar onChange={(value) => setSelectedDate(value as Date)} value={selectedDate} />
                 </div>
 
-                {selectedDate?
-                    <FeedListDetail largeCategoryList={['Large Category1', 'LargeCategory2']} />
-                : <></>}
+                {selectedDate? <DiaryView/> : <></>}
             </div>
         </MainLayout>
     );
