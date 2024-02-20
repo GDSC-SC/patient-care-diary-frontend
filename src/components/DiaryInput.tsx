@@ -24,17 +24,14 @@ function LargeCategoryWrapper({largeCategoryTitle, midCategoryList}
     );
 }
 export function DiaryInput({diaryId, date, emojis, contents}
-    : {diaryId: number, date: number[], emojis: JSON[], contents: JSON[]}){
-    console.log(diaryId, date, emojis, contents)
-    const thumb = 1//emojis[0].count; //TODO : emojis의 count 가져오기
-    const check = 1//emojis[1].count;
-    const like = 1//emojis[2].count;
+    : {diaryId: number, date: number[], emojis: {emoji:string, count:number}[], contents: JSON[]}){
+    //console.log(diaryId, date, emojis, contents)
     return(
         <div>
             <div className="BoxL">
                 <DateBox date={new Date(date[0], date[1], date[2])} needSave={true} />
             </div>
-            <ReactionRow reactions={{ thumb: thumb, check: check, like: like }} clickable={false} />
+            <ReactionRow reactions={emojis} clickable={false} />
             <div className = "FlexColumn" style={{height: '100vh', overflow:'scroll'}}>
                 <LargeCategoryWrapper largeCategoryTitle="Category1" midCategoryList={[{name: "MidCategory1", id: 1}, {name: "MidCategory2", id: 2}]}/>
                 <LargeCategoryWrapper largeCategoryTitle="Category2" midCategoryList={[{name: "MidCategory1", id: 3}, {name: "MidCategory2", id: 4}]}/>

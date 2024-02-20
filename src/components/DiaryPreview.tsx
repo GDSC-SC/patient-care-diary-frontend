@@ -18,7 +18,7 @@ export function DiaryPreview() {
                     <MidCategoryTile title="Middle Category1" color="#fff" />
                     <MidCategoryTile title="Middle Category2" color="#fff" />
                 </div>
-            <ReactionRow reactions={{ thumb: 0, check: 0, like: 0 }} clickable={true} />
+            <ReactionRow reactions={[]} clickable={true} />
         </div>
     );
 }
