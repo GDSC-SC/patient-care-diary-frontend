@@ -7,12 +7,14 @@ import { useEffect, useState } from "react";
 import { Authentication } from "../services/Authentication";
 import { DiaryApi } from "../services/api/DiaryApi";
 import { DiaryInput } from "../components/DiaryInput";
+import { CategoryApi } from "../services/api/CategoryApi";
 
 // 본 화면은 로그인 후 처음으로 접근하는 화면입니다.
 // 기능 : 기록.
 export function Home(){
     const [loading, setLoading] = useState<boolean>(true);
     const [diary, setDiary] = useState<any>();
+    const [categorys, setCategorys] = useState<any>();
 
     useEffect(() => {
         const auth = new Authentication();
@@ -22,9 +24,9 @@ export function Home(){
     }, []);
 
     useEffect(() => {
-        const today = new Date();
-        const diaryApi = new DiaryApi();
-        const fetchData = async () => {
+        const fetchDiary = async () => {   
+            const today = new Date();
+            const diaryApi = new DiaryApi();
             try {
                 return await diaryApi.getDiaryByDate(today);
             } catch (error) {
@@ -36,17 +38,26 @@ export function Home(){
                 }
             }
         };
-        fetchData().then((diary)=>{
+        const fetchCategorys = async () => {
+            const categoryApi = new CategoryApi();
+            return await categoryApi.my();
+        }
+        const fetchAll = async () => {
+            const diary = await fetchDiary();
+            const categorys = await fetchCategorys();
             setDiary(diary);
+            setCategorys(categorys);
             setLoading(false);
-        })
+        }
+        fetchAll();
     }, []);
 
     return (
         <MainLayout>
             {loading ? <div>Loading...</div> : (
                 <div>
-                    <DiaryInput diaryId={diary.id} date={diary.date} emojis={diary.diaryEmojis} contents={diary.contents}/>
+                    <DiaryInput diaryId={diary.id} date={diary.date} emojis={diary.diaryEmojis} contents={diary.contents}
+                    categorys={categorys}/>
                 </div>
             )}
         </MainLayout>
