@@ -1,21 +1,32 @@
 import { useEffect, useState } from "react";
-import { DateBox } from "../components/DateBox";
-import { DiaryPreview } from "../components/DiaryPreview";
+import { DiaryPreview, DiaryPreviewProps } from "../components/DiaryPreview";
 import { MainLayout } from "../components/layout/MainLayout";
-import { mockApiDiarysAll } from "../services/api/apiMocks";
+import { DiaryApi } from "../services/api/DiaryApi";
 
 export function Feed() {
-    const [diarys, setDiarys] = useState([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [diarys, setDiarys] = useState<any>();
     useEffect(() => {
-        setDiarys(mockApiDiarysAll()); // Call the function
+        const fetchDiarys = async () => {
+            const diaryApi = new DiaryApi();
+            const diarys = await diaryApi.all();
+            setDiarys(diarys);
+            setLoading(false);
+        }
+        fetchDiarys();
     }, []);
     return (
         <MainLayout>
-            <div className="BoxL" style={{padding: '3vw'}}>
-                <DateBox date={new Date()} needSave={false} />
-            </div>
-            <DiaryPreview />
-            <DiaryPreview />
+            {loading ? <div>Loading...</div> : 
+                diarys.map((diary:DiaryPreviewProps) => {
+                    return <DiaryPreview categories={diary.categories} date={diary.date} diaryEmojis={diary.diaryEmojis}
+                        id={diary.id} member={{
+                        name: diary.member.name,
+                        email: diary.member.email,
+                        picture: diary.member.picture,
+                    }}  />
+                })
+            }
         </MainLayout>
     );
 }
