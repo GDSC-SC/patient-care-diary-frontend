@@ -35,7 +35,7 @@ export function DiaryPreview (props: DiaryPreviewProps){
 
     return (
         <div className="BoxL" style={{ padding: '3vw' }}>
-                <div onClick={() => { navigate('/feedDetail') }}>
+                <div onClick={() => { navigate(`/feedDetail/${props.id}`) }}>
                     <UserProfile user={{
                         id: props.member.name,
                         description: props.member.email, //TODO change to illness later

@@ -44,7 +44,8 @@ export function MyPage(){
                     <Calendar onChange={(value) => setSelectedDate(value as Date)} value={selectedDate} />
                 </div>
 
-                {selectedDate? <DiaryView/> : <></>}
+                {// selectedDate? <DiaryView contents={}/> : <></>
+                }
             </div>
         </MainLayout>
     );
