@@ -12,21 +12,39 @@ function CheckBtnCircle({isDone, setIsDone}: {isDone: boolean, setIsDone: React.
     );
 };
 
-function MidCategoryInput({categoryName, categoryId, color}: {categoryName: string, categoryId: number, color: string}) {
+function MidCategoryInput({categoryName, categoryId, color, imageUrl}: {categoryName: string, categoryId: number, color: string, imageUrl: string}) {
     const [isDone, setIsDone] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [imgSrc, setImgSrc] = useState<string>('');
     // middle contents의 text 부분.
     const [contentsText, setContentsText] = useState<string>('');
     // contentsText의 textArea 높이 조절용 ref
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
-
     useEffect(() => {
         if(textAreaRef) {
             autosize(textAreaRef.current as HTMLTextAreaElement);
         }
     });
+
+    const fileInputRef = useRef<HTMLInputElement>(null);
     
+    const [fileInput, setFileInput] = useState(null as any);
+
+    const handleClick = () => {
+        console.log('click');
+          fileInputRef.current?.click(); // fileInputRef.current가 null이 아닌지 확인 후 클릭 메서드 호출
+        
+      };
+
+    const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        const selectedFile = e.target.files ? e.target.files[0] : null; // 파일이 선택되지 않은 경우 null 할당
+        if (selectedFile) {
+            const fileUrl = URL.createObjectURL(selectedFile);
+            setFileInput(fileUrl);
+        } else {
+            console.error("파일이 선택되지 않았습니다.");
+        }
+    }
     return(
         <div className = "BoxM" style={{backgroundColor: color}}>
             <div className="FlexRow">
@@ -38,11 +56,25 @@ function MidCategoryInput({categoryName, categoryId, color}: {categoryName: stri
             </div>
             {isOpen ? 
                 <div className = "MiddleContents" > 
-                <div className="RoundCenter" style={{height: '10vh', width: '10vh', backgroundColor: '#E5E5E5'}}>
-                    <FaCamera style={{color: 'white'}} size={50} onClick={()=>{
-                        
-                    }}/>
+                {imageUrl=='' && fileInput==null ?
+                    <div>
+                        <input
+                            type="file"
+                            ref= {fileInputRef}
+                            name='images'
+                            onChange={(e) => onSelectFile(e)}
+                            style={{display:'none'}}
+                            accept=".png, .jpg, image/*"
+                        />
+                        <div className="RoundCenter" onClick={handleClick} style={{height: '10vh', width: '10vh', backgroundColor: '#E5E5E5'}}>
+                            <FaCamera size={'70%'} color="white"/>
+                        </div>
                     </div>
+                    :
+                    <img src={fileInput} style={{overflow:'auto',}}/>
+                            
+                    }
+                
                 <textarea
                     className="ContentsTextArea"
                     ref={textAreaRef}
@@ -50,7 +82,7 @@ function MidCategoryInput({categoryName, categoryId, color}: {categoryName: stri
                     onChange={(e) => setContentsText(e.target.value)}
                     placeholder={"More info"}
                     />
-            </div>
+                </div>
             : undefined}
         </div>
     );
@@ -71,7 +103,7 @@ function LargeCategoryWrapper({category, categoryList} : {category: string, cate
             <h2>{category}</h2>
             {categoryList.map((midCategory) => {
                 return(
-                    <MidCategoryInput categoryName={midCategory.midCategory} categoryId={midCategory.id} color={midCategory.color}/>
+                    <MidCategoryInput categoryName={midCategory.midCategory} categoryId={midCategory.id} color={midCategory.color} imageUrl={""}/>
                 )
             })}
         </div>
