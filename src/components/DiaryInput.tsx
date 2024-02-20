@@ -1,10 +1,57 @@
+import { FaCamera, FaCheck, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { DateBox } from "./DateBox";
 import { ReactionRow } from "./ReactionRow";
+import { useEffect, useRef, useState } from "react";
+import autosize from "autosize";
+
+function CheckBtnCircle({isDone, setIsDone}: {isDone: boolean, setIsDone: React.Dispatch<React.SetStateAction<boolean>>}){
+    return(
+        <div className="RoundCenter" style={{width: '3vh', height: '3vh', backgroundColor: isDone? 'grey' : '#E5E5E5'}} onClick={() => (setIsDone(!isDone))}>
+                {isDone? <FaCheck color="white"/>: null}
+        </div>
+    );
+};
 
 function MidCategoryInput({categoryName, categoryId, color}: {categoryName: string, categoryId: number, color: string}) {
+    const [isDone, setIsDone] = useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [imgSrc, setImgSrc] = useState<string>('');
+    // middle contents의 text 부분.
+    const [contentsText, setContentsText] = useState<string>('');
+    // contentsText의 textArea 높이 조절용 ref
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+    useEffect(() => {
+        if(textAreaRef) {
+            autosize(textAreaRef.current as HTMLTextAreaElement);
+        }
+    });
+    
     return(
         <div className = "BoxM" style={{backgroundColor: color}}>
-            {categoryName}
+            <div className="FlexRow">
+                <div className="FlexRow" style={{gap: '3vw'}}>
+                    <CheckBtnCircle isDone ={isDone} setIsDone={setIsDone} />
+                    <h2>{categoryName}</h2>
+                </div>
+                {isOpen? <FaChevronUp onClick={() => {setIsOpen(!isOpen)}}/> : <FaChevronDown onClick={() => {setIsOpen(!isOpen)}}/> }
+            </div>
+            {isOpen ? 
+                <div className = "MiddleContents" > 
+                <div className="RoundCenter" style={{height: '10vh', width: '10vh', backgroundColor: '#E5E5E5'}}>
+                    <FaCamera style={{color: 'white'}} size={50} onClick={()=>{
+                        
+                    }}/>
+                    </div>
+                <textarea
+                    className="ContentsTextArea"
+                    ref={textAreaRef}
+                    value={contentsText}
+                    onChange={(e) => setContentsText(e.target.value)}
+                    placeholder={"More info"}
+                    />
+            </div>
+            : undefined}
         </div>
     );
 }
@@ -19,8 +66,6 @@ interface Category {
 }
 
 function LargeCategoryWrapper({category, categoryList} : {category: string, categoryList: Category[]}){
-    console.log(categoryList)
-    console.log(category)
     return(
         <div className="BoxL" style={{padding: '3vw'}}>
             <h2>{category}</h2>
@@ -49,13 +94,14 @@ export function DiaryInput({diaryId, date, emojis, contents, categorys}
 
     return(
         <div>
-            <div className="BoxL">
+            <div className="BoxL" style={{paddingBottom: '1vh'}}>
                 <DateBox date={new Date(date[0], date[1], date[2])} needSave={true} />
+                <ReactionRow reactions={emojis} clickable={false}/>
             </div>
-            <ReactionRow reactions={emojis} clickable={false} />
             <div className = "FlexColumn" style={{height: '100vh', overflow:'scroll'}}>
                 {
                     classifiedCategorys.map((categoryList:Category[]) => {
+                        if (categoryList.length === 0) return null;
                         return (
                             <LargeCategoryWrapper
                                 category={categoryList[0].category}
