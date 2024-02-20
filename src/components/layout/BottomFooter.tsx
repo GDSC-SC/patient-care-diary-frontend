@@ -1,4 +1,4 @@
-import { Button, Footer, calcs } from "grommet";
+import { Button, Footer } from "grommet";
 import {Archive, HomeRounded } from "grommet-icons";
 import {FaUser} from 'react-icons/fa'
 import { useNavigate } from "react-router-dom";

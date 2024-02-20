@@ -3,42 +3,59 @@ import '../styles/pages/Home.css';
 import '../styles/components/Round.css';
 import '../styles/components/Box.css';
 import 'autosize';
-import { DateBox } from "../components/DateBox";
-import { FeedLargeCategory, FeedMiddleCategory, LargeCategoryList, } from "../components/CategoryBox";
-import axios from "axios";
-import { CategoryApi } from "../api/CategoryApi";
-import { useEffect } from "react";
-
+import { useEffect, useState } from "react";
+import { Authentication } from "../services/Authentication";
+import { DiaryApi } from "../services/api/DiaryApi";
+import { DiaryInput } from "../components/DiaryInput";
 
 // 본 화면은 로그인 후 처음으로 접근하는 화면입니다.
 // 기능 : 기록.
 export function Home(){
-    const categoryapi = new CategoryApi();
-    useEffect(() =>{
-        categoryapi.my().then((data: any[]) => {
-            data.map((item: any) => {
-                console.log(item);
-            });
-        }).catch((error: any) => {
-            console.error(error);
-        });
+    const [loading, setLoading] = useState<boolean>(true);
+    const [diary, setDiary] = useState<any>();
 
-        // categoryapi.create({categoryCode: "C002", subtitle:"testSubtitle", color:"fff"});
+    useEffect(() => {
+        const auth = new Authentication();
+        if(!auth.isLoggedIn()) {
+            auth.login();
+        }
+    }, []);
 
-        // categoryapi.visible(4);
+    useEffect(() => {
+        const today = new Date();
+        const diaryApi = new DiaryApi();
+        const getObjectDiary = async () => {
+            const diary = await diaryApi.getDiaryByDate(today);
+            return diary;
+        }
 
-        // categoryapi.modify({categoryId: 1,categoryCode: "C001", subtitle: "hello", color:'000'});
-    },[]);
-    
-    const date = new Date();
+        const fetchData = async () => {
+            try {
+                return await getObjectDiary();
+            } catch (error) {
+                if ((error as any).response && (error as any).response.status === 404) {
+                    console.log("Diary not found, creating one");
+                    await diaryApi.create(today);
+                    console.log(`Diary created for ${today}`);
+                    return await getObjectDiary();
+                } else {
+                    // Handle other errors
+                }
+            }
+        };
+        fetchData().then((diary)=>{
+            setDiary(diary);
+            setLoading(false);
+        })
+    }, []);
+
     return (
         <MainLayout>
-            <div className="BoxL">
-                <DateBox date={new Date()} needSave={true} />
-            </div>
-            <div className = "FlexColumn" style={{height: '100vh', overflow:'scroll'}}>
-                <LargeCategoryList largeCategoryList={['Large Category1', 'Large Category2']}/>
-            </div>
+            {loading ? <div>Loading...</div> : (
+                <div>
+                    <DiaryInput diaryId={diary.id} date={diary.date} emojis={diary.diaryEmojis} contents={diary.contents}/>
+                </div>
+            )}
         </MainLayout>
     );
 }

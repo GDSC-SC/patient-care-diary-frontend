@@ -2,7 +2,7 @@ import { DELETE, POST } from ".";
 
 export class EmojiApi{
     makeUrl(url:string){
-        return `api/emoji/${url}`;
+        return `/api/emoji/${url}`;
     }
 
     create({emojiCode, diaryId}:{emojiCode: string, diaryId: number}){
