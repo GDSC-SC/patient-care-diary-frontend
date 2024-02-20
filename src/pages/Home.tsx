@@ -24,22 +24,15 @@ export function Home(){
     useEffect(() => {
         const today = new Date();
         const diaryApi = new DiaryApi();
-        const getObjectDiary = async () => {
-            const diary = await diaryApi.getDiaryByDate(today);
-            return diary;
-        }
-
         const fetchData = async () => {
             try {
-                return await getObjectDiary();
+                return await diaryApi.getDiaryByDate(today);
             } catch (error) {
                 if ((error as any).response && (error as any).response.status === 404) {
                     console.log("Diary not found, creating one");
                     await diaryApi.create(today);
                     console.log(`Diary created for ${today}`);
-                    return await getObjectDiary();
-                } else {
-                    // Handle other errors
+                    return await diaryApi.getDiaryByDate(today);
                 }
             }
         };
