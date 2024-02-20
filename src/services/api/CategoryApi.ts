@@ -1,13 +1,11 @@
-import axios from "axios";
-import { Component, useEffect, useState } from "react";
 import { GET, POST, PUT } from ".";
 
 export class CategoryApi {
     categoryBaseUrl = '/api/categorys';
 
     // 카테고리 리스트를 모두 불러옴.
-    my():any {
-        return (GET(`${this.categoryBaseUrl}/my`, null));
+    async my() {
+        return await GET(`${this.categoryBaseUrl}/my`, null) as JSON[];
     }
 
     // subtitle 생성

@@ -16,18 +16,20 @@ type CategoryType = {
 }
 
 export async function GET(url:string, data:any){
-    await baseAxios.get(url, {
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-        },
-        data: data,
-    }).then((res)=>{
-        const result = <JSON>res.data;
-        console.log(result);
+    try {
+        const res = await baseAxios.get(url, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+            data: data,
+        });
+        const result = res.data;
         return result;
-    })
-    
+    } catch (error) {
+        throw error;
+    }
 }
+
 
 export async function POST(url:string, data:any,){
     await baseAxios.post(url, data, {
@@ -36,7 +38,7 @@ export async function POST(url:string, data:any,){
             "Content-Type": 'application/json',
         },
     }).then((res)=>{
-        const result = <JSON>res.data;
+        const result = res.data;
         console.log(result);
         return result;
     })
@@ -49,7 +51,7 @@ export async function PUT(url:string, data:any){
         },
         data:data
     }).then((res)=>{
-        const result = <JSON>res.data;
+        const result = res.data;
         console.log(result);
         return result;
     })
@@ -62,7 +64,7 @@ export async function DELETE(url:string, data:any){
       },
       data:data
   }).then((res)=>{
-      const result = <JSON>res.data;
+      const result = res.data;
       console.log(result);
       return result;
   })

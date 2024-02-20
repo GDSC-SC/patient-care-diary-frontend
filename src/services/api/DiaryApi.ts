@@ -6,8 +6,9 @@ export class DiaryApi{
     }
 
     create(date:Date){
+        const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
         const data = {
-            "date": Date
+            "date": formattedDate
         }
         POST(this.makeUrl('create'), data);
     }
@@ -24,8 +25,14 @@ export class DiaryApi{
         return(GET(this.makeUrl("my"),null));
     }
 
-    getDiaryByDate(date:Date){
-        return (GET(this.makeUrl(`date/{date.toString()}`), null))
+    async getDiaryByDate(date:Date){
+        const formattedDate = `${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getDate().toString().padStart(2, '0')}`;
+        try {
+            const diary = await GET(this.makeUrl(`date/${formattedDate}`), null)
+            return diary;
+        } catch (error) {
+            throw error;
+        }
     }
 
     all(){

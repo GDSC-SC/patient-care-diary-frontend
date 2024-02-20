@@ -19,13 +19,25 @@ type MiddleCategory = {
     color: string | undefined,
 }
 
-// type MiddleCategory = {
-//     id: number,
-//     categoryCode : string,
-//     subtitle : string,
-//     color: string,
-//     visible: boolean,
-// }
+// const [loading, setLoading] = useState<boolean>(true);
+// const [categories, setCategories] = useState<JSON[]>([]);
+
+// useEffect(() => {
+//     const auth = new Authentication();
+//     if(!auth.isLoggedIn()) {
+//         auth.login();
+//     }
+// }, []);
+
+// useEffect(() => {
+//     const categoryapi = new CategoryApi();
+//     const fetchData = async () => {
+//         const res = await categoryapi.my();
+//         setCategories(res);
+//         setLoading(false);
+//     };
+//     fetchData();
+// }, []);
 
 
 export function MyCategory(){
