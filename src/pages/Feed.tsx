@@ -10,7 +10,7 @@ export function Feed() {
         const fetchDiarys = async () => {
             const diaryApi = new DiaryApi();
             const diarys = await diaryApi.all();
-            setDiarys(diarys);
+            setDiarys(diarys.reverse());
             setLoading(false);
         }
         fetchDiarys();
