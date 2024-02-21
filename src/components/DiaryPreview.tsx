@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { ReactionRow } from "./ReactionRow";
+import { EmojiBox } from "./EmojiBox";
 import { UserProfile } from "../components/UserProfile";
 import { MidCategoryTile } from "./MidCategoryTile";
 import { Category, classifyByCategoryCode } from "../utils/manageCategory";
@@ -29,17 +29,17 @@ export interface DiaryPreviewProps{
     }
 }
 
-export function DiaryPreview (props: DiaryPreviewProps){
+export function DiaryPreview (diaryPreviewProps: DiaryPreviewProps){
     const navigate = useNavigate();
-    const classifiedCategorys:Category[][] = classifyByCategoryCode(props.categories);
+    const classifiedCategorys:Category[][] = classifyByCategoryCode(diaryPreviewProps.categories);
 
     return (
         <div className="BoxL" style={{ padding: '3vw' }}>
-                <div onClick={() => { navigate(`/feedDetail/${props.id}`) }}>
+                <div onClick={() => { navigate(`/feedDetail/${diaryPreviewProps.id}`) }}>
                     <UserProfile user={{
-                        id: props.member.name,
-                        description: props.member.email, //TODO change to illness later
-                        profileImgSrc: props.member.picture,
+                        id: diaryPreviewProps.member.name,
+                        description: diaryPreviewProps.member.email, //TODO change to illness later
+                        profileImgSrc: diaryPreviewProps.member.picture,
                     }} />
                     {classifiedCategorys.map((categoryList:Category[]) => {
                         if (categoryList.length === 0) return null;
@@ -51,7 +51,7 @@ export function DiaryPreview (props: DiaryPreviewProps){
                         );
                     })}
                 </div>
-            <ReactionRow reactions={props.diaryEmojis} clickable={true} />
+            <EmojiBox diaryId={diaryPreviewProps.id} reactions={diaryPreviewProps.diaryEmojis} clickable={true} />
         </div>
     );
 }

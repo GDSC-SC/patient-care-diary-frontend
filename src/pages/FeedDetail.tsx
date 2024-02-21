@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { DateBox } from "../components/DateBox";
 import { DiaryView } from "../components/DiaryView";
-import { ReactionRow } from "../components/ReactionRow";
+import { EmojiBox } from "../components/EmojiBox";
 import { UserProfile } from "../components/UserProfile";
 import { MainLayout } from "../components/layout/MainLayout";
 import { useEffect, useState } from "react";
@@ -24,12 +24,11 @@ export function FeedDetail(){
         date: number[],
         diaryEmojis: {emoji:string, count:number}[],
         contents: Content[],
-        name: string,
-        // member: {
-        //     name: string,
-        //     email: string,
-        //     picture: string,
-        // }
+        member: {
+            name: string,
+            email: string,
+            picture: string,
+        }
     }>();
     useEffect(() => {
         const fetchDiary = async () => {
@@ -49,10 +48,10 @@ export function FeedDetail(){
                     <div className="FlexColumn" style={{padding:'3vw'}}>
                         <DateBox date={new Date(diary.date[0], diary.date[1], diary.date[2])} needSave={false}/>
                         <UserProfile user={{
-                            id: diary.name,
-                            description: 'description',
-                            profileImgSrc: 'https://previews.123rf.com/images/estherpoon/estherpoon1706/estherpoon170600035/80108153-%EB%A1%9C%EB%94%A9-%EC%95%84%EC%9D%B4%EC%BD%98.jpg'}} />
-                        <ReactionRow reactions={diary.diaryEmojis} clickable={true} />
+                            id: diary.member.name,
+                            description: diary.member.email,
+                            profileImgSrc: diary.member.picture}} />
+                        <EmojiBox diaryId={diary.id} reactions={diary.diaryEmojis} clickable={true} />
                     </div>
                 </div>
                 <DiaryView contents = {diary.contents}/>
