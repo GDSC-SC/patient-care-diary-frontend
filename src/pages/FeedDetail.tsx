@@ -9,6 +9,7 @@ import { DiaryApi } from "../services/api/DiaryApi";
 
 export interface Content {
     category: string,
+    categoryCode: string,
     color: string,
     done: boolean,
     midCategory: string,
@@ -40,7 +41,6 @@ export function FeedDetail(){
         }
         fetchDiary();
     }, [id]);
-    console.log(diary)
     return(
         <MainLayout>
             {loading ? <div>Loading...</div> :
