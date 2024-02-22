@@ -1,7 +1,7 @@
 import { FaCheckCircle, FaHeart, FaThumbsUp } from 'react-icons/fa';
 import '../styles/components/Box.css'
 import '../styles/components/ReactionRow.css'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { EmojiApi } from '../services/api/EmojiApi';
 
 export interface Emoji{
@@ -11,9 +11,14 @@ export interface Emoji{
 
 function EmojiElement({countProp, emojiCode, diaryId, isClicked}
         :{countProp:number, emojiCode: string, diaryId: number, isClicked: boolean}){
+        console.log("emojiCode", emojiCode, isClicked)
         const emojiApi = new EmojiApi();
         const [count, setCount] = useState<number>(countProp);
         const [clicked, setClicked] = useState<boolean>(isClicked);
+        useEffect(()=>{
+            setCount(countProp);
+            setClicked(isClicked);
+        }, [diaryId, countProp, isClicked, emojiCode]);
         return(
             <div className='ReactionElements' onClick={async ()=>{
                 if (!clicked && await emojiApi.create({ emojiCode: emojiCode, diaryId: diaryId })) {
@@ -38,8 +43,7 @@ function EmojiElement({countProp, emojiCode, diaryId, isClicked}
 // clickable : reaction의 숫자를 변화시킬 수 있는지.
 export function EmojiBox({diaryId, emojis, myEmojiState}
     :{diaryId: number, emojis: Emoji[], myEmojiState: string}){
-    console.log(emojis)
-
+    console.log(diaryId, "EmojiBox rendered.")
     return (
         <div className="FlexRow" style={{ marginTop: '1vh' }}>
             <div style={{ flex: 1 }} />
