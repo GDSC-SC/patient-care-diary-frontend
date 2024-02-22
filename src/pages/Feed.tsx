@@ -10,7 +10,7 @@ export function Feed() {
         const fetchDiarys = async () => {
             const diaryApi = new DiaryApi();
             const diarys = await diaryApi.all();
-            setDiarys(diarys);
+            setDiarys(diarys.reverse());
             setLoading(false);
         }
         fetchDiarys();
@@ -24,7 +24,7 @@ export function Feed() {
                         name: diary.member.name,
                         email: diary.member.email,
                         picture: diary.member.picture,
-                    }}  />
+                    }} myEmojiState={diary.myEmojiState}  />
                 })
             }
         </MainLayout>

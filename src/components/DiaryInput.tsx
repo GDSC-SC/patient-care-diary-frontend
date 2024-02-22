@@ -1,6 +1,6 @@
 import { FaCamera, FaCheck, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { DateBox } from "./DateBox";
-import { ReactionRow } from "./ReactionRow";
+import { EmojiBox } from "./EmojiBox";
 import { useEffect, useRef, useState } from "react";
 import autosize from "autosize";
 import { Category, classifyByCategoryCode } from "../utils/manageCategory";
@@ -102,8 +102,8 @@ function LargeCategoryWrapper({category, categoryList} : {category: string, cate
     );
 }
 
-export function DiaryInput({diaryId, date, emojis, contents, categorys}
-        : {diaryId: number, date: number[], emojis: {emoji:string, count:number}[], contents: JSON[], categorys: Category[]}) {
+export function DiaryInput({diaryId, date, emojis, contents, categorys, myEmojiState}
+        : {diaryId: number, date: number[], emojis: {emoji:string, count:number}[], contents: JSON[], categorys: Category[], myEmojiState: string}) {
     //console.log(diaryId, date, emojis, contents)
 
     const classifiedCategorys:Category[][] = classifyByCategoryCode(categorys);
@@ -112,7 +112,7 @@ export function DiaryInput({diaryId, date, emojis, contents, categorys}
         <div>
             <div className="BoxL" style={{paddingBottom: '1vh'}}>
                 <DateBox date={new Date(date[0], date[1], date[2])} needSave={true} />
-                <ReactionRow reactions={emojis} clickable={false}/>
+                <EmojiBox diaryId={diaryId} reactions={emojis} myEmojiState={myEmojiState}/>
             </div>
             <div className = "FlexColumn" style={{height: '100vh', overflow:'scroll'}}>
                 {

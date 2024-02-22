@@ -5,15 +5,22 @@ export class EmojiApi{
         return `/api/emoji/${url}`;
     }
 
-    create({emojiCode, diaryId}:{emojiCode: string, diaryId: number}){
+    async create({emojiCode, diaryId}:{emojiCode: string, diaryId: number}){
         const data = {
             "emojiCode": emojiCode,
             "diaryId": diaryId
         }
-        POST(this.makeUrl('create'), data);
+        try{await POST(this.makeUrl('create'), data)}
+        catch(error){
+            if ((error as any).response && (error as any).response.status === 409) {
+                console.log("Emoji already exists");
+                return false;
+            }
+        };
+        return true;
     }
     
-    delete(diaryId:number){
-        DELETE(this.makeUrl(diaryId.toString()), null);
+    delete(diaryId:number, emojiCode:string){
+        DELETE(this.makeUrl(`${diaryId.toString()}/${emojiCode}`), null);
     }
 }

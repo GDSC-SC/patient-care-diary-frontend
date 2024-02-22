@@ -57,7 +57,7 @@ export function Home(){
             {loading ? <div>Loading...</div> : (
                 <div>
                     <DiaryInput diaryId={diary.id} date={diary.date} emojis={diary.diaryEmojis} contents={diary.contents}
-                    categorys={categorys}/>
+                    categorys={categorys} myEmojiState={diary.myEmojiState}/>
                 </div>
             )}
         </MainLayout>
