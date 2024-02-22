@@ -8,7 +8,7 @@ import React, { Ref, useEffect, useRef, useState } from 'react';
 import { ProflieImg } from '../components/UserProfile';
 import { FaPen } from 'react-icons/fa';
 
-function ProfileList({title, value,onEdit}:{title: string, value?: string, onEdit?(e:string):void}){
+function ProfileList({title,value,onEdit}:{title: string, value?: string, onEdit?(e:string):void}){
     const inputRef = useRef<HTMLInputElement>(null);
 
     return(
@@ -19,7 +19,6 @@ function ProfileList({title, value,onEdit}:{title: string, value?: string, onEdi
                     <input
                         key={title}
                         value={value}
-                        style={{width: 'fit-content'}}
                         onChange={(e)=>{
                             onEdit(e.target.value);
                         }}
@@ -41,10 +40,19 @@ function ProfileList({title, value,onEdit}:{title: string, value?: string, onEdi
 
 export function ProfilePage(){
     const [userData, setUserData] = useState<MemberType>();
+    // userData 변경으로 인한 잦은 리랜더링을 막기 위해 state 따로 생성
+    const [illness, setIllness] = useState<string>();
+    const [gender, setGender] = useState<string>();
+    const [type, setType] = useState<string>();
+    const [info, setInfo] = useState<string>('');
     async function fetchData() {
         try {
-            setUserData(await memberApi.parseMemberData());
-            console.log(userData);
+            const userData = await memberApi.parseMemberData()
+            setUserData(userData);
+            setIllness(userData?.illness);
+            setGender(userData?.gender);
+            setType(userData?.type);
+            // setInfo(userData?.info);
         } catch (error) {
             console.log(error);
         }
@@ -55,9 +63,24 @@ export function ProfilePage(){
     }, []);
 
     const onEditIllness = (value: string) => {
-        const newUserData = { ...userData };
-        newUserData.illness = value;
-        setUserData(newUserData as MemberType);
+        setIllness(value);
+    }
+
+    const onEditGender = (value:string) =>{
+        setGender(value);
+    }
+
+    const onEditType = (value:string) =>{
+        setType(value);
+    }
+    
+    const onEditInfo = (value:string) =>{
+        setInfo(value);
+    }
+
+    const save = ()=>{
+        memberApi.signUp({gender: gender||'', illenss: illness||'', type: type || ''});
+        console.log('hello');
     }
 
     return(
@@ -66,7 +89,7 @@ export function ProfilePage(){
                 <div className='BoxL'>
                     <div className='FlexRow'>
                         <h2>Edit Profile</h2>
-                        <SaveBtn/>
+                        <SaveBtn clickHandler={save}/>
                     </div>
                 </div>
                 <div className='FlexColumn'>
@@ -83,16 +106,16 @@ export function ProfilePage(){
                             <ProfileList title={'Email'} value={userData?.email}/>
                     </div>
                     <div className='ProfileList'>
-                        <ProfileList title={'Illness'} value={userData?.illness} onEdit={onEditIllness}/>
+                        <ProfileList title={'Illness'} value={illness} onEdit={onEditIllness}/>
                     </div>
                     <div className='ProfileList'>
-                        <ProfileList title={'Gender'} value={userData?.gender} onEdit={()=>{}}/>
+                        <ProfileList title={'Gender'} value={gender} onEdit={onEditGender}/>
                     </div>
                     <div className='ProfileList'>
-                        <ProfileList title={'Type'} value={userData?.type} onEdit={()=>{}}/>
+                        <ProfileList title={'Type'} value={type} onEdit={onEditType}/>
                     </div>
                     <div className='ProfileList'>
-                        <ProfileList title={'Info'} onEdit={() => {}}/>
+                        <ProfileList title={'Info'} value={info} onEdit={onEditInfo}/>
                     </div>
                 </div>
             </div>

@@ -9,3 +9,13 @@ p{
     border-style: solid;
     border-color: #E5E5E5;
 }
+
+input{
+    border: none;
+    border-bottom: solid #E5E5E5;
+    width: 90%;
+    height: 100%;
+}
+input:focus{
+    outline: none;
+}

@@ -35,7 +35,7 @@ export class MemberApi{
             email: data.email,
             picture: data.picture,
             gender: data.gender,
-            illness: data.illenss,
+            illness: data.illness,
             type: data.type
         }
         return parsedData;
