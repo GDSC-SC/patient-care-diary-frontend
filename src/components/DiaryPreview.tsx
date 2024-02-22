@@ -27,6 +27,7 @@ export interface DiaryPreviewProps{
         email: string,
         picture: string,
     }
+    myEmojiState: string
 }
 
 export function DiaryPreview (diaryPreviewProps: DiaryPreviewProps){
@@ -51,7 +52,7 @@ export function DiaryPreview (diaryPreviewProps: DiaryPreviewProps){
                         );
                     })}
                 </div>
-            <EmojiBox diaryId={diaryPreviewProps.id} reactions={diaryPreviewProps.diaryEmojis} clickable={true} />
-        </div>
+                <EmojiBox diaryId={diaryPreviewProps.id} reactions={diaryPreviewProps.diaryEmojis} myEmojiState={diaryPreviewProps.myEmojiState}/>
+            </div>
     );
 }

@@ -29,6 +29,7 @@ export function FeedDetail(){
             email: string,
             picture: string,
         }
+        myEmojiState: string,
     }>();
     useEffect(() => {
         const fetchDiary = async () => {
@@ -39,6 +40,7 @@ export function FeedDetail(){
         }
         fetchDiary();
     }, [id]);
+    console.log(diary)
     return(
         <MainLayout>
             {loading ? <div>Loading...</div> :
@@ -51,7 +53,7 @@ export function FeedDetail(){
                             id: diary.member.name,
                             description: diary.member.email,
                             profileImgSrc: diary.member.picture}} />
-                        <EmojiBox diaryId={diary.id} reactions={diary.diaryEmojis} clickable={true} />
+                        <EmojiBox diaryId={diary.id} reactions={diary.diaryEmojis} myEmojiState={diary.myEmojiState}/>
                     </div>
                 </div>
                 <DiaryView contents = {diary.contents}/>

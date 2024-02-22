@@ -24,7 +24,7 @@ export function Feed() {
                         name: diary.member.name,
                         email: diary.member.email,
                         picture: diary.member.picture,
-                    }}  />
+                    }} myEmojiState={diary.myEmojiState}  />
                 })
             }
         </MainLayout>

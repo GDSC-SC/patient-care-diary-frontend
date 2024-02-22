@@ -9,25 +9,35 @@ export interface Emoji{
     count: number,
 }
 
-function EmojiElement({count, emojiCode, clickable, diaryId, setCount}
-    :{count:number, emojiCode: string, clickable: boolean, diaryId: number, setCount: React.Dispatch<React.SetStateAction<number>>}){
-    const emojiApi = new EmojiApi();
-    return(
-        <div className='ReactionElements' onClick={async ()=>{
-            if (clickable && await emojiApi.create({ emojiCode: emojiCode, diaryId: diaryId }))
-                setCount((count)=>(count+1));
-        }}>
-        {emojiCode === "E001" && <FaThumbsUp/>}
-        {emojiCode === "E002" && <FaHeart/>}
-        {emojiCode === "E003" && <FaCheckCircle/>}
-        <div className='ReactionElementsSpace'/>
-        <div className='ReactionNumber'>{count}</div>
-        </div>
-    );
-}
+function EmojiElement({count, emojiCode, diaryId, setCount, isClicked}
+        :{count:number, emojiCode: string, diaryId: number,
+          setCount: React.Dispatch<React.SetStateAction<number>>, isClicked: boolean}){
+        const emojiApi = new EmojiApi();
+        const [clicked, setClicked] = useState<boolean>(isClicked);
+        return(
+            <div className='ReactionElements' onClick={async ()=>{
+                if (!clicked && await emojiApi.create({ emojiCode: emojiCode, diaryId: diaryId })) {
+                    setCount((count)=>(count+1));
+                    setClicked(true);
+                }
+                else if (clicked) {
+                    emojiApi.delete(diaryId, emojiCode);
+                    setCount((count)=>(count-1));
+                    setClicked(false);
+                }
+            }}>
+            {emojiCode === "E001" && <FaThumbsUp style={clicked ? {color: 'skyblue'} : {color: 'black'}}/>}
+            {emojiCode === "E002" && <FaHeart style={clicked ? {color: 'pink'} : {color: 'black'}}/>}
+            {emojiCode === "E003" && <FaCheckCircle style={clicked ? {color: 'green'} : {color: 'black'}}/>}
+            <div className='ReactionElementsSpace'/>
+            <div className='ReactionNumber'>{count}</div>
+            </div>
+        );
+    }
 
 // clickable : reaction의 숫자를 변화시킬 수 있는지.
-export function EmojiBox({diaryId, reactions, clickable}: {diaryId: number, reactions: Emoji[], clickable: boolean}){
+export function EmojiBox({diaryId, reactions, myEmojiState}
+    :{diaryId: number, reactions: Emoji[], myEmojiState: string}){
     const [good, setGood] = useState<number>(0);
     const [love, setLove] = useState<number>(0);
     const [check, setCheck] = useState<number>(0);
@@ -48,9 +58,9 @@ export function EmojiBox({diaryId, reactions, clickable}: {diaryId: number, reac
         <div style={{flex:1}}/>
         <div style={{flex:3}}>
         <div className="FlexRow" style={{margin: '0 auto'}}>
-            <EmojiElement count={good} emojiCode="E001" clickable={clickable} diaryId={diaryId} setCount={setGood}/>
-            <EmojiElement count={love} emojiCode="E002" clickable={clickable} diaryId={diaryId} setCount={setLove}/>
-            <EmojiElement count={check} emojiCode="E003" clickable={clickable} diaryId={diaryId} setCount={setCheck}/>
+            <EmojiElement count={good} emojiCode="E001" diaryId={diaryId} setCount={setGood} isClicked={myEmojiState==="GOOD"}/>
+            <EmojiElement count={love} emojiCode="E002" diaryId={diaryId} setCount={setLove} isClicked={myEmojiState==="LOVE"}/>
+            <EmojiElement count={check} emojiCode="E003" diaryId={diaryId} setCount={setCheck} isClicked={myEmojiState==="CHECK"}/>
         </div>
         </div>
             <div style={{flex:1}}/>

@@ -20,7 +20,7 @@ export class EmojiApi{
         return true;
     }
     
-    delete(diaryId:number){
-        DELETE(this.makeUrl(diaryId.toString()), null);
+    delete(diaryId:number, emojiCode:string){
+        DELETE(this.makeUrl(`${diaryId.toString()}/${emojiCode}`), null);
     }
 }
