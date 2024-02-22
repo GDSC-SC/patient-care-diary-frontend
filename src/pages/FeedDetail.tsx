@@ -9,6 +9,7 @@ import { DiaryApi } from "../services/api/DiaryApi";
 
 export interface Content {
     category: string,
+    categoryCode: string,
     color: string,
     done: boolean,
     midCategory: string,
@@ -40,7 +41,6 @@ export function FeedDetail(){
         }
         fetchDiary();
     }, [id]);
-    console.log(diary)
     return(
         <MainLayout>
             {loading ? <div>Loading...</div> :
@@ -53,7 +53,7 @@ export function FeedDetail(){
                             id: diary.member.name,
                             description: diary.member.email,
                             profileImgSrc: diary.member.picture}} />
-                        <EmojiBox diaryId={diary.id} reactions={diary.diaryEmojis} myEmojiState={diary.myEmojiState}/>
+                        <EmojiBox diaryId={diary.id} emojis={diary.diaryEmojis} myEmojiState={diary.myEmojiState}/>
                     </div>
                 </div>
                 <DiaryView contents = {diary.contents}/>

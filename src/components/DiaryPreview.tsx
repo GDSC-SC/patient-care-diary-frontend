@@ -52,7 +52,7 @@ export function DiaryPreview (diaryPreviewProps: DiaryPreviewProps){
                         );
                     })}
                 </div>
-                <EmojiBox diaryId={diaryPreviewProps.id} reactions={diaryPreviewProps.diaryEmojis} myEmojiState={diaryPreviewProps.myEmojiState}/>
+                <EmojiBox diaryId={diaryPreviewProps.id} emojis={diaryPreviewProps.diaryEmojis} myEmojiState={diaryPreviewProps.myEmojiState}/>
             </div>
     );
 }

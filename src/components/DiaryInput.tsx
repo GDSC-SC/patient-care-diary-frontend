@@ -111,8 +111,8 @@ export function DiaryInput({diaryId, date, emojis, contents, categorys, myEmojiS
     return(
         <div>
             <div className="BoxL" style={{paddingBottom: '1vh'}}>
-                <DateBox date={new Date(date[0], date[1], date[2])} needSave={true} />
-                <EmojiBox diaryId={diaryId} reactions={emojis} myEmojiState={myEmojiState}/>
+                <DateBox date={new Date(date[0], date[1], date[2])} needSave={true} clickHandler={clickHandler}/>
+                <EmojiBox diaryId={diaryId} emojis={emojis} myEmojiState={myEmojiState}/>
             </div>
             <div className = "FlexColumn" style={{height: '100vh', overflow:'scroll'}}>
                 {

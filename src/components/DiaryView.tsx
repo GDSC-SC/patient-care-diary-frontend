@@ -1,56 +1,46 @@
-import { FeedListDetail } from "../components/CategoryBox";
 import { Content } from "../pages/FeedDetail";
-import { Category, classifyByCategoryCode } from "../utils/manageCategory";
+import { classifyByCategoryCode } from "../utils/manageCategory";
 import { MidCategoryTile } from "./MidCategoryTile";
 
-function LargeCategoryWrapper({category, categoryList} : {category: string, categoryList: Category[]}){
+function LargeCategoryWrapper({category, contents} : {category: string, contents: Content[]}){
     return (
         <div className="FlexColumn">
             <h3>{category}</h3>
-            {categoryList.map((midCategory) => {
-                return(
-                    <MidCategoryTile title={midCategory.midCategory} color={midCategory.color}/>
-                )
-            })}
-        </div>
-    );
-}
-
-export interface DiaryPreviewProps{
-    categories: Category[],
-    date: number[],
-    diaryEmojis: {emoji:string, count:number}[],
-    id: number,
-    member: {
-        name: string,
-        email: string,
-        picture: string,
-    }
-}
-
-export function DiaryPreview (props: DiaryPreviewProps){
-    const classifiedCategorys:Category[][] = classifyByCategoryCode(props.categories);
-
-    return (
-        <div className="BoxL" style={{ padding: '3vw' }}>
-            {classifiedCategorys.map((categoryList:Category[]) => {
-                if (categoryList.length === 0) return null;
+            {contents.map((content:Content) => {
+                //content.done 반영하기
                 return (
-                    <LargeCategoryWrapper
-                        category={categoryList[0].category}
-                        categoryList={categoryList}
-                    />
-                );
+                    <div>
+                        <MidCategoryTile title={content.midCategory} color={content.color}/>
+                        {
+                content.photoUrl!==''?
+                    <img src={content.photoUrl} alt=''/>
+                    :
+                    <></>
+            }
+            <div>
+                {content.text}
+            </div>
+                    </div>
+                    );
             })}
         </div>
     );
 }
 
 export function DiaryView({ contents }: { contents : Content[] }) {
+    const contentsClassifiedByCategory:Content[][] = classifyByCategoryCode(contents);
     console.log(contents);
     return (
-        <div>
-            <FeedListDetail largeCategoryList={['Large Category1', 'LargeCategory2']} />
+        <div className="BoxL" style={{ padding: '3vw' }}>
+            {contentsClassifiedByCategory.map((contents:Content[]) => {
+                if (contents.length === 0) return null;
+                return (
+                    <LargeCategoryWrapper
+                        category={contents[0].category}
+                        contents={contents}
+                    />
+                );
+            })}
         </div>
     );
 }
