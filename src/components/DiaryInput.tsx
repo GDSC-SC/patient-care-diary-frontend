@@ -1,9 +1,10 @@
 import { FaCamera, FaCheck, FaChevronDown, FaChevronUp } from "react-icons/fa";
-import { DateBox, GetDateTitle } from "./DateBox";
-import { ReactionRow } from "./ReactionRow";
+
+import { DateBox } from "./DateBox";
+import { EmojiBox } from "./EmojiBox";
 import { useEffect, useRef, useState } from "react";
 import autosize from "autosize";
-import { DiaryApi } from "../services/api/DiaryApi";
+import { Category, classifyByCategoryCode } from "../utils/manageCategory";
 
 function CheckBtnCircle({isDone, setIsDone}: {isDone: boolean, setIsDone: React.Dispatch<React.SetStateAction<boolean>>}){
     return(
@@ -89,14 +90,6 @@ function MidCategoryInput({categoryName, categoryId, color, done, photoUrl, text
     );
 }
 
-interface Category {
-    category: string;
-    categoryCode: string;
-    color: string;
-    id: number;
-    midCategory: string;
-    visible: boolean;
-}
 interface Contents{
     id: number,
     category: string,
@@ -107,7 +100,7 @@ interface Contents{
     text: string
 }
 
-function LargeCategoryWrapper({category, categoryList, contentsList} : {category: string, categoryList: Category[], contentsList: Contents[]}){
+function LargeCategoryWrapper({category, contentsList} : {category: string, contentsList: Contents[]}){
     return(
         <div className="BoxL" style={{padding: '3vw'}}>
             <h2>{category}</h2>
@@ -120,28 +113,10 @@ function LargeCategoryWrapper({category, categoryList, contentsList} : {category
     );
 }
 
-
-
-export function DiaryInput({diaryId, date, emojis, contents, categorys}
-        : {diaryId: number, date: number[], emojis: {emoji:string, count:number}[], contents: JSON[], categorys: Category[]}) {
+export function DiaryInput({diaryId, date, emojis, contents, categorys, myEmojiState}
+        : {diaryId: number, date: number[], emojis: {emoji:string, count:number}[], contents: JSON[], categorys: Category[], myEmojiState: string}) {
     //console.log(diaryId, date, emojis, contents)
-    const [requestDtoList, setRequestDtoList] = useState();
-    function classifyByCategoryCode(data: Category[]) {
-        const C001 = data.filter(item => item.categoryCode === 'C001');
-        const C002 = data.filter(item => item.categoryCode === 'C002');
-        const C003 = data.filter(item => item.categoryCode === 'C003');
-        const C004 = data.filter(item => item.categoryCode === 'C004');
-        const C005 = data.filter(item => item.categoryCode === 'C005');
-        return [C001, C002, C003, C004, C005];
-    }
-    function classifyContentsByCategoryCode(data: Contents[]){
-        const C001 = data.filter(item => item.category === 'Food');
-        const C002 = data.filter(item => item.category === 'Medicine');
-        const C003 = data.filter(item => item.category === 'Today Diary');
-        const C004 = data.filter(item => item.category === 'Exercise');
-        const C005 = data.filter(item => item.category === 'About ');
-        return [C001, C002, C003, C004, C005];
-    }
+
     const classifiedCategorys:Category[][] = classifyByCategoryCode(categorys);
 
     const clickHandler = () =>{
@@ -156,8 +131,8 @@ export function DiaryInput({diaryId, date, emojis, contents, categorys}
     return(
         <div>
             <div className="BoxL" style={{paddingBottom: '1vh'}}>
-                <DateBox date={new Date()} needSave={true} clickHandler={clickHandler} />
-                <ReactionRow reactions={emojis} clickable={false}/>
+                <DateBox date={new Date(date[0], date[1], date[2])} needSave={true} clickHandler={clickHandler}  />
+                <EmojiBox diaryId={diaryId} reactions={emojis} myEmojiState={myEmojiState}/>
             </div>
             <div className = "FlexColumn" style={{height: '100vh', overflow:'scroll'}}>
                 {
@@ -170,7 +145,6 @@ export function DiaryInput({diaryId, date, emojis, contents, categorys}
                             // />
                         );
                     })
-                    
                 }
             </div>
         </div>

@@ -28,7 +28,6 @@ export function Home(){
         const fetchCategorys = async () => {
             return await categoryApi.my();
         }
-        contentApi.create({diaryId: 14, categoryId: 6})
         const fetchDiary = async () => {   
             const today = new Date();
 
@@ -60,7 +59,7 @@ export function Home(){
             {loading ? <div>Loading...</div> : (
                 <div>
                     <DiaryInput diaryId={diary.id} date={diary.date} emojis={diary.diaryEmojis} contents={diary.contents}
-                    categorys={categorys}/>
+                    categorys={categorys} myEmojiState={diary.myEmojiState}/>
                 </div>
             )}
         </MainLayout>

@@ -16,7 +16,13 @@ export class ContentApi{
 
     create({diaryId, categoryId}:{diaryId:number, categoryId:number}){
         const formdata = new FormData();
-        formdata.append("requestDto", `\n\t{diaryId: ${diaryId},\n \tcategoryId: ${categoryId},\n \tdone: false,\n \ttext: ""}`);
+        // formdata.append("requestDto", `\n \{diaryId: ${diaryId},\n \categoryId: ${categoryId},\n \done: false,\n \text: ""}`);
+        formdata.append("requestDto", `{
+            "diaryId": ${diaryId},
+            "categoryId": ${categoryId},
+            "done": false,
+            "text": '',
+        }`)
         formdata.append("image",'');
         
         const requestOptions = {
