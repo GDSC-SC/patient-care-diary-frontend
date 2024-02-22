@@ -1,5 +1,4 @@
 import { FaCamera, FaCheck, FaChevronDown, FaChevronUp } from "react-icons/fa";
-
 import { DateBox } from "./DateBox";
 import { EmojiBox } from "./EmojiBox";
 import { useEffect, useRef, useState } from "react";
@@ -14,11 +13,11 @@ function CheckBtnCircle({isDone, setIsDone}: {isDone: boolean, setIsDone: React.
     );
 };
 
-function MidCategoryInput({categoryName, categoryId, color, done, photoUrl, text}: {categoryName: string, categoryId: number, color: string, done:boolean, photoUrl: string, text: string}) {
-    const [isDone, setIsDone] = useState<boolean>(done);
+function MidCategoryInput({categoryName, categoryId, color, imageUrl}: {categoryName: string, categoryId: number, color: string, imageUrl: string}) {
+    const [isDone, setIsDone] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     // middle contents의 text 부분.
-    const [contentsText, setContentsText] = useState<string>(text);
+    const [contentsText, setContentsText] = useState<string>('');
     // contentsText의 textArea 높이 조절용 ref
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     useEffect(() => {
@@ -57,8 +56,8 @@ function MidCategoryInput({categoryName, categoryId, color, done, photoUrl, text
                 {isOpen? <FaChevronUp onClick={() => {setIsOpen(!isOpen)}}/> : <FaChevronDown onClick={() => {setIsOpen(!isOpen)}}/> }
             </div>
             {isOpen ? 
-                <div className = "MiddleContents"> 
-                {photoUrl==='' && fileInput===null ?
+                <div className = "MiddleContents" > 
+                {imageUrl=='' && fileInput==null ?
                     <div>
                         <input
                             type="file"
@@ -73,10 +72,10 @@ function MidCategoryInput({categoryName, categoryId, color, done, photoUrl, text
                         </div>
                     </div>
                     :
-                    <img src={fileInput}
-                        alt = 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg'
-                        style={{overflow:'auto', width: '100%', maxHeight: '30vh'}}/>        
-                }
+                    <img src={fileInput} style={{overflow:'auto',}}/>
+                            
+                    }
+                
                 <textarea
                     className="ContentsTextArea"
                     ref={textAreaRef}
@@ -90,23 +89,13 @@ function MidCategoryInput({categoryName, categoryId, color, done, photoUrl, text
     );
 }
 
-interface Contents{
-    id: number,
-    category: string,
-    midCategory: string,
-    color: string,
-    done: boolean,
-    photoUrl: string,
-    text: string
-}
-
-function LargeCategoryWrapper({category, contentsList} : {category: string, contentsList: Contents[]}){
+function LargeCategoryWrapper({category, categoryList} : {category: string, categoryList: Category[]}){
     return(
         <div className="BoxL" style={{padding: '3vw'}}>
             <h2>{category}</h2>
-            {contentsList.map((contetns) => {
+            {categoryList.map((midCategory) => {
                 return(
-                    <MidCategoryInput categoryName={contetns.midCategory} categoryId={contetns.id} color={contetns.color} done={contetns.done} photoUrl={""} text={""} />
+                    <MidCategoryInput categoryName={midCategory.midCategory} categoryId={midCategory.id} color={midCategory.color} imageUrl={""}/>
                 )
             })}
         </div>
@@ -119,30 +108,21 @@ export function DiaryInput({diaryId, date, emojis, contents, categorys, myEmojiS
 
     const classifiedCategorys:Category[][] = classifyByCategoryCode(categorys);
 
-    const clickHandler = () =>{
-        console.log('clicked');
-        saveContents();
-    }
-
-    const saveContents = () =>{
-        
-    }
-
     return(
         <div>
             <div className="BoxL" style={{paddingBottom: '1vh'}}>
-                <DateBox date={new Date(date[0], date[1], date[2])} needSave={true} clickHandler={clickHandler}  />
+                <DateBox date={new Date(date[0], date[1], date[2])} needSave={true} />
                 <EmojiBox diaryId={diaryId} reactions={emojis} myEmojiState={myEmojiState}/>
             </div>
             <div className = "FlexColumn" style={{height: '100vh', overflow:'scroll'}}>
                 {
                     classifiedCategorys.map((categoryList:Category[]) => {
                         if (categoryList.length === 0) return null;
-                        return (<></>
-                            // <LargeCategoryWrapper
-                            //     category={categoryList[0].category}
-                            //     categoryList={categoryList}
-                            // />
+                        return (
+                            <LargeCategoryWrapper
+                                category={categoryList[0].category}
+                                categoryList={categoryList}
+                            />
                         );
                     })
                 }
