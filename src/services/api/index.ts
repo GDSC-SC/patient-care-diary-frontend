@@ -1,10 +1,19 @@
 import axios from "axios";
+import { DiaryApi } from "./DiaryApi";
+import { ContentApi } from "./ContentApi";
+import { CategoryApi } from "./CategoryApi";
+import { EmojiApi } from "./EmojiApi";
 
 const accessToken = localStorage.getItem('accessToken');
 
 const baseAxios = axios.create({
     withCredentials: true
 });
+export const categoryApi = new CategoryApi();
+export const diaryApi = new DiaryApi();
+export const contentApi = new ContentApi();
+export const emojiApi = new EmojiApi();
+
 
 type CategoryType = {
     id : number,
@@ -32,16 +41,17 @@ export async function GET(url:string, data:any){
 
 
 export async function POST(url:string, data:any,){
-    await baseAxios.post(url, data, {
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": 'application/json',
-        },
-    }).then((res)=>{
-        const result = res.data;
-        console.log(result);
-        return result;
-    })
+    try {
+        const response = await baseAxios.post(url, data, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return response.data; // POST 요청의 결과 값을 반환
+    } catch (error) {
+        console.error('POST 요청 중 오류 발생:', error);
+        throw error; // 에러를 다시 던져서 상위 코드에서 처리할 수 있도록 함
+    }
 }
 
 export async function PUT(url:string, data:any){

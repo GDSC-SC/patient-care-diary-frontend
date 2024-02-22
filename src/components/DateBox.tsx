@@ -2,8 +2,9 @@ import '../styles/components/Box.css';
 import '../styles/components/Round.css';
 import { SaveBtn } from "./SaveBtn";
 interface DateBoxProps{
-    date: Date;
-    needSave: boolean|false;
+    date: Date,
+    needSave: boolean|false,
+    clickHandler?: () => void,
 }
 
 export function DateBox(props: DateBoxProps){
@@ -11,9 +12,15 @@ export function DateBox(props: DateBoxProps){
     return(
             <div className="FlexRow">
                 <h2>Diary of {formatDate(date)}</h2>
-                {props.needSave? <SaveBtn/>: null}
+                {props.needSave? <SaveBtn clickHandler={props.clickHandler||undefined}/>: null}
             </div>
     );
+}
+
+export function GetDateTitle({date}:{date : Date}){
+    return(
+        <h2>Diary of {formatDate(date)}</h2>
+    )
 }
 
 

@@ -1,16 +1,22 @@
-import { GET, POST } from ".";
+import { GET, POST, contentApi } from ".";
 
 export class DiaryApi{
     makeUrl(url:string){
         return `/api/diarys/${url}`;
     }
 
-    create(date:Date){
+    create({date, categoryLists}:{date: Date, categoryLists:any}){
         const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
         const data = {
             "date": formattedDate
         }
-        POST(this.makeUrl('create'), data);
+        POST(this.makeUrl('create'), data).then((result)=>{
+            const diaryid = parseInt(result);
+            console.log(categoryLists);
+            categoryLists.map((category:any)=>{
+                contentApi.create({diaryId: diaryid, categoryId: category.id})
+            });
+        });
     }
 
     getDiary(diaryId: number){

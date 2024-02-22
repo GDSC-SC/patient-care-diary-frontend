@@ -1,8 +1,9 @@
 import { FaCamera, FaCheck, FaChevronDown, FaChevronUp } from "react-icons/fa";
-import { DateBox } from "./DateBox";
+import { DateBox, GetDateTitle } from "./DateBox";
 import { ReactionRow } from "./ReactionRow";
 import { useEffect, useRef, useState } from "react";
 import autosize from "autosize";
+import { DiaryApi } from "../services/api/DiaryApi";
 
 function CheckBtnCircle({isDone, setIsDone}: {isDone: boolean, setIsDone: React.Dispatch<React.SetStateAction<boolean>>}){
     return(
@@ -12,11 +13,11 @@ function CheckBtnCircle({isDone, setIsDone}: {isDone: boolean, setIsDone: React.
     );
 };
 
-function MidCategoryInput({categoryName, categoryId, color, imageUrl}: {categoryName: string, categoryId: number, color: string, imageUrl: string}) {
-    const [isDone, setIsDone] = useState<boolean>(false);
+function MidCategoryInput({categoryName, categoryId, color, done, photoUrl, text}: {categoryName: string, categoryId: number, color: string, done:boolean, photoUrl: string, text: string}) {
+    const [isDone, setIsDone] = useState<boolean>(done);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     // middle contents의 text 부분.
-    const [contentsText, setContentsText] = useState<string>('');
+    const [contentsText, setContentsText] = useState<string>(text);
     // contentsText의 textArea 높이 조절용 ref
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     useEffect(() => {
@@ -55,8 +56,8 @@ function MidCategoryInput({categoryName, categoryId, color, imageUrl}: {category
                 {isOpen? <FaChevronUp onClick={() => {setIsOpen(!isOpen)}}/> : <FaChevronDown onClick={() => {setIsOpen(!isOpen)}}/> }
             </div>
             {isOpen ? 
-                <div className = "MiddleContents" > 
-                {imageUrl=='' && fileInput==null ?
+                <div className = "MiddleContents"> 
+                {photoUrl==='' && fileInput===null ?
                     <div>
                         <input
                             type="file"
@@ -71,10 +72,10 @@ function MidCategoryInput({categoryName, categoryId, color, imageUrl}: {category
                         </div>
                     </div>
                     :
-                    <img src={fileInput} style={{overflow:'auto',}}/>
-                            
-                    }
-                
+                    <img src={fileInput}
+                        alt = 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg'
+                        style={{overflow:'auto', width: '100%', maxHeight: '30vh'}}/>        
+                }
                 <textarea
                     className="ContentsTextArea"
                     ref={textAreaRef}
@@ -96,24 +97,35 @@ interface Category {
     midCategory: string;
     visible: boolean;
 }
+interface Contents{
+    id: number,
+    category: string,
+    midCategory: string,
+    color: string,
+    done: boolean,
+    photoUrl: string,
+    text: string
+}
 
-function LargeCategoryWrapper({category, categoryList} : {category: string, categoryList: Category[]}){
+function LargeCategoryWrapper({category, categoryList, contentsList} : {category: string, categoryList: Category[], contentsList: Contents[]}){
     return(
         <div className="BoxL" style={{padding: '3vw'}}>
             <h2>{category}</h2>
-            {categoryList.map((midCategory) => {
+            {contentsList.map((contetns) => {
                 return(
-                    <MidCategoryInput categoryName={midCategory.midCategory} categoryId={midCategory.id} color={midCategory.color} imageUrl={""}/>
+                    <MidCategoryInput categoryName={contetns.midCategory} categoryId={contetns.id} color={contetns.color} done={contetns.done} photoUrl={""} text={""} />
                 )
             })}
         </div>
     );
 }
 
+
+
 export function DiaryInput({diaryId, date, emojis, contents, categorys}
         : {diaryId: number, date: number[], emojis: {emoji:string, count:number}[], contents: JSON[], categorys: Category[]}) {
     //console.log(diaryId, date, emojis, contents)
-
+    const [requestDtoList, setRequestDtoList] = useState();
     function classifyByCategoryCode(data: Category[]) {
         const C001 = data.filter(item => item.categoryCode === 'C001');
         const C002 = data.filter(item => item.categoryCode === 'C002');
@@ -122,23 +134,40 @@ export function DiaryInput({diaryId, date, emojis, contents, categorys}
         const C005 = data.filter(item => item.categoryCode === 'C005');
         return [C001, C002, C003, C004, C005];
     }
+    function classifyContentsByCategoryCode(data: Contents[]){
+        const C001 = data.filter(item => item.category === 'Food');
+        const C002 = data.filter(item => item.category === 'Medicine');
+        const C003 = data.filter(item => item.category === 'Today Diary');
+        const C004 = data.filter(item => item.category === 'Exercise');
+        const C005 = data.filter(item => item.category === 'About ');
+        return [C001, C002, C003, C004, C005];
+    }
     const classifiedCategorys:Category[][] = classifyByCategoryCode(categorys);
+
+    const clickHandler = () =>{
+        console.log('clicked');
+        saveContents();
+    }
+
+    const saveContents = () =>{
+        
+    }
 
     return(
         <div>
             <div className="BoxL" style={{paddingBottom: '1vh'}}>
-                <DateBox date={new Date(date[0], date[1], date[2])} needSave={true} />
+                <DateBox date={new Date()} needSave={true} clickHandler={clickHandler} />
                 <ReactionRow reactions={emojis} clickable={false}/>
             </div>
             <div className = "FlexColumn" style={{height: '100vh', overflow:'scroll'}}>
                 {
                     classifiedCategorys.map((categoryList:Category[]) => {
                         if (categoryList.length === 0) return null;
-                        return (
-                            <LargeCategoryWrapper
-                                category={categoryList[0].category}
-                                categoryList={categoryList}
-                            />
+                        return (<></>
+                            // <LargeCategoryWrapper
+                            //     category={categoryList[0].category}
+                            //     categoryList={categoryList}
+                            // />
                         );
                     })
                     

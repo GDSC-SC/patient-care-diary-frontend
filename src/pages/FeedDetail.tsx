@@ -9,7 +9,7 @@ export function FeedDetail(){
         <MainLayout>
             <div className="BoxL">
                 <div className="FlexColumn" style={{padding:'3vw'}}>
-                    <DateBox date={new Date()} needSave={false}/>
+                    <DateBox date={new Date()} needSave={false} clickHandler={undefined}/>
                     <UserProfile user={{
                         id: "아이디",
                         description: '이 부분은 설명 부분입니다.',

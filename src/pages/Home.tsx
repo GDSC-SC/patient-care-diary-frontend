@@ -8,6 +8,7 @@ import { Authentication } from "../services/Authentication";
 import { DiaryApi } from "../services/api/DiaryApi";
 import { DiaryInput } from "../components/DiaryInput";
 import { CategoryApi } from "../services/api/CategoryApi";
+import { categoryApi, contentApi, diaryApi } from "../services/api";
 
 // 본 화면은 로그인 후 처음으로 접근하는 화면입니다.
 // 기능 : 기록.
@@ -24,24 +25,26 @@ export function Home(){
     }, []);
 
     useEffect(() => {
+        const fetchCategorys = async () => {
+            return await categoryApi.my();
+        }
+        contentApi.create({diaryId: 14, categoryId: 6})
         const fetchDiary = async () => {   
             const today = new Date();
-            const diaryApi = new DiaryApi();
+
             try {
                 return await diaryApi.getDiaryByDate(today);
             } catch (error) {
                 if ((error as any).response && (error as any).response.status === 404) {
                     console.log("Diary not found, creating one");
-                    await diaryApi.create(today);
+                    await diaryApi.create({date:today, categoryLists: await fetchCategorys()});
+
                     console.log(`Diary created for ${today}`);
                     return await diaryApi.getDiaryByDate(today);
                 }
             }
         };
-        const fetchCategorys = async () => {
-            const categoryApi = new CategoryApi();
-            return await categoryApi.my();
-        }
+        
         const fetchAll = async () => {
             const diary = await fetchDiary();
             const categorys = await fetchCategorys();

@@ -50,7 +50,9 @@ export function MyCategory(){
                 <div className="BoxL">
                     <div className="FlexRow">
                         <h2>My Category</h2>
-                        <SaveBtn/>
+                        <SaveBtn clickHandler={function (): void {
+                            throw new Error("Function not implemented.");
+                        } }/>
                     </div>
                 </div>
                 <div className="BoxL">

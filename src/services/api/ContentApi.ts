@@ -14,18 +14,28 @@ export class ContentApi{
         DELETE(this.makeUrl(contentId.toString()),null);
     }
 
-    create({diaryId, categoryId, done, text}:{diaryId:number, categoryId:number, done:boolean, text:string}){
-        const data = {
-            "diaryId": diaryId,
-            "categoryId": categoryId,
-            "done": done,
-            "text": text
-        }
-        POST(this.makeUrl('create'), data);
+    create({diaryId, categoryId}:{diaryId:number, categoryId:number}){
+        const formdata = new FormData();
+        formdata.append("requestDto", `\n\t{diaryId: ${diaryId},\n \tcategoryId: ${categoryId},\n \tdone: false,\n \ttext: ""}`);
+        formdata.append("image",'');
+        
+        const requestOptions = {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`,
+                'Content-Type': 'multipart/form-data'
+            },
+            body: formdata,
+        };
+        
+        fetch("https://patient-care-diary.fly.dev/api/contents/create", requestOptions)
+          .then((response) => response.text())
+          .then((result) => console.log(result))
+          .catch((error) => console.error(error));
+
     }
 
     getDiary(diaryId:number){
         return(GET(this.makeUrl(`diary/${diaryId}`),null));
     }
-    
 }
