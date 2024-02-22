@@ -30,7 +30,6 @@ export function Home(){
         }
         const fetchDiary = async () => {   
             const today = new Date();
-
             try {
                 return await diaryApi.getDiaryByDate(today);
             } catch (error) {

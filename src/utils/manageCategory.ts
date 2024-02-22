@@ -7,7 +7,7 @@ export interface Category {
     visible: boolean;
 }
 
-export function classifyByCategoryCode(data: Category[]) {
+export function classifyByCategoryCode(data: any[]) {
     const C001 = data.filter(item => item.categoryCode === 'C001');
     const C002 = data.filter(item => item.categoryCode === 'C002');
     const C003 = data.filter(item => item.categoryCode === 'C003');
