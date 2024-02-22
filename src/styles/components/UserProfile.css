@@ -11,5 +11,5 @@
 .ProfileImg{
     height: 5vh;
     width: 5vh;
-    margin-right: 3vw;
+    border-radius: 100%;
 }

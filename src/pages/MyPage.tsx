@@ -51,7 +51,7 @@ export function MyPage(){
             {loading ? <div>Loading...</div> : (
             <div className="FlexColumn">
                 <div className="BoxL">
-                    <div className="FlexRow"  onClick={() =>{navigate('/profile')}}>
+                    <div className="FlexRow"  onClick={() =>{navigate('/profilePage')}}>
                         <UserProfile user={{
                             id: "아이디",
                             description: '설명',

@@ -4,6 +4,7 @@ import { Home } from "./pages/Home";
 import { Route, Routes } from "react-router-dom";
 import { MyPage } from "./pages/MyPage";
 import { MyCategory } from "./pages/MyCategory";
+import { ProfilePage } from "./pages/ProfilePage";
 
 
 function App(){
@@ -14,6 +15,7 @@ function App(){
       <Route path="/feedDetail/:id" element={<FeedDetail/>}/>
       <Route path="/myPage" element={<MyPage/>}/>
       <Route path="/myCategory" element={<MyCategory/>}/>
+      <Route path="/profilePage" element={<ProfilePage/>}/>
     </Routes>
   );
 }

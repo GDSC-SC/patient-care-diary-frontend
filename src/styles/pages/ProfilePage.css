@@ -1,0 +1,11 @@
+p{
+    margin:0;
+    padding: 0;
+}
+.ProfileList{
+    margin: 1vh;
+    padding: 2vh 3vw;
+    border-radius: 5vw;
+    border-style: solid;
+    border-color: #E5E5E5;
+}

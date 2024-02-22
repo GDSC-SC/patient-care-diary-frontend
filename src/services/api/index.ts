@@ -2,7 +2,7 @@ import axios from "axios";
 import { CategoryApi } from "./CategoryApi";
 import { ContentApi } from "./ContentApi";
 import { DiaryApi } from "./DiaryApi";
-import { EmojiApi } from "./EmojiApi";
+import { MemberApi } from "./MemberApi";
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -13,10 +13,7 @@ const baseAxios = axios.create({
 export const categoryApi = new CategoryApi();
 export const contentApi = new ContentApi();
 export const diaryApi = new DiaryApi();
-
-
-
-
+export const memberApi = new MemberApi();
 
 export async function GET(url:string, data:any){
     try {
