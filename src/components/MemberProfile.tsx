@@ -3,11 +3,7 @@ import '../styles/components/Box.css'
 import '../styles/components/Round.css'
 import '../styles/components/UserProfile.css'
 import { useEffect, useState } from 'react';
-interface UserProfileProps{
-    user: {id: string,
-    description: string | undefined,
-    profileImgSrc: string | undefined,}
-}
+import { MemberType } from '../services/api/MemberApi';
 
 export function ProflieImg({imgUrl} :{imgUrl?: string}){
     const [isImgLoaded, setIsImgLoaded] = useState<boolean>(false);
@@ -33,19 +29,17 @@ export function ProflieImg({imgUrl} :{imgUrl?: string}){
     )
 }
 
-export function UserProfile(props: UserProfileProps){
-    const items = props.user;
-
+export function MemberProfile({ member }: { member: MemberType }){
     return(
         <div className = "UserProfile">
             <div className='RoundCenter'></div>
             {
-                <ProflieImg imgUrl={items.profileImgSrc}/>
+                <ProflieImg imgUrl={member.picture}/>
             }
             
             <div className='FlexColumn'>
-                <div className='ProfileID'>{items.id}</div>
-                <div className='ProfileDescription'>{items.description || '...'}</div>
+                <div className='ProfileID'>{member.name}</div>
+                <div className='ProfileDescription'>{member.illness|| ''}</div>
             </div>
         </div>
     );
