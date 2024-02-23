@@ -4,7 +4,6 @@ import '../styles/components/Round.css';
 import '../styles/components/Box.css';
 import 'autosize';
 import { useEffect, useState } from "react";
-import { Authentication } from "../services/Authentication";
 import { DiaryInput } from "../components/DiaryInput";
 import { categoryApi, diaryApi } from "../services/api";
 
@@ -14,13 +13,6 @@ export function Home(){
     const [loading, setLoading] = useState<boolean>(true);
     const [diary, setDiary] = useState<any>();
     const [categorys, setCategorys] = useState<any>();
-
-    useEffect(() => {
-        const auth = new Authentication();
-        if(!auth.isLoggedIn()) {
-            auth.login();
-        }
-    }, []);
 
     useEffect(() => {
         const fetchCategorys = async () => {

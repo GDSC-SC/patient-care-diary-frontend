@@ -5,9 +5,18 @@ import { Route, Routes } from "react-router-dom";
 import { MyPage } from "./pages/MyPage";
 import { MyCategory } from "./pages/MyCategory";
 import { ProfilePage } from "./pages/ProfilePage";
+import { useEffect } from "react";
+import { Authentication } from "./services/Authentication";
 
 
 function App(){
+  
+  useEffect(() => {
+    const auth = new Authentication();
+    if(!auth.isLoggedIn()) {
+        auth.login();
+    }
+}, []);
   return(
     <Routes>
       <Route path="/" element={<Home/>}/>
