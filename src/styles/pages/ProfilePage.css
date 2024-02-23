@@ -1,6 +1,7 @@
 p{
     margin:0;
     padding: 0;
+    font-size: 18px;
 }
 .ProfileList{
     margin: 1vh;
@@ -8,14 +9,19 @@ p{
     border-radius: 5vw;
     border-style: solid;
     border-color: #E5E5E5;
+    align-items: center;
+}
+b{
+    margin:0;
+    padding: 0;
 }
 
 input{
     border: none;
-    border-bottom: solid #E5E5E5;
     width: 90%;
-    height: 100%;
+    font-size: 18px;
 }
 input:focus{
     outline: none;
+    border-bottom: solid #E5E5E5;
 }

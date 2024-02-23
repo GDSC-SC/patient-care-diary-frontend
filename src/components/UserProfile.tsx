@@ -17,7 +17,7 @@ export function ProflieImg({imgUrl} :{imgUrl?: string}){
         }
     }, [imgUrl]);
     return(
-        <div className = "RoundCenter" style={{height: '5vh', width: '5vh', backgroundColor:'grey', marginRight:'3vw'}}>
+        <div className = "RoundCenter" style={{height: '5vh', width: '5vh', backgroundColor:'grey'}}>
             {isImgLoaded?
                 <img
                 className='ProfileImg'
@@ -40,7 +40,9 @@ export function UserProfile(props: UserProfileProps){
         <div className = "UserProfile">
             <div className='RoundCenter'></div>
             {
-                <ProflieImg imgUrl={items.profileImgSrc}/>
+                <div style={{marginRight: '3vw'}}>
+                    <ProflieImg imgUrl={items.profileImgSrc}/>
+                </div>
             }
             
             <div className='FlexColumn'>

@@ -19,30 +19,16 @@ type MiddleCategory = {
     color: string | undefined,
 }
 
-// const [loading, setLoading] = useState<boolean>(true);
-// const [categories, setCategories] = useState<JSON[]>([]);
-
-// useEffect(() => {
-//     const auth = new Authentication();
-//     if(!auth.isLoggedIn()) {
-//         auth.login();
-//     }
-// }, []);
-
-// useEffect(() => {
-//     const categoryapi = new CategoryApi();
-//     const fetchData = async () => {
-//         const res = await categoryapi.my();
-//         setCategories(res);
-//         setLoading(false);
-//     };
-//     fetchData();
-// }, []);
-
 
 export function MyCategory(){
     const [largeCategoryList, setLargeCategoryList] = useState<Array<LargeCategory>>();
     const [largeCategory, setLargeCategory] = useState<LargeCategory>();
+    const [selectedColor, setSelectedColor] = useState<string>();
+
+    function onColorChange(c:string){
+        setSelectedColor(c);
+        console.log(selectedColor);
+    }
 
     return(
         <MainLayout>
@@ -59,7 +45,7 @@ export function MyCategory(){
                 </div>
                 
                 <div className="BoxL">
-                    <ColorSelector/>
+                    <ColorSelector onColorChange={onColorChange}/>
                 </div>
             </div>
         </MainLayout>

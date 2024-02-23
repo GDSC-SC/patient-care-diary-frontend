@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Circle from '@uiw/react-color-circle';
 
-export function ColorSelector() {
+export function ColorSelector({onColorChange}: {onColorChange?:(c:string)=>void}) {
   const [hex, setHex] = useState('#F7C0BE');
   return (
     <Circle style={{width: '200px', margin: '0 auto'}}
@@ -13,6 +13,10 @@ export function ColorSelector() {
         '#F5DDEE', '#E2C3EF', '#EFDDF5', '#F4C0CF', '#F9DCE4'
         ]}
         color={hex}
-        onChange={(color) => {setHex(color.hex);}}/>
+        onChange={(color) => {
+          setHex(color.hex);
+          if (onColorChange)
+            onColorChange(color.hex);
+        }}/>
   );
 }
