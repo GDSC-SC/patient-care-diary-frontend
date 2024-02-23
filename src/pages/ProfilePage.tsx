@@ -94,10 +94,10 @@ export function ProfilePage(){
                 </div>
                 <div className='FlexColumn'>
                     <div className='BoxL'>
-                        <div className='FlexColumn' style={{alignItems: 'center', padding: '1vh'}}>
+                        <div className='FlexColumn' style={{alignItems: 'center', alignContent:'center', padding: '1vh'}}>
                             <ProflieImg imgUrl={userData?.picture}/>
                             <div className='FlexRow' onClick={()=>{}}>
-                                <h5 style={{margin:0}}>Edit Picture</h5>
+                                <h5 style={{margin:0, paddingTop:'1vh'}}>Edit Picture</h5>
                             </div>
                         </div>
                     </div>
