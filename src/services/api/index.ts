@@ -3,6 +3,7 @@ import { CategoryApi } from "./CategoryApi";
 import { ContentApi } from "./ContentApi";
 import { DiaryApi } from "./DiaryApi";
 import { MemberApi } from "./MemberApi";
+import { EmojiApi } from "./EmojiApi";
 import { Authentication } from "../Authentication";
 
 const accessToken = localStorage.getItem('accessToken');
@@ -14,6 +15,7 @@ export const categoryApi = new CategoryApi();
 export const contentApi = new ContentApi();
 export const diaryApi = new DiaryApi();
 export const memberApi = new MemberApi();
+export const emojiApi = new EmojiApi();
 const auth = new Authentication();
 
 export async function GET(url:string, data:any){
@@ -28,7 +30,7 @@ export async function GET(url:string, data:any){
         return result;
     } catch (error) {
         if ((error as AxiosError).isAxiosError && (error as AxiosError).message === 'Network Error') {
-        auth.login();
+            //auth.login();
         }
         throw error;
     }
@@ -45,7 +47,7 @@ export async function POST(url:string, data:any,){
         return response.data; // POST 요청의 결과 값을 반환
     } catch (error) {
         if ((error as AxiosError).isAxiosError && (error as AxiosError).message === 'Network Error') {
-            auth.login();
+            //auth.login();
         }
         throw error; // 에러를 다시 던져서 상위 코드에서 처리할 수 있도록 함
     }
@@ -62,7 +64,7 @@ export async function PUT(url:string, data:any){
         return result;
     })} catch (error) {
         if ((error as AxiosError).isAxiosError && (error as AxiosError).message === 'Network Error') {
-            auth.login();
+            //auth.login();
         }
         throw error;
     }
@@ -79,7 +81,7 @@ export async function DELETE(url:string, data:any){
       return result;
   })} catch (error) {
         if ((error as AxiosError).isAxiosError && (error as AxiosError).message === 'Network Error') {
-            auth.login();
+            //auth.login();
         }
         throw error;
     }

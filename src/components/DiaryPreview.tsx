@@ -21,13 +21,11 @@ function LargeCategoryWrapper({category, categoryList} : {category: string, cate
 export interface DiaryPreviewProps{
     categories: Category[],
     date: number[],
-    diaryEmojis: {emoji:string, count:number}[],
     id: number,
     member: MemberType,
-    myEmojiState: string
 }
 
-export function DiaryPreview (diaryPreviewProps: DiaryPreviewProps){
+export function DiaryPreview ({diaryPreviewProps}: {diaryPreviewProps:DiaryPreviewProps}){
     const navigate = useNavigate();
     const classifiedCategorys:Category[][] = classifyByCategoryCode(diaryPreviewProps.categories);
 
@@ -45,7 +43,7 @@ export function DiaryPreview (diaryPreviewProps: DiaryPreviewProps){
                         );
                     })}
                 </div>
-                <EmojiBox diaryId={diaryPreviewProps.id} emojis={diaryPreviewProps.diaryEmojis} myEmojiState={diaryPreviewProps.myEmojiState}/>
+                <EmojiBox diaryId={diaryPreviewProps.id}/>
             </div>
     );
 }
