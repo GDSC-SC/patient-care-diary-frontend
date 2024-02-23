@@ -2,9 +2,9 @@ import '../styles/components/Box.css'
 import '../styles/pages/ProfilePage.css'
 import { MainLayout } from "../components/layout/MainLayout";
 import { SaveBtn } from '../components/SaveBtn';
-import { MemberApi, MemberType } from '../services/api/MemberApi';
+import { MemberType } from '../services/api/MemberApi';
 import { memberApi } from '../services/api';
-import React, { Ref, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ProflieImg } from '../components/MemberProfile';
 import { FaPen } from 'react-icons/fa';
 

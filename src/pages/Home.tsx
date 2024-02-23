@@ -5,10 +5,8 @@ import '../styles/components/Box.css';
 import 'autosize';
 import { useEffect, useState } from "react";
 import { Authentication } from "../services/Authentication";
-import { DiaryApi } from "../services/api/DiaryApi";
 import { DiaryInput } from "../components/DiaryInput";
-import { CategoryApi } from "../services/api/CategoryApi";
-import { categoryApi, contentApi, diaryApi } from "../services/api";
+import { categoryApi, diaryApi } from "../services/api";
 
 // 본 화면은 로그인 후 처음으로 접근하는 화면입니다.
 // 기능 : 기록.
