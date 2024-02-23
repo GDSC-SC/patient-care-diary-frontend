@@ -2,10 +2,11 @@ import { useParams } from "react-router-dom";
 import { DateBox } from "../components/DateBox";
 import { DiaryView } from "../components/DiaryView";
 import { EmojiBox } from "../components/EmojiBox";
-import { UserProfile } from "../components/UserProfile";
+import { MemberProfile } from "../components/MemberProfile";
 import { MainLayout } from "../components/layout/MainLayout";
 import { useEffect, useState } from "react";
 import { DiaryApi } from "../services/api/DiaryApi";
+import { MemberType } from "../services/api/MemberApi";
 
 export interface Content {
     category: string,
@@ -25,11 +26,7 @@ export function FeedDetail(){
         date: number[],
         diaryEmojis: {emoji:string, count:number}[],
         contents: Content[],
-        member: {
-            name: string,
-            email: string,
-            picture: string,
-        }
+        member: MemberType
         myEmojiState: string,
     }>();
     useEffect(() => {
@@ -49,10 +46,7 @@ export function FeedDetail(){
                 <div className="BoxL">
                     <div className="FlexColumn" style={{padding:'3vw'}}>
                         <DateBox date={new Date(diary.date[0], diary.date[1], diary.date[2])} needSave={false}/>
-                        <UserProfile user={{
-                            id: diary.member.name,
-                            description: diary.member.email,
-                            profileImgSrc: diary.member.picture}} />
+                        <MemberProfile member={diary.member} />
                         <EmojiBox diaryId={diary.id} emojis={diary.diaryEmojis} myEmojiState={diary.myEmojiState}/>
                     </div>
                 </div>
