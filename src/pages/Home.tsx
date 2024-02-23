@@ -4,40 +4,45 @@ import '../styles/components/Round.css';
 import '../styles/components/Box.css';
 import 'autosize';
 import { useEffect, useState } from "react";
-import { DiaryInput } from "../components/DiaryInput";
+import { Diary, DiaryInput } from "../components/DiaryInput";
 import { categoryApi, diaryApi } from "../services/api";
 
 // 본 화면은 로그인 후 처음으로 접근하는 화면입니다.
 // 기능 : 기록.
 export function Home(){
     const [loading, setLoading] = useState<boolean>(true);
-    const [diary, setDiary] = useState<any>();
+    const [diary, setDiary] = useState<Diary|null>(null);
     const [categorys, setCategorys] = useState<any>();
 
+    function transformDiaryData(diaryData: any): Diary {
+        return {
+            id: diaryData.id,
+            date: diaryData.date,
+            emojis: diaryData.diaryEmojis,
+            contents: diaryData.contents,
+            myEmojiState: diaryData.myEmojiState,
+        };
+    }
+
     useEffect(() => {
-        const fetchCategorys = async () => {
-            return await categoryApi.my();
-        }
         const fetchDiary = async () => {   
             const today = new Date();
             try {
                 return await diaryApi.getDiaryByDate(today);
             } catch (error) {
                 if ((error as any).response && (error as any).response.status === 404) {
-                    console.log("Diary not found, creating one");
-                    await diaryApi.create({date:today, categoryLists: await fetchCategorys()});
-
-                    console.log(`Diary created for ${today}`);
-                    return await diaryApi.getDiaryByDate(today);
+                    console.log("Diary not found");
+                    return null;
                 }
             }
         };
         
         const fetchAll = async () => {
+            setCategorys(await categoryApi.my());
             const diary = await fetchDiary();
-            const categorys = await fetchCategorys();
-            setDiary(diary);
-            setCategorys(categorys);
+            if (diary !== null) {
+                setDiary(transformDiaryData(diary));
+            }
             setLoading(false);
         }
         fetchAll();
@@ -47,8 +52,7 @@ export function Home(){
         <MainLayout>
             {loading ? <div>Loading...</div> : (
                 <div>
-                    <DiaryInput diaryId={diary.id} date={diary.date} emojis={diary.diaryEmojis} contents={diary.contents}
-                    categorys={categorys} myEmojiState={diary.myEmojiState}/>
+                    <DiaryInput curDiary={diary} categorys={categorys}/>
                 </div>
             )}
         </MainLayout>
