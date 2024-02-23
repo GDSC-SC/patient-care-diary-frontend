@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { EmojiBox } from "./EmojiBox";
-import { UserProfile } from "../components/UserProfile";
+import { MemberProfile } from "./MemberProfile";
 import { MidCategoryTile } from "./MidCategoryTile";
 import { Category, classifyByCategoryCode } from "../utils/manageCategory";
+import { MemberType } from "../services/api/MemberApi";
 
 function LargeCategoryWrapper({category, categoryList} : {category: string, categoryList: Category[]}){
     return (
@@ -22,11 +23,7 @@ export interface DiaryPreviewProps{
     date: number[],
     diaryEmojis: {emoji:string, count:number}[],
     id: number,
-    member: {
-        name: string,
-        email: string,
-        picture: string,
-    }
+    member: MemberType,
     myEmojiState: string
 }
 
@@ -37,11 +34,7 @@ export function DiaryPreview (diaryPreviewProps: DiaryPreviewProps){
     return (
         <div className="BoxL" style={{ padding: '3vw' }}>
                 <div onClick={() => { navigate(`/feedDetail/${diaryPreviewProps.id}`) }}>
-                    <UserProfile user={{
-                        id: diaryPreviewProps.member.name,
-                        description: diaryPreviewProps.member.email, //TODO change to illness later
-                        profileImgSrc: diaryPreviewProps.member.picture,
-                    }} />
+                    <MemberProfile member={diaryPreviewProps.member}  />
                     {classifiedCategorys.map((categoryList:Category[]) => {
                         if (categoryList.length === 0) return null;
                         return (

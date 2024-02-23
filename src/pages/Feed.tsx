@@ -20,11 +20,7 @@ export function Feed() {
             {loading ? <div>Loading...</div> : 
                 diarys.map((diary:DiaryPreviewProps) => {
                     return <DiaryPreview categories={diary.categories} date={diary.date} diaryEmojis={diary.diaryEmojis}
-                        id={diary.id} member={{
-                        name: diary.member.name,
-                        email: diary.member.email,
-                        picture: diary.member.picture,
-                    }} myEmojiState={diary.myEmojiState}  />
+                        id={diary.id} member={diary.member} myEmojiState={diary.myEmojiState}  />
                 })
             }
         </MainLayout>
