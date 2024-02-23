@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { UserProfile } from "../components/UserProfile";
+import { MemberProfile } from "../components/MemberProfile";
 import { MainLayout } from "../components/layout/MainLayout";
 import '../styles/components/Box.css'
 import { Next } from "grommet-icons";
@@ -9,8 +9,9 @@ import 'react-calendar/dist/Calendar.css';
 import '../styles/pages/MyPage.css';
 import { DiaryView } from "../components/DiaryView";
 import { Authentication } from "../services/Authentication";
-import { diaryApi } from "../services/api";
+import { diaryApi, memberApi } from "../services/api";
 import { EmojiBox } from "../components/EmojiBox";
+import { MemberType } from "../services/api/MemberApi";
 
 export function MyPage(){
     useEffect(() => {
@@ -20,15 +21,13 @@ export function MyPage(){
         }
     }, []);
 
-    const [loading, setLoading] = useState<boolean>(true);
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [diary, setDiary] = useState<any>(null);
-    //const [user, setUser] = useState<any>();
+    const [member, setMember] = useState<MemberType>();
     useEffect(() => {
         const fetchUser = async () => {
-            // const user = await diaryApi.getUser();
-            // setUser(user);
-            setLoading(false);}
+            const member = await memberApi.parseMemberData();
+            setMember(member);}
         fetchUser();
     }, []);
 
@@ -48,15 +47,11 @@ export function MyPage(){
     const navigate = useNavigate();
     return(
         <MainLayout>
-            {loading ? <div>Loading...</div> : (
+            {member===undefined ? <div>Loading...</div> : (
             <div className="FlexColumn">
                 <div className="BoxL">
                     <div className="FlexRow"  onClick={() =>{navigate('/profilePage')}}>
-                        <UserProfile user={{
-                            id: "아이디",
-                            description: '설명',
-                            profileImgSrc: undefined
-                        }}/>
+                        <MemberProfile member={member}/>
                         <Next/>
                     </div>
                 </div>
