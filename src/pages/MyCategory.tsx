@@ -32,12 +32,12 @@ function EditorBtn({title, clickHandler}: {title: string, clickHandler:()=>void}
     )
 }
 
-function CategoryEditor({selectedCategory, setIsOpen}: {selectedCategory?: Category, setIsOpen: ()=>void}){
+function CategoryEditor({selectedCategory, setIsOpen, refreshCategory}: {selectedCategory?: Category, setIsOpen: ()=>void, refreshCategory: () => void}){
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
     const [isColorOpen, setIsColorOpen] = useState<boolean>(false);
     const [category, setCategory] = useState<string>();
     const [categoryCode, setCategoryCode] = useState<string>();
-    const categoryList = ["Category1", "Cateogyr2" ,"Cateogyr3", "Cateogyr4", "Catoeyg5"];
+    const categoryList = ["Food", "Medicine" ,"Cateogyr3", "Cateogyr4", "Catoeyg5"];
     const [midCategory, setMidCategory] = useState<string>();
     const [color, setColor] = useState<string>();
 
@@ -59,14 +59,14 @@ function CategoryEditor({selectedCategory, setIsOpen}: {selectedCategory?: Categ
                 <div onClick={() => setIsMenuOpen(!isMenuOpen)}>
                     <div className="InputBox">
                         <div className="FlexRow" style={{}}>
-                            <div><p style={{color: isMenuOpen? "grey":"black"}}>{category!=''||null? category : 'Main Category'}</p></div>
+                            <div><p style={{color: isMenuOpen? "grey":"black"}}>{category!=''&&category!=null? category : 'Main Category'}</p></div>
                             {isMenuOpen? <FaChevronUp/>:<FaChevronDown/>}
                         </div>
                         {isMenuOpen?
                         <>
-                            {categoryList.map((c)=>{
+                            {categoryList.map((c, index)=>{
                                 return(
-                                    <div style={{width: '100%', paddingTop:'1vh'}} onClick={()=>{setCategory(c); setIsMenuOpen(false);}}><p>{c}</p></div>
+                                    <div style={{width: '100%', paddingTop:'1vh'}} onClick={()=>{setCategory(c); setCategoryCode(`C00${index+1}`); setIsMenuOpen(false);}}><p>{c}</p></div>
                                 );
                             })}
                         </>:<></>
@@ -85,14 +85,23 @@ function CategoryEditor({selectedCategory, setIsOpen}: {selectedCategory?: Categ
                         <p>Color</p>
                         <div style={{borderRadius:'100%', backgroundColor: color, width: '7vw', height: '7vw'}}/>
                         </div>
-                        
-                        {/* {isColorOpen? <FaChevronUp/>:<FaChevronDown/>} */}
                     </div>
                     {isColorOpen? <div style={{paddingTop:'4vw',}}><ColorSelector selectedColor={color} onColorChange={(c)=>setColor(c)}/></div>:<></>}
                 </div>
                 <div className="FlexRow" style={{width:'max-content', padding:'3vw'}}>
-                    <EditorBtn title={"Save"} clickHandler={()=>{}}/>
-                    <EditorBtn title={"Delete"} clickHandler={()=>{}}/>
+                    <EditorBtn title={"Save"} clickHandler={()=>{
+                        selectedCategory?.id ?
+                        categoryApi.modify({categoryId: selectedCategory?.id, categoryCode: categoryCode!, subtitle: midCategory!, color: color!}):
+                        categoryApi.create({categoryCode: categoryCode!, subtitle: midCategory!, color: color!});
+                        
+                        setIsOpen();
+                        }}/>
+                    {selectedCategory?.id && <EditorBtn title={"Delete"} clickHandler={()=>{
+                        if(selectedCategory?.id)
+                            categoryApi.delete({categoryId:selectedCategory.id});
+                        setIsOpen();
+                        
+                        }}/>}
                     <EditorBtn title={"Close"} clickHandler={setIsOpen}/>
                 </div>
             </div>
@@ -102,18 +111,17 @@ function CategoryEditor({selectedCategory, setIsOpen}: {selectedCategory?: Categ
 
 
 export function MyCategory(){
-    const [selectedMCategory, setSelectedMCategory] = useState<Category>();
+    const [selectedMCategory, setSelectedMCategory] = useState<Category|undefined>();
     const [classifiedCategorys, setClassifiedCategorys] = useState<Category[][]>();
     const [isOpen, setIsOpen] = useState<boolean>(false);
     async function firstSet(){
         const categories = await categoryApi.my();
         setClassifiedCategorys(classifyByCategoryCode(categories));
-        console.log(classifiedCategorys);
     }
     
     useEffect(() =>{
         firstSet();
-    }, [])
+    }, [classifiedCategorys])
 
     return(
         <MainLayout> 
@@ -121,9 +129,6 @@ export function MyCategory(){
                 <div className="BoxL">
                     <div className="FlexRow">
                         <h2>My Category</h2>
-                        <SaveBtn clickHandler={function (): void {
-                            throw new Error("Function not implemented.");
-                        }}/>
                     </div>
                 </div>
                 <div >
@@ -135,8 +140,8 @@ export function MyCategory(){
                                         <div style={{margin:'0 3vw'}}>
                                             {category.map((c)=>{
                                                 return(
-                                                    <div className="FlexRow" style={{}}>
-                                                        <MidCategoryTile title={c.midCategory} color={'#e5e5e5'}/>
+                                                    <div className="FlexRow" style={{margin: '1vw 0'}}>
+                                                        <MidCategoryTile title={c.midCategory} color={c.color}/>
                                                         <FaEllipsisH onClick={()=>{
                                                             setSelectedMCategory(c);
                                                             setIsOpen(true);
@@ -151,10 +156,16 @@ export function MyCategory(){
                 </div>
                 <Modal isOpen={isOpen} closeModal={()=>{setIsOpen(false);}}>
                     <div>
-                        <CategoryEditor selectedCategory={selectedMCategory} setIsOpen={()=>setIsOpen(false)}/>
+                        <CategoryEditor selectedCategory={selectedMCategory} setIsOpen={() => setIsOpen(false)} refreshCategory={() => firstSet()}/>
 
                     </div>
                 </Modal>
+                <div style={{display:'flex', justifyContent:'center'}}>
+                    <EditorBtn title={"ADD"} clickHandler={()=>{
+                        setSelectedMCategory(undefined);
+                        setIsOpen(true);
+                    }}/>
+                </div>
             </div>
         </MainLayout>
     );

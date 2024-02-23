@@ -1,4 +1,4 @@
-import { GET, POST, PUT } from ".";
+import { DELETE, GET, POST, PUT } from ".";
 
 export class CategoryApi {
     categoryBaseUrl = '/api/categorys';
@@ -16,6 +16,10 @@ export class CategoryApi {
             "color" : color
         }
         POST(`${this.categoryBaseUrl}/create`, data);
+    }
+
+    delete({categoryId}:{categoryId: number}){
+        DELETE(`${this.categoryBaseUrl}/${categoryId}`,null);
     }
 
     // visible = false가 delete category와 같은 역할
