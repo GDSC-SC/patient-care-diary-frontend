@@ -61,7 +61,7 @@ export function MyPage(){
                 {diary === null ? <div className="BoxL" style={{textAlign: "center"}}> no diary </div> :
                 <div>
                     <div className="BoxL">
-                        <EmojiBox diaryId={diary.id} emojis={diary.diaryEmojis} myEmojiState={diary.myEmojiState}/>
+                        <EmojiBox diaryId={diary.id}/>
                     </div>
                     <DiaryView contents={diary.contents}/>
                 </div>}

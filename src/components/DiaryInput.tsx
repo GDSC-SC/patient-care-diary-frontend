@@ -1,6 +1,6 @@
 import { FaCamera, FaCheck, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { DateBox } from "./DateBox";
-import { Emoji, EmojiBox } from "./EmojiBox";
+import { EmojiBox } from "./EmojiBox";
 import { useEffect, useRef, useState } from "react";
 import autosize from "autosize";
 import { Category, classifyByCategoryCode } from "../utils/manageCategory";
@@ -115,9 +115,7 @@ function LargeCategoryWrapper({category, categoryList, contents} : {category: st
 export interface Diary {
     id: number;
     date: number[];
-    emojis: Emoji[];
     contents: JSON[];
-    myEmojiState: string;
 }
 
 export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, categorys: Category[]}) {
@@ -129,7 +127,7 @@ export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, catego
         <div>
             <div className="BoxL" style={{paddingBottom: '1vh'}}>
                 <DateBox date={new Date()} needSave={true}/>
-                {curDiary!==null?<EmojiBox diaryId={curDiary.id} emojis={curDiary.emojis} myEmojiState={curDiary.myEmojiState}/>:<></>}
+                {curDiary!==null?<EmojiBox diaryId={curDiary.id}/>:<></>}
             </div>
             <div className = "FlexColumn" style={{height: '100vh', overflow:'scroll'}}>
                 {

@@ -1,70 +1,74 @@
 import { FaCheckCircle, FaHeart, FaThumbsUp } from 'react-icons/fa';
 import '../styles/components/Box.css'
 import '../styles/components/ReactionRow.css'
+import { emojiApi } from "../services/api";
 import { useEffect, useState } from 'react';
-import { EmojiApi } from '../services/api/EmojiApi';
 
 export interface Emoji{
     emoji: string,
     count: number,
 }
 
-function EmojiElement({countProp, emojiCode, diaryId, isClicked}
-        :{countProp:number, emojiCode: string, diaryId: number, isClicked: boolean}){
-        const emojiApi = new EmojiApi();
-        const [count, setCount] = useState<number>(countProp);
-        const [clicked, setClicked] = useState<boolean>(isClicked);
-        useEffect(()=>{
-            setCount(countProp);
-            setClicked(isClicked);
-        }, [diaryId, countProp, isClicked, emojiCode]);
+function EmojiElement({count, emojiCode, diaryId, isClicked, onClick}
+        :{count:number, emojiCode: string, diaryId: number, isClicked: boolean, onClick: ()=>void}){
         return(
             <div className='ReactionElements' onClick={async ()=>{
-                if (!clicked && await emojiApi.create({ emojiCode: emojiCode, diaryId: diaryId })) {
-                    setCount((count)=>(count+1));
-                    setClicked(true);
+                if (!isClicked) {
+                    await emojiApi.update({ emojiCode: emojiCode, diaryId: diaryId });
                 }
-                else if (clicked) {
+                else {
                     emojiApi.delete(diaryId, emojiCode);
-                    setCount((count)=>(count-1));
-                    setClicked(false);
                 }
+                onClick();
             }}>
-            {emojiCode === "E001" && <FaThumbsUp style={clicked ? {color: 'skyblue'} : {color: 'black'}}/>}
-            {emojiCode === "E002" && <FaHeart style={clicked ? {color: 'pink'} : {color: 'black'}}/>}
-            {emojiCode === "E003" && <FaCheckCircle style={clicked ? {color: 'green'} : {color: 'black'}}/>}
+            {emojiCode === "E001" && <FaThumbsUp style={isClicked ? {color: 'skyblue'} : {color: 'black'}}/>}
+            {emojiCode === "E002" && <FaHeart style={isClicked ? {color: 'pink'} : {color: 'black'}}/>}
+            {emojiCode === "E003" && <FaCheckCircle style={isClicked ? {color: 'green'} : {color: 'black'}}/>}
             <div className='ReactionElementsSpace'/>
             <div className='ReactionNumber'>{count}</div>
             </div>
         );
     }
 
-// clickable : reaction의 숫자를 변화시킬 수 있는지.
-export function EmojiBox({diaryId, emojis, myEmojiState}
-    :{diaryId: number, emojis: Emoji[], myEmojiState: string}){
-    console.log(emojis)
+export function EmojiBox({diaryId}:{diaryId: number}){
+        
+    const [renderCount, setRenderCount] = useState(0);
+    const [emojis, setEmojis] = useState<Emoji[]>([]);
+    const [myEmoji, setMyEmoji] = useState<string>("NONE");
+    useEffect(()=>{
+        const fetchEmojis = async () => {
+            const {emojis, myEmoji}:{emojis:Emoji[], myEmoji:string} = await emojiApi.get(diaryId);
+            setEmojis(emojis);
+            setMyEmoji(myEmoji);
+        }
+        fetchEmojis();
+    }, [diaryId, renderCount]);
+
     return (
         <div className="FlexRow" style={{ marginTop: '1vh' }}>
             <div style={{ flex: 1 }} />
             <div style={{ flex: 3 }}>
                 <div className="FlexRow" style={{ margin: '0 auto' }}>
                     <EmojiElement
-                        countProp={emojis.find((emoji) => emoji.emoji === "GOOD")?.count || 0}
+                        count={emojis.find((emoji) => emoji.emoji === "GOOD")?.count || 0}
                         emojiCode="E001"
                         diaryId={diaryId}
-                        isClicked={myEmojiState === "GOOD"}
+                        isClicked={myEmoji === "GOOD"}
+                        onClick={()=>{setRenderCount(prevCount => prevCount + 1);console.log(renderCount)}}
                     />
                     <EmojiElement
-                        countProp={emojis.find((emoji) => emoji.emoji === "LOVE")?.count || 0}
+                        count={emojis.find((emoji) => emoji.emoji === "LOVE")?.count || 0}
                         emojiCode="E002"
                         diaryId={diaryId}
-                        isClicked={myEmojiState === "LOVE"}
+                        isClicked={myEmoji === "LOVE"}
+                        onClick={()=>{setRenderCount(prevCount => prevCount + 1);console.log(renderCount)}}
                     />
                     <EmojiElement
-                        countProp={emojis.find((emoji) => emoji.emoji === "CHECK")?.count || 0}
+                        count={emojis.find((emoji) => emoji.emoji === "CHECK")?.count || 0}
                         emojiCode="E003"
                         diaryId={diaryId}
-                        isClicked={myEmojiState === "CHECK"}
+                        isClicked={myEmoji === "CHECK"}
+                        onClick={()=>{setRenderCount(prevCount => prevCount + 1);console.log(renderCount)}}
                     />
                 </div>
             </div>

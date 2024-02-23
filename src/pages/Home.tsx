@@ -18,9 +18,7 @@ export function Home(){
         return {
             id: diaryData.id,
             date: diaryData.date,
-            emojis: diaryData.diaryEmojis,
             contents: diaryData.contents,
-            myEmojiState: diaryData.myEmojiState,
         };
     }
 

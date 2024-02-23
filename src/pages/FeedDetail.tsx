@@ -24,10 +24,8 @@ export function FeedDetail(){
     const [diary, setDiary] = useState<{
         id: number,
         date: number[],
-        diaryEmojis: {emoji:string, count:number}[],
         contents: Content[],
         member: MemberType
-        myEmojiState: string,
     }>();
     useEffect(() => {
         const fetchDiary = async () => {
@@ -47,7 +45,7 @@ export function FeedDetail(){
                     <div className="FlexColumn" style={{padding:'3vw'}}>
                         <DateBox date={new Date(diary.date[0], diary.date[1], diary.date[2])} needSave={false}/>
                         <MemberProfile member={diary.member} />
-                        <EmojiBox diaryId={diary.id} emojis={diary.diaryEmojis} myEmojiState={diary.myEmojiState}/>
+                        <EmojiBox diaryId={diary.id}/>
                     </div>
                 </div>
                 <DiaryView contents = {diary.contents}/>
