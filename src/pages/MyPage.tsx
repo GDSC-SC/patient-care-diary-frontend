@@ -8,18 +8,11 @@ import { Calendar } from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import '../styles/pages/MyPage.css';
 import { DiaryView } from "../components/DiaryView";
-import { Authentication } from "../services/Authentication";
 import { diaryApi, memberApi } from "../services/api";
 import { EmojiBox } from "../components/EmojiBox";
 import { MemberType } from "../services/api/MemberApi";
 
 export function MyPage(){
-    useEffect(() => {
-        const auth = new Authentication();
-        if(!auth.isLoggedIn()) {
-            auth.login();
-        }
-    }, []);
 
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [diary, setDiary] = useState<any>(null);
@@ -68,7 +61,7 @@ export function MyPage(){
                 {diary === null ? <div className="BoxL" style={{textAlign: "center"}}> no diary </div> :
                 <div>
                     <div className="BoxL">
-                        <EmojiBox diaryId={diary.id} emojis={diary.diaryEmojis} myEmojiState={diary.myEmojiState}/>
+                        <EmojiBox diaryId={diary.id}/>
                     </div>
                     <DiaryView contents={diary.contents}/>
                 </div>}

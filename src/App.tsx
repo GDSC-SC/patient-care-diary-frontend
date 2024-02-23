@@ -5,10 +5,18 @@ import { Route, Routes } from "react-router-dom";
 import { MyPage } from "./pages/MyPage";
 import { MyCategory } from "./pages/MyCategory";
 import { ProfilePage } from "./pages/ProfilePage";
-import { ModalTest } from "./pages/modalTest";
+import { useEffect } from "react";
+import { Authentication } from "./services/Authentication";
 
 
 function App(){
+  
+  useEffect(() => {
+    const auth = new Authentication();
+    if(!auth.isLoggedIn()) {
+        auth.login();
+    }
+}, []);
   return(
     <Routes>
       <Route path="/" element={<Home/>}/>
@@ -17,7 +25,6 @@ function App(){
       <Route path="/myPage" element={<MyPage/>}/>
       <Route path="/myCategory" element={<MyCategory/>}/>
       <Route path="/profilePage" element={<ProfilePage/>}/>
-      <Route path="/test" element={<ModalTest/>}/>
     </Routes>
   );
 }

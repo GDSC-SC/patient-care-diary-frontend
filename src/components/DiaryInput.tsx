@@ -4,6 +4,7 @@ import { EmojiBox } from "./EmojiBox";
 import { useEffect, useRef, useState } from "react";
 import autosize from "autosize";
 import { Category, classifyByCategoryCode } from "../utils/manageCategory";
+import { Content } from "../pages/FeedDetail";
 
 function CheckBtnCircle({isDone, setIsDone}: {isDone: boolean, setIsDone: React.Dispatch<React.SetStateAction<boolean>>}){
     return(
@@ -13,12 +14,14 @@ function CheckBtnCircle({isDone, setIsDone}: {isDone: boolean, setIsDone: React.
     );
 };
 
-function MidCategoryInput({categoryName, categoryId, color, imageUrl}: {categoryName: string, categoryId: number, color: string, imageUrl: string}) {
-    const [isDone, setIsDone] = useState<boolean>(false);
+function MidCategoryInput({categoryName, categoryId, color, content}
+    :{categoryName: string, categoryId: number, color: string, content:Content|null}) {
+    const [isDone, setIsDone] = useState<boolean>(content?.done || false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     // middle contents의 text 부분.
-    const [contentsText, setContentsText] = useState<string>('');
+    const [contentsText, setContentsText] = useState<string>(content?.text || '');
     // contentsText의 textArea 높이 조절용 ref
+    const [imageUrl, setImageUrl] = useState<string>(content?.photoUrl || '');
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     useEffect(() => {
         if(textAreaRef) {
@@ -89,39 +92,52 @@ function MidCategoryInput({categoryName, categoryId, color, imageUrl}: {category
     );
 }
 
-function LargeCategoryWrapper({category, categoryList} : {category: string, categoryList: Category[]}){
+function LargeCategoryWrapper({category, categoryList, contents} : {category: string, categoryList: Category[], contents: Content[]}){
     return(
         <div className="BoxL" style={{padding: '3vw'}}>
             <h2>{category}</h2>
             {categoryList.map((midCategory) => {
-                return(
-                    <MidCategoryInput categoryName={midCategory.midCategory} categoryId={midCategory.id} color={midCategory.color} imageUrl={""}/>
-                )
+                // Find the contents that match the current midCategory
+                const matchingContents = contents.find(content => content.midCategory === midCategory.midCategory);
+                return (
+                    <MidCategoryInput 
+                        categoryName={midCategory.midCategory} 
+                        categoryId={midCategory.id} 
+                        color={midCategory.color} 
+                        content={matchingContents || null} // Pass the matching contents as a prop, if undefined, pass null
+                    />
+                );
             })}
         </div>
     );
 }
 
-export function DiaryInput({diaryId, date, emojis, contents, categorys, myEmojiState}
-        : {diaryId: number, date: number[], emojis: {emoji:string, count:number}[], contents: JSON[], categorys: Category[], myEmojiState: string}) {
-    //console.log(diaryId, date, emojis, contents)
+export interface Diary {
+    id: number;
+    date: number[];
+    contents: JSON[];
+}
 
+export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, categorys: Category[]}) {
+    const classifiedContents:Content[][] = classifyByCategoryCode(curDiary?.contents || []);
     const classifiedCategorys:Category[][] = classifyByCategoryCode(categorys);
 
+    console.log(curDiary)
     return(
         <div>
             <div className="BoxL" style={{paddingBottom: '1vh'}}>
-                <DateBox date={new Date(date[0], date[1], date[2])} needSave={true}/>
-                <EmojiBox diaryId={diaryId} emojis={emojis} myEmojiState={myEmojiState}/>
+                <DateBox date={new Date()} needSave={true}/>
+                {curDiary!==null?<EmojiBox diaryId={curDiary.id}/>:<></>}
             </div>
             <div className = "FlexColumn" style={{height: '100vh', overflow:'scroll'}}>
                 {
-                    classifiedCategorys.map((categoryList:Category[]) => {
+                    classifiedCategorys.map((categoryList:Category[], index) => {
                         if (categoryList.length === 0) return null;
                         return (
                             <LargeCategoryWrapper
                                 category={categoryList[0].category}
                                 categoryList={categoryList}
+                                contents={classifiedContents[index]}
                             />
                         );
                     })

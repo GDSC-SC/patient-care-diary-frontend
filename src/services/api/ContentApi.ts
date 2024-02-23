@@ -1,4 +1,4 @@
-import { DELETE, GET, POST } from ".";
+import { DELETE, GET } from ".";
 
 export class ContentApi{
     makeUrl(url:string){

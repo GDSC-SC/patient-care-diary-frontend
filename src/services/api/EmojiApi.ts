@@ -1,23 +1,20 @@
-import { DELETE, POST } from ".";
+import { DELETE, PUT, GET } from ".";
 
 export class EmojiApi{
     makeUrl(url:string){
         return `/api/emoji/${url}`;
     }
 
-    async create({emojiCode, diaryId}:{emojiCode: string, diaryId: number}){
+    async get(diaryId:number){
+        return await GET(this.makeUrl(diaryId.toString()), null);
+    }
+
+    async update({emojiCode, diaryId}:{emojiCode: string, diaryId: number}){
         const data = {
             "emojiCode": emojiCode,
             "diaryId": diaryId
         }
-        try{await POST(this.makeUrl('create'), data)}
-        catch(error){
-            if ((error as any).response && (error as any).response.status === 409) {
-                console.log("Emoji already exists");
-                return false;
-            }
-        };
-        return true;
+        await PUT(this.makeUrl('update'), data);
     }
     
     delete(diaryId:number, emojiCode:string){
