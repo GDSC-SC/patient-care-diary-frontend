@@ -20,9 +20,6 @@ export class CategoryApi {
 
     // visible = false가 delete category와 같은 역할
     visible(categoryId:number){
-        const data ={
-            "categoryId" : categoryId
-        };
         PUT(`${this.categoryBaseUrl}/visible/${categoryId}`,null)
     }
 
