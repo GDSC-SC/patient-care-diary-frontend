@@ -86,6 +86,7 @@ function CategoryEditor({selectedCategory, editorClose}: {selectedCategory?: Cat
                         <input
                             value={midCategory}
                             onChange={(e)=>{setMidCategory(e.target.value);}}
+                            style={{borderBottom:'none'}}
                         />
                     </div>
                 <div className="InputBox">

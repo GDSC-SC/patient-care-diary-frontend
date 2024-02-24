@@ -16,6 +16,7 @@ p{
     width: 50vw;
     font-size: 18px;
 }
+
 .EditorBtn{
     margin: 1vh;
     padding: 0.5vh 3vw;
@@ -23,5 +24,4 @@ p{
     border-style: solid;
     border-color: #E5E5E5;
     width: fit-content;
-    
 }
