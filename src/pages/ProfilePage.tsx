@@ -44,7 +44,7 @@ export function ProfilePage(){
     const [illness, setIllness] = useState<string>();
     const [gender, setGender] = useState<string>();
     const [type, setType] = useState<string>();
-    const [info, setInfo] = useState<string>('');
+    const [description, setDescription] = useState<string>('');
     async function fetchData() {
         try {
             const userData = await memberApi.parseMemberData()
@@ -52,7 +52,7 @@ export function ProfilePage(){
             setIllness(userData?.illness);
             setGender(userData?.gender);
             setType(userData?.type);
-            // setInfo(userData?.info);
+            setDescription(userData?.description);
         } catch (error) {
             console.log(error);
         }
@@ -74,12 +74,12 @@ export function ProfilePage(){
         setType(value);
     }
     
-    const onEditInfo = (value:string) =>{
-        setInfo(value);
+    const onEditDescription = (value:string) =>{
+        setDescription(value);
     }
 
     const save = ()=>{
-        memberApi.signUp({gender: gender||'', illenss: illness||'', type: type || ''});
+        memberApi.signUp({gender: gender||'', illenss: illness||'', type: type || '', description: description || ''});
         console.log('hello');
     }
 
@@ -115,7 +115,7 @@ export function ProfilePage(){
                         <ProfileList title={'Type'} value={type} onEdit={onEditType}/>
                     </div>
                     <div className='ProfileList'>
-                        <ProfileList title={'Info'} value={info} onEdit={onEditInfo}/>
+                        <ProfileList title={'Info'} value={description} onEdit={onEditDescription}/>
                     </div>
                 </div>
             </div>
