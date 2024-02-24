@@ -48,7 +48,7 @@ export function EmojiBox({diaryId}:{diaryId: number}){
             <div style={{ flex: 1 }} />
             <div style={{ flex: 3 }}>
                 <div className="FlexRow" style={{ margin: '0 auto' }}>
-                    {/* <EmojiElement
+                    <EmojiElement
                         count={emojis.find((emoji) => emoji.emoji === "GOOD")?.count || 0}
                         emojiCode="E001"
                         diaryId={diaryId}
@@ -68,7 +68,7 @@ export function EmojiBox({diaryId}:{diaryId: number}){
                         diaryId={diaryId}
                         isClicked={myEmoji === "CHECK"}
                         onClick={()=>{setRenderCount(prevCount => prevCount + 1);console.log(renderCount)}}
-                    /> */}
+                    />
                 </div>
             </div>
             <div style={{ flex: 1 }} />
