@@ -53,7 +53,7 @@ export function EmojiBox({diaryId}:{diaryId: number}){
                         emojiCode="E001"
                         diaryId={diaryId}
                         isClicked={myEmoji === "GOOD"}
-                        onClick={()=>{setRenderCount(prevCount => prevCount + 1);console.log(renderCount)}}
+                        onClick={()=>{setRenderCount(prevCount => prevCount + 1);}}
                     />
                     <EmojiElement
                         count={emojis.find((emoji) => emoji.emoji === "LOVE")?.count || 0}
