@@ -54,7 +54,7 @@ function MidCategoryInput({categoryName, categoryId, color, content}
             <div className="FlexRow">
                 <div className="FlexRow" style={{gap: '3vw'}}>
                     <CheckBtnCircle isDone ={isDone} setIsDone={setIsDone} />
-                    <h2>{categoryName}</h2>
+                    <h3>{categoryName}</h3>
                 </div>
                 {isOpen? <FaChevronUp onClick={() => {setIsOpen(!isOpen)}}/> : <FaChevronDown onClick={() => {setIsOpen(!isOpen)}}/> }
             </div>
