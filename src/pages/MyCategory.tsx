@@ -31,7 +31,7 @@ function EditorBtn({title, clickHandler}: {title: string, clickHandler:()=>void}
     )
 }
 
-function CategoryEditor({selectedCategory, editorClose}: {selectedCategory?: Category, editorClose: ()=>void}){
+function CategoryEditor({selectedCategory, editorClose, setSelectedMCategory}: {selectedCategory?: Category, editorClose: ()=>void, setSelectedMCategory: ()=>void}){
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>();
     const [isColorOpen, setIsColorOpen] = useState<boolean>();
     const [category, setCategory] = useState<string>();
@@ -55,7 +55,11 @@ function CategoryEditor({selectedCategory, editorClose}: {selectedCategory?: Cat
         }
         setIsColorOpen(false);
         setIsMenuOpen(false);
-            
+    }
+
+    function afterAction(){
+        setSelectedMCategory();
+        editorClose();
     }
 
     useEffect(()=>{
@@ -87,6 +91,7 @@ function CategoryEditor({selectedCategory, editorClose}: {selectedCategory?: Cat
                             value={midCategory}
                             onChange={(e)=>{setMidCategory(e.target.value);}}
                             style={{borderBottom:'none'}}
+                            placeholder={"Middle Category"}
                         />
                     </div>
                 <div className="InputBox">
@@ -106,16 +111,15 @@ function CategoryEditor({selectedCategory, editorClose}: {selectedCategory?: Cat
                             categoryApi.create({categoryCode: categoryCode!, subtitle: midCategory!, color: color!});
                             firstSet();
                         }
-                        
-                        editorClose();
+                        afterAction();
                         }}/>
                     {selectedCategory?.id && <EditorBtn title={"Delete"} clickHandler={()=>{
                         if(selectedCategory?.id)
                             categoryApi.delete({categoryId:selectedCategory.id});
-                            editorClose();
+                            afterAction();
                         }}/>}
                     <EditorBtn title={"Close"} clickHandler={()=>{
-                        editorClose();
+                        afterAction();
                     }}/>
                 </div>
             </div>
@@ -135,11 +139,8 @@ export function MyCategory(){
     
     useEffect(() =>{
         firstSet();
-    }, [classifiedCategorys])
+    }, [selectedMCategory]);
 
-    useEffect(()=>{
-        console.log(selectedMCategory);
-    },[selectedMCategory])
     return(
         <MainLayout> 
             <div className="FlexColumn">
@@ -179,7 +180,7 @@ export function MyCategory(){
                 </div>
                 <Modal isOpen={isOpen} closeModal={()=>{setIsOpen(false);}}>
                     <div>
-                        <CategoryEditor selectedCategory={selectedMCategory} editorClose={() => setIsOpen(false)}/>
+                        <CategoryEditor selectedCategory={selectedMCategory} editorClose={() => setIsOpen(false)} setSelectedMCategory={()=> {setSelectedMCategory(undefined)}}/>
                     </div>
                 </Modal>
                 
