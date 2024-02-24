@@ -31,15 +31,14 @@ function EmojiElement({count, emojiCode, diaryId, isClicked, onClick}
     }
 
 export function EmojiBox({diaryId}:{diaryId: number}){
-        
     const [renderCount, setRenderCount] = useState(0);
     const [emojis, setEmojis] = useState<Emoji[]>([]);
     const [myEmoji, setMyEmoji] = useState<string>("NONE");
     useEffect(()=>{
         const fetchEmojis = async () => {
-            const {emojis, myEmoji}:{emojis:Emoji[], myEmoji:string} = await emojiApi.get(diaryId);
-            setEmojis(emojis);
-            setMyEmoji(myEmoji);
+            const {emojiCounts, myEmojiState}:{emojiCounts:Emoji[], myEmojiState:string} = await emojiApi.get(diaryId);
+            setEmojis(emojiCounts);
+            setMyEmoji(myEmojiState);
         }
         fetchEmojis();
     }, [diaryId, renderCount]);
