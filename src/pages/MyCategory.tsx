@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { MainLayout } from "../components/layout/MainLayout";
 import '../styles/pages/MyCategory.css'
 import { ColorSelector } from "../components/ColorSelector";
-import { SaveBtn } from "../components/SaveBtn";
 import { Category, classifyByCategoryCode } from "../utils/manageCategory";
 import { categoryApi } from "../services/api";
 import { MidCategoryTile } from "../components/MidCategoryTile";
@@ -32,24 +31,34 @@ function EditorBtn({title, clickHandler}: {title: string, clickHandler:()=>void}
     )
 }
 
-function CategoryEditor({selectedCategory, setIsOpen, refreshCategory}: {selectedCategory?: Category, setIsOpen: ()=>void, refreshCategory: () => void}){
-    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-    const [isColorOpen, setIsColorOpen] = useState<boolean>(false);
+function CategoryEditor({selectedCategory, editorClose}: {selectedCategory?: Category, editorClose: ()=>void}){
+    const [isMenuOpen, setIsMenuOpen] = useState<boolean>();
+    const [isColorOpen, setIsColorOpen] = useState<boolean>();
     const [category, setCategory] = useState<string>();
     const [categoryCode, setCategoryCode] = useState<string>();
-    const categoryList = ["Food", "Medicine" ,"Cateogyr3", "Cateogyr4", "Catoeyg5"];
     const [midCategory, setMidCategory] = useState<string>();
     const [color, setColor] = useState<string>();
+    const categoryList = ["Food", "Medicine" ,"Today Diary", "Exercise", "About Illness"];
+
+    async function firstSet() {
+        if(selectedCategory?.id){
+            setCategory(selectedCategory?.category || '');
+            setCategoryCode(selectedCategory?.categoryCode || '');
+            setMidCategory(selectedCategory?.midCategory || '');
+            setColor(selectedCategory?.color || '#F7C0BE');
+        }
+        else{ // Category ADD의 경우. ADD 후에 Form 초기화를 위해 따로 작성.
+            setCategory('');
+            setCategoryCode('');
+            setMidCategory('');
+            setColor('#F7C0BE');
+        }
+        setIsColorOpen(false);
+        setIsMenuOpen(false);
+            
+    }
 
     useEffect(()=>{
-        async function firstSet() {
-            if (selectedCategory) {
-                setCategory(selectedCategory.category || '');
-                setCategoryCode(selectedCategory.categoryCode || '');
-                setMidCategory(selectedCategory.midCategory || '');
-                setColor(selectedCategory.color || '#F7C0BE');
-            }
-        }
         firstSet();
     },[selectedCategory]);
 
@@ -90,19 +99,23 @@ function CategoryEditor({selectedCategory, setIsOpen, refreshCategory}: {selecte
                 </div>
                 <div className="FlexRow" style={{width:'max-content', padding:'3vw'}}>
                     <EditorBtn title={"Save"} clickHandler={()=>{
-                        selectedCategory?.id ?
-                        categoryApi.modify({categoryId: selectedCategory?.id, categoryCode: categoryCode!, subtitle: midCategory!, color: color!}):
-                        categoryApi.create({categoryCode: categoryCode!, subtitle: midCategory!, color: color!});
+                        if (selectedCategory?.id)
+                            categoryApi.modify({categoryId: selectedCategory?.id, categoryCode: categoryCode!, subtitle: midCategory!, color: color!});
+                        else{
+                            categoryApi.create({categoryCode: categoryCode!, subtitle: midCategory!, color: color!});
+                            firstSet();
+                        }
                         
-                        setIsOpen();
+                        editorClose();
                         }}/>
                     {selectedCategory?.id && <EditorBtn title={"Delete"} clickHandler={()=>{
                         if(selectedCategory?.id)
                             categoryApi.delete({categoryId:selectedCategory.id});
-                        setIsOpen();
-                        
+                            editorClose();
                         }}/>}
-                    <EditorBtn title={"Close"} clickHandler={setIsOpen}/>
+                    <EditorBtn title={"Close"} clickHandler={()=>{
+                        editorClose();
+                    }}/>
                 </div>
             </div>
         </div>
@@ -123,6 +136,9 @@ export function MyCategory(){
         firstSet();
     }, [classifiedCategorys])
 
+    useEffect(()=>{
+        console.log(selectedMCategory);
+    },[selectedMCategory])
     return(
         <MainLayout> 
             <div className="FlexColumn">
@@ -154,18 +170,18 @@ export function MyCategory(){
                                 );
                         })}
                 </div>
-                <Modal isOpen={isOpen} closeModal={()=>{setIsOpen(false);}}>
-                    <div>
-                        <CategoryEditor selectedCategory={selectedMCategory} setIsOpen={() => setIsOpen(false)} refreshCategory={() => firstSet()}/>
-
-                    </div>
-                </Modal>
                 <div style={{display:'flex', justifyContent:'center'}}>
                     <EditorBtn title={"ADD"} clickHandler={()=>{
                         setSelectedMCategory(undefined);
                         setIsOpen(true);
                     }}/>
                 </div>
+                <Modal isOpen={isOpen} closeModal={()=>{setIsOpen(false);}}>
+                    <div>
+                        <CategoryEditor selectedCategory={selectedMCategory} editorClose={() => setIsOpen(false)}/>
+                    </div>
+                </Modal>
+                
             </div>
         </MainLayout>
     );
