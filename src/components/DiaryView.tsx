@@ -33,10 +33,10 @@ export function DiaryView({ contents }: { contents : Content[] }) {
     return (
         <div className="BoxL" style={{ padding: '3vw' }}>
             {contentsClassifiedByCategory.map((contents:Content[]) => {
-                console.log(contents);
-                if (contents.length === 0) return null;
                 
+                if (contents.length === 0) return null;
                 return (
+                    
                     <LargeCategoryWrapper
                         category={contents[0].category}
                         contents={contents}

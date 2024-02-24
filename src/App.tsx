@@ -10,13 +10,12 @@ import { Authentication } from "./services/Authentication";
 
 
 function App(){
-  
   useEffect(() => {
     const auth = new Authentication();
     if(!auth.isLoggedIn()) {
         auth.login();
     }
-}, []);
+  }, []);
   return(
     <Routes>
       <Route path="/" element={<Home/>}/>

@@ -10,9 +10,10 @@ function LargeCategoryWrapper({category, categoryList} : {category: string, cate
         <div className="FlexColumn">
             <h3>{category}</h3>
             {categoryList.map((midCategory) => {
-                return(
-                    <MidCategoryTile title={midCategory.midCategory} color={midCategory.color}/>
-                )
+                if (midCategory.visible)
+                    return(
+                        <MidCategoryTile title={midCategory.midCategory} color={midCategory.color}/>
+                    )
             })}
         </div>
     );

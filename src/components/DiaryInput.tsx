@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import autosize from "autosize";
 import { Category, classifyByCategoryCode } from "../utils/manageCategory";
 import { Content } from "../pages/FeedDetail";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function CheckBtnCircle({isDone, setIsDone}: {isDone: boolean, setIsDone: React.Dispatch<React.SetStateAction<boolean>>}){
     return(
@@ -121,12 +123,14 @@ export interface Diary {
 export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, categorys: Category[]}) {
     const classifiedContents:Content[][] = classifyByCategoryCode(curDiary?.contents || []);
     const classifiedCategorys:Category[][] = classifyByCategoryCode(categorys);
+    const notify = () => toast("One more piece of information has been added to help people.");
+
 
     console.log(curDiary)
     return(
         <div>
             <div className="BoxL" style={{paddingBottom: '1vh'}}>
-                <DateBox date={new Date()} needSave={true}/>
+                <DateBox date={new Date()} needSave={true} clickHandler={notify}/>
                 {curDiary!==null?<EmojiBox diaryId={curDiary.id}/>:<></>}
             </div>
             <div className = "FlexColumn">
@@ -143,6 +147,17 @@ export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, catego
                     })
                 }
             </div>
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                />
         </div>
     );
 }
