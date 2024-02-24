@@ -30,7 +30,7 @@ export function FeedDetail(){
     useEffect(() => {
         const fetchDiary = async () => {
             const diaryApi = new DiaryApi();
-            const diary = await diaryApi.getDiary(Number(id));
+            const diary = await diaryApi.getById(Number(id));
             setDiary(diary);
             setLoading(false);
         }

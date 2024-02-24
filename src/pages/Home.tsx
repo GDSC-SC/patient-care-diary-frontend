@@ -26,7 +26,7 @@ export function Home(){
         const fetchDiary = async () => {   
             const today = new Date();
             try {
-                return await diaryApi.getDiaryByDate(today);
+                return await diaryApi.getByDate(today);
             } catch (error) {
                 if ((error as any).response && (error as any).response.status === 404) {
                     console.log("Diary not found");
