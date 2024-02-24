@@ -8,7 +8,7 @@ import { Content } from "../pages/FeedDetail";
 
 function CheckBtnCircle({isDone, setIsDone}: {isDone: boolean, setIsDone: React.Dispatch<React.SetStateAction<boolean>>}){
     return(
-        <div className="RoundCenter" style={{width: '3vh', height: '3vh', backgroundColor: isDone? 'grey' : '#E5E5E5'}} onClick={() => (setIsDone(!isDone))}>
+        <div className="RoundCenter" style={{width: '3vh', height: '3vh', backgroundColor: isDone? 'grey' : 'white'}} onClick={() => (setIsDone(!isDone))}>
                 {isDone? <FaCheck color="white"/>: null}
         </div>
     );
@@ -54,7 +54,7 @@ function MidCategoryInput({categoryName, categoryId, color, content}
             <div className="FlexRow">
                 <div className="FlexRow" style={{gap: '3vw'}}>
                     <CheckBtnCircle isDone ={isDone} setIsDone={setIsDone} />
-                    <h2>{categoryName}</h2>
+                    <h3>{categoryName}</h3>
                 </div>
                 {isOpen? <FaChevronUp onClick={() => {setIsOpen(!isOpen)}}/> : <FaChevronDown onClick={() => {setIsOpen(!isOpen)}}/> }
             </div>
@@ -70,12 +70,12 @@ function MidCategoryInput({categoryName, categoryId, color, content}
                             style={{display:'none'}}
                             accept=".png, .jpg, image/*"
                         />
-                        <div className="RoundCenter" onClick={handleClick} style={{height: '10vh', width: '10vh', backgroundColor: '#E5E5E5'}}>
-                            <FaCamera size={'70%'} color="white"/>
+                        <div className="RoundCenter" onClick={handleClick} style={{height: '10vh', width: '10vh', backgroundColor: 'white'}}>
+                            <FaCamera size={'60%'} color="#E5E5E5"/>
                         </div>
                     </div>
                     :
-                    <img src={fileInput} style={{overflow:'auto',}}/>
+                    <img src={fileInput} style={{overflow:'auto', maxHeight:'20vh', maxWidth: '70vw'}}/>
                             
                     }
                 
@@ -129,7 +129,7 @@ export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, catego
                 <DateBox date={new Date()} needSave={true}/>
                 {curDiary!==null?<EmojiBox diaryId={curDiary.id}/>:<></>}
             </div>
-            <div className = "FlexColumn" style={{height: '100vh', overflow:'scroll'}}>
+            <div className = "FlexColumn">
                 {
                     classifiedCategorys.map((categoryList:Category[], index) => {
                         if (categoryList.length === 0) return null;

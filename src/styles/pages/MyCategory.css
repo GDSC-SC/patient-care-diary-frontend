@@ -1,0 +1,27 @@
+.CategoryEditor{
+    width: fit-content;
+    background-color: white;
+    padding: 5vw 10vw;
+}
+p{
+    font-size: 18px;
+}
+
+.InputBox{
+    margin: 1vh;
+    padding: 0.5vh 3vw;
+    border-radius: 5vw;
+    border-style: solid;
+    border-color: #E5E5E5;
+    width: 50vw;
+    font-size: 18px;
+}
+
+.EditorBtn{
+    margin: 1vh;
+    padding: 0.5vh 3vw;
+    border-radius: 5vw;
+    border-style: solid;
+    border-color: #E5E5E5;
+    width: fit-content;
+}

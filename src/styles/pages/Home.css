@@ -13,8 +13,10 @@ h1{
     resize: none;
     border-radius: 2vh;
     padding: 1vh;
-    margin-top: 1vh;
+    margin: 1vh 0;
     width: 90%;
     border: none;
-    background-color: #E5E5E5;
+}
+.ContentsTextArea:focus{
+    outline: none;
 }
