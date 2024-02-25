@@ -30,7 +30,8 @@ function EmojiElement({count, emojiCode, diaryId, isClicked, onClick}
         );
     }
 
-export function EmojiBox({diaryId, setLoading=null}:{diaryId: number, setLoading?: React.Dispatch<React.SetStateAction<number>>|null}){
+export function EmojiBox({diaryId, setWaitingEmojiBoxCnt}
+    :{diaryId: number, setWaitingEmojiBoxCnt: React.Dispatch<React.SetStateAction<number>>}){
     const [renderCount, setRenderCount] = useState(0);
     const [emojis, setEmojis] = useState<Emoji[]>([]);
     const [myEmoji, setMyEmoji] = useState<string>("NONE");
@@ -39,12 +40,12 @@ export function EmojiBox({diaryId, setLoading=null}:{diaryId: number, setLoading
             const {emojiCounts, myEmojiState}:{emojiCounts:Emoji[], myEmojiState:string} = await emojiApi.get(diaryId);
             setEmojis(emojiCounts);
             setMyEmoji(myEmojiState);
-            if(setLoading!==null){
-                setLoading((prevCount)=>prevCount-1);
+            if(setWaitingEmojiBoxCnt!==null){
+                setWaitingEmojiBoxCnt((prevCount)=>prevCount-1);
             }
         }
         fetchEmojis();
-    }, [diaryId, renderCount, setLoading]);
+    }, [diaryId, renderCount, setWaitingEmojiBoxCnt]);
 
     return (
         <div className="FlexRow" style={{ marginTop: '1vh' }}>

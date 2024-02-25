@@ -9,6 +9,7 @@ import { contentApi, diaryApi } from "../services/api";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ContentForCreate } from "../services/api/ContentApi";
+import { Loading } from "./Loading";
 
 function MidCategoryInput({categoryName, categoryId, color, content, onChange, onValueChange}
     :{categoryName: string, categoryId: number, color: string, content:Content|null, onChange: (isChanged:boolean) => void, 
@@ -163,7 +164,8 @@ export interface Diary {
 export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, categorys: Category[]}) {
     const classifiedContents:Content[][] = classifyByCategoryCode(curDiary?.contents || []);
     const classifiedCategorys:Category[][] = classifyByCategoryCode(categorys);
-
+    const [waitingEmojiCount, setWaitingEmojiCount] = useState<number>(1);
+    const [loading, setLoading] = useState<boolean>(false);
     const [hasInputChange, setHasInputChange] = useState<boolean>(false);
     const [inputValues, setInputValues] = useState<ContentForCreate[]>([]);
     const handleInputChange = (isChanged:boolean) => {
@@ -181,6 +183,7 @@ export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, catego
         });
     }
     const onClickSaveBtn = async () => {
+        setLoading(true);
         if(!hasInputChange) {
         // TODO: 사용자가 체크박스 체크했다가 취소하거나 뭔가 썼다 지워도 hasInputChange는 true로 남아있음. 수정 필요
             toast("You haven't added any information yet.");
@@ -205,14 +208,16 @@ export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, catego
                 await contentApi.update({ ...content, diaryId: curDiary.id });
             }
         });
+        setLoading(false);
         toast("One more piece of information has been added to help people.");
     }
 
     return(
         <div>
+            {(loading || waitingEmojiCount > 0) && <Loading/>}
             <div className="BoxL" style={{paddingBottom: '1vh'}}>
                 <DateBox date={new Date()} needSave={true} clickHandler={onClickSaveBtn}/>
-                {curDiary!==null?<EmojiBox diaryId={curDiary.id}/>:<></>}
+                {curDiary!==null?<EmojiBox diaryId={curDiary.id} setWaitingEmojiBoxCnt={setWaitingEmojiCount}/>:<></>}
             </div>
             <div className = "FlexColumn">
                 {
@@ -230,18 +235,18 @@ export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, catego
                     })
                 }
             </div>
-            <ToastContainer
-                position="top-center"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored"
-                />
-        </div>
+                <ToastContainer
+                    position="top-center"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="colored"
+                    />
+            </div>
     );
 }

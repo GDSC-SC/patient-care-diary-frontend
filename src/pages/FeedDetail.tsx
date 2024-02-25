@@ -23,6 +23,7 @@ export interface Content {
 export function FeedDetail(){
     const { id } = useParams();
     const [loading, setLoading] = useState<boolean>(true);
+    const [waitingEmojiCount, setWaitingEmojiCount] = useState<number>(1);
     const [diary, setDiary] = useState<{
         id: number,
         date: number[],
@@ -40,14 +41,14 @@ export function FeedDetail(){
     }, [id]);
     return(
         <MainLayout>
-            {loading ? <Loading/> :
-            diary &&
+            {(loading || waitingEmojiCount > 0) && <Loading/>}
+            {!loading && diary &&
             <div>
                 <div className="BoxL">
                     <div className="FlexColumn" style={{padding:'3vw'}}>
                         <DateBox date={new Date(diary.date[0], diary.date[1], diary.date[2])} needSave={false}/>
                         <MemberProfile member={diary.member} />
-                        <EmojiBox diaryId={diary.id}/>
+                        <EmojiBox diaryId={diary.id} setWaitingEmojiBoxCnt={setWaitingEmojiCount}/>
                     </div>
                 </div>
                 <DiaryView contents = {diary.contents}/>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { DiaryPreview, DiaryPreviewProps } from "../components/DiaryPreview";
 import { MainLayout } from "../components/layout/MainLayout";
 import { DiaryApi } from "../services/api/DiaryApi";
@@ -23,7 +23,7 @@ export function Feed() {
             {(loading || waitingEmojiCount > 0) && <Loading/>}
             {!loading &&
                 diarys.map((diary:DiaryPreviewProps) => {
-                    return <DiaryPreview diaryPreviewProps={diary} setLoading={setWaitingEmojiCount}/>
+                    return <DiaryPreview diaryPreviewProps={diary} setWaitingEmojiBoxCnt={setWaitingEmojiCount}/>
                 })
             }
         </MainLayout>
