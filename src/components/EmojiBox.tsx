@@ -30,7 +30,7 @@ function EmojiElement({count, emojiCode, diaryId, isClicked, onClick}
         );
     }
 
-export function EmojiBox({diaryId}:{diaryId: number}){
+export function EmojiBox({diaryId, setLoading=null}:{diaryId: number, setLoading?: React.Dispatch<React.SetStateAction<number>>|null}){
     const [renderCount, setRenderCount] = useState(0);
     const [emojis, setEmojis] = useState<Emoji[]>([]);
     const [myEmoji, setMyEmoji] = useState<string>("NONE");
@@ -39,9 +39,12 @@ export function EmojiBox({diaryId}:{diaryId: number}){
             const {emojiCounts, myEmojiState}:{emojiCounts:Emoji[], myEmojiState:string} = await emojiApi.get(diaryId);
             setEmojis(emojiCounts);
             setMyEmoji(myEmojiState);
+            if(setLoading!==null){
+                setLoading((prevCount)=>prevCount-1);
+            }
         }
         fetchEmojis();
-    }, [diaryId, renderCount]);
+    }, [diaryId, renderCount, setLoading]);
 
     return (
         <div className="FlexRow" style={{ marginTop: '1vh' }}>
@@ -60,14 +63,14 @@ export function EmojiBox({diaryId}:{diaryId: number}){
                         emojiCode="E002"
                         diaryId={diaryId}
                         isClicked={myEmoji === "LOVE"}
-                        onClick={()=>{setRenderCount(prevCount => prevCount + 1);console.log(renderCount)}}
+                        onClick={()=>{setRenderCount(prevCount => prevCount + 1);}}
                     />
                     <EmojiElement
                         count={emojis.find((emoji) => emoji.emoji === "CHECK")?.count || 0}
                         emojiCode="E003"
                         diaryId={diaryId}
                         isClicked={myEmoji === "CHECK"}
-                        onClick={()=>{setRenderCount(prevCount => prevCount + 1);console.log(renderCount)}}
+                        onClick={()=>{setRenderCount(prevCount => prevCount + 1);}}
                     />
                 </div>
             </div>

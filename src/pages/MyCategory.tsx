@@ -9,21 +9,6 @@ import { FaChevronDown, FaChevronUp, FaEllipsisH } from "react-icons/fa";
 import { Modal } from "../components/Modal";
 import { ToastContainer, toast } from 'react-toastify';
 
-type LargeCategory = {
-    id: number,
-    titleL: string,
-    middleCategories: Array<MiddleCategory>,
-}
-
-type MiddleCategory = {
-    id : number,
-    titleM: string,
-    isDone: boolean | false,
-    photoUrl: string | undefined,
-    description: string | undefined,
-    color: string | undefined,
-}
-
 function EditorBtn({title, clickHandler}: {title: string, clickHandler:()=>void}){
     return(
         <div className="EditorBtn" onClick={clickHandler}>

@@ -4,7 +4,6 @@ import { ContentApi } from "./ContentApi";
 import { DiaryApi } from "./DiaryApi";
 import { MemberApi } from "./MemberApi";
 import { EmojiApi } from "./EmojiApi";
-import { Authentication } from "../Authentication";
 
 const accessToken = localStorage.getItem('accessToken');
 const baseAxios = axios.create({
@@ -16,7 +15,6 @@ export const contentApi = new ContentApi();
 export const diaryApi = new DiaryApi();
 export const memberApi = new MemberApi();
 export const emojiApi = new EmojiApi();
-const auth = new Authentication();
 
 export async function GET(url:string, data:any){
     try {
