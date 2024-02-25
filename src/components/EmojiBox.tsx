@@ -10,10 +10,12 @@ export interface Emoji{
     count: number,
 }
 
-function EmojiElement({count, emojiCode, diaryId, isClicked, onClick}
-        :{count:number, emojiCode: string, diaryId: number, isClicked: boolean, onClick: ()=>void}){
+function EmojiElement({count, emojiCode, diaryId, isClicked, onClick, setLoading}
+        :{count:number, emojiCode: string, diaryId: number, isClicked: boolean, onClick: ()=>void,
+            setLoading: React.Dispatch<React.SetStateAction<boolean>>}){
         return(
             <div className='ReactionElements' onClick={async ()=>{
+                setLoading(true);
                 if (!isClicked) {
                     await emojiApi.update({ emojiCode: emojiCode, diaryId: diaryId });
                 }
@@ -59,6 +61,7 @@ export function EmojiBox({diaryId}:{diaryId: number}){
                         diaryId={diaryId}
                         isClicked={myEmoji === "GOOD"}
                         onClick={()=>{setRenderCount(prevCount => prevCount + 1);}}
+                        setLoading={setLoading}
                     />
                     <EmojiElement
                         count={emojis.find((emoji) => emoji.emoji === "LOVE")?.count || 0}
@@ -66,6 +69,7 @@ export function EmojiBox({diaryId}:{diaryId: number}){
                         diaryId={diaryId}
                         isClicked={myEmoji === "LOVE"}
                         onClick={()=>{setRenderCount(prevCount => prevCount + 1);}}
+                        setLoading={setLoading}
                     />
                     <EmojiElement
                         count={emojis.find((emoji) => emoji.emoji === "CHECK")?.count || 0}
@@ -73,6 +77,7 @@ export function EmojiBox({diaryId}:{diaryId: number}){
                         diaryId={diaryId}
                         isClicked={myEmoji === "CHECK"}
                         onClick={()=>{setRenderCount(prevCount => prevCount + 1);}}
+                        setLoading={setLoading}
                     />
                 </div>
             </div>
