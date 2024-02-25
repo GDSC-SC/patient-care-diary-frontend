@@ -1,3 +1,4 @@
+import { ToastContainer } from "react-toastify";
 import { FeedDetail } from "./pages/FeedDetail";
 import { Feed } from "./pages/Feed";
 import { Home } from "./pages/Home";
@@ -17,14 +18,18 @@ function App(){
     }
   }, []);
   return(
-    <Routes>
+    <div>
+      <ToastContainer/>
+      <Routes>
       <Route path="/" element={<Home/>}/>
       <Route path="/feed" element={<Feed/>}/>
       <Route path="/feedDetail/:id" element={<FeedDetail/>}/>
       <Route path="/myPage" element={<MyPage/>}/>
       <Route path="/myCategory" element={<MyCategory/>}/>
       <Route path="/profilePage" element={<ProfilePage/>}/>
-    </Routes>
+      </Routes>
+    </div>
+
   );
 }
 

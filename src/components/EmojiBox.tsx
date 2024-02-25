@@ -31,15 +31,14 @@ function EmojiElement({count, emojiCode, diaryId, isClicked, onClick}
     }
 
 export function EmojiBox({diaryId}:{diaryId: number}){
-        
     const [renderCount, setRenderCount] = useState(0);
     const [emojis, setEmojis] = useState<Emoji[]>([]);
     const [myEmoji, setMyEmoji] = useState<string>("NONE");
     useEffect(()=>{
         const fetchEmojis = async () => {
-            const {emojis, myEmoji}:{emojis:Emoji[], myEmoji:string} = await emojiApi.get(diaryId);
-            setEmojis(emojis);
-            setMyEmoji(myEmoji);
+            const {emojiCounts, myEmojiState}:{emojiCounts:Emoji[], myEmojiState:string} = await emojiApi.get(diaryId);
+            setEmojis(emojiCounts);
+            setMyEmoji(myEmojiState);
         }
         fetchEmojis();
     }, [diaryId, renderCount]);
@@ -49,12 +48,12 @@ export function EmojiBox({diaryId}:{diaryId: number}){
             <div style={{ flex: 1 }} />
             <div style={{ flex: 3 }}>
                 <div className="FlexRow" style={{ margin: '0 auto' }}>
-                    {/* <EmojiElement
+                    <EmojiElement
                         count={emojis.find((emoji) => emoji.emoji === "GOOD")?.count || 0}
                         emojiCode="E001"
                         diaryId={diaryId}
                         isClicked={myEmoji === "GOOD"}
-                        onClick={()=>{setRenderCount(prevCount => prevCount + 1);console.log(renderCount)}}
+                        onClick={()=>{setRenderCount(prevCount => prevCount + 1);}}
                     />
                     <EmojiElement
                         count={emojis.find((emoji) => emoji.emoji === "LOVE")?.count || 0}
@@ -69,7 +68,7 @@ export function EmojiBox({diaryId}:{diaryId: number}){
                         diaryId={diaryId}
                         isClicked={myEmoji === "CHECK"}
                         onClick={()=>{setRenderCount(prevCount => prevCount + 1);console.log(renderCount)}}
-                    /> */}
+                    />
                 </div>
             </div>
             <div style={{ flex: 1 }} />

@@ -9,6 +9,7 @@ import { DiaryApi } from "../services/api/DiaryApi";
 import { MemberType } from "../services/api/MemberApi";
 
 export interface Content {
+    id: number|null,
     category: string,
     categoryCode: string,
     color: string,
@@ -30,7 +31,7 @@ export function FeedDetail(){
     useEffect(() => {
         const fetchDiary = async () => {
             const diaryApi = new DiaryApi();
-            const diary = await diaryApi.getDiary(Number(id));
+            const diary = await diaryApi.getById(Number(id));
             setDiary(diary);
             setLoading(false);
         }

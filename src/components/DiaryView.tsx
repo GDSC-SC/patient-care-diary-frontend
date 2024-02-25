@@ -29,7 +29,6 @@ function LargeCategoryWrapper({category, contents} : {category: string, contents
 
 export function DiaryView({ contents }: { contents : Content[] }) {
     const contentsClassifiedByCategory:Content[][] = classifyByCategoryCode(contents);
-    console.log(contents);
     return (
         <div className="BoxL" style={{ padding: '3vw' }}>
             {contentsClassifiedByCategory.map((contents:Content[]) => {

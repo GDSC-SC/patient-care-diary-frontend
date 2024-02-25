@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { MemberProfile } from "../components/MemberProfile";
 import { MainLayout } from "../components/layout/MainLayout";
 import '../styles/components/Box.css'
-import { Next } from "grommet-icons";
+import { Next, Trash } from "grommet-icons";
 import { useEffect, useState } from "react";
 import { Calendar } from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
@@ -13,10 +13,10 @@ import { EmojiBox } from "../components/EmojiBox";
 import { MemberType } from "../services/api/MemberApi";
 
 export function MyPage(){
-
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [diary, setDiary] = useState<any>(null);
     const [member, setMember] = useState<MemberType>();
+    const [renderCount, setRenderCount] = useState<number>(0);
     useEffect(() => {
         const fetchUser = async () => {
             const member = await memberApi.parseMemberData();
@@ -27,7 +27,7 @@ export function MyPage(){
     useEffect(()=>{
         const fetchDiary = async () => {
             try{
-                setDiary(await diaryApi.getDiaryByDate(selectedDate));
+                setDiary(await diaryApi.getByDate(selectedDate));
             }catch(error){
                 if ((error as any).response && (error as any).response.status === 404) {
                     setDiary(null)
@@ -35,7 +35,7 @@ export function MyPage(){
             }
         }
         fetchDiary();
-    }, [selectedDate]);
+    }, [selectedDate, renderCount]);
     
     const navigate = useNavigate();
     return(
@@ -64,6 +64,12 @@ export function MyPage(){
                         <EmojiBox diaryId={diary.id}/>
                     </div>
                     <DiaryView contents={diary.contents}/>
+                    <Trash onClick={
+                        async () => {
+                            await diaryApi.delete(diary.id);
+                            setRenderCount((prev) => prev + 1);
+                        }
+                    } style={{margin: '0 auto', display: 'block'}}/>
                 </div>}
             </div>)}
         </MainLayout>

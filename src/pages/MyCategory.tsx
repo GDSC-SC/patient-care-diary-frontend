@@ -7,6 +7,7 @@ import { categoryApi } from "../services/api";
 import { MidCategoryTile } from "../components/MidCategoryTile";
 import { FaChevronDown, FaChevronUp, FaEllipsisH } from "react-icons/fa";
 import { Modal } from "../components/Modal";
+import { toast } from "react-toastify";
 
 type LargeCategory = {
     id: number,
@@ -72,7 +73,7 @@ function CategoryEditor({selectedCategory, editorClose, setSelectedMCategory}: {
                 <div onClick={() => setIsMenuOpen(!isMenuOpen)}>
                     <div className="InputBox">
                         <div className="FlexRow" style={{}}>
-                            <div><p style={{color: isMenuOpen? "grey":"black"}}>{category!=''&&category!=null? category : 'Main Category'}</p></div>
+                            <div><p style={{color: isMenuOpen? "grey":"black"}}>{category!==''&&category!=null? category : 'Main Category'}</p></div>
                             {isMenuOpen? <FaChevronUp/>:<FaChevronDown/>}
                         </div>
                         {isMenuOpen?
@@ -105,13 +106,21 @@ function CategoryEditor({selectedCategory, editorClose, setSelectedMCategory}: {
                 </div>
                 <div className="FlexRow" style={{width:'max-content', padding:'3vw'}}>
                     <EditorBtn title={"Save"} clickHandler={()=>{
-                        if (selectedCategory?.id)
-                            categoryApi.modify({categoryId: selectedCategory?.id, categoryCode: categoryCode!, subtitle: midCategory!, color: color!});
-                        else{
-                            categoryApi.create({categoryCode: categoryCode!, subtitle: midCategory!, color: color!});
-                            firstSet();
-                        }
-                        afterAction();
+                            if(categoryCode === '') {
+                                toast("please select category");
+                                console.log("categoryCode is null")
+                            } else if (midCategory === '') {
+                                toast("please input middle category"); 
+                                console.log("midCategory is null")
+                            } else {
+                                if (selectedCategory?.id)
+                                    categoryApi.modify({categoryId: selectedCategory?.id, categoryCode: categoryCode!, subtitle: midCategory!, color: color!});
+                                else{
+                                        categoryApi.create({categoryCode: categoryCode!, subtitle: midCategory!, color: color!});
+                                        firstSet();
+                                }
+                                afterAction();
+                            }
                         }}/>
                     {selectedCategory?.id && <EditorBtn title={"Delete"} clickHandler={()=>{
                         if(selectedCategory?.id)
