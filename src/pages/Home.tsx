@@ -49,11 +49,11 @@ export function Home(){
 
     return (
         <MainLayout>
-            {loading ? <Loading/> : (
+            {loading ? <Loading/> : 
                 <div>
                     <DiaryInput curDiary={diary} categorys={categorys}/>
                 </div>
-            )}
+            }
         </MainLayout>
     );
 }

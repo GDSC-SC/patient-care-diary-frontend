@@ -3,6 +3,7 @@ import '../styles/components/Box.css'
 import '../styles/components/ReactionRow.css'
 import { emojiApi } from "../services/api";
 import { useEffect, useState } from 'react';
+import { Loading } from './Loading';
 
 export interface Emoji{
     emoji: string,
@@ -30,25 +31,25 @@ function EmojiElement({count, emojiCode, diaryId, isClicked, onClick}
         );
     }
 
-export function EmojiBox({diaryId, setWaitingEmojiBoxCnt}
-    :{diaryId: number, setWaitingEmojiBoxCnt: React.Dispatch<React.SetStateAction<number>>}){
+export function EmojiBox({diaryId}:{diaryId: number}){
     const [renderCount, setRenderCount] = useState(0);
     const [emojis, setEmojis] = useState<Emoji[]>([]);
     const [myEmoji, setMyEmoji] = useState<string>("NONE");
+    const [loading, setLoading] = useState<boolean>(true);
     useEffect(()=>{
         const fetchEmojis = async () => {
             const {emojiCounts, myEmojiState}:{emojiCounts:Emoji[], myEmojiState:string} = await emojiApi.get(diaryId);
             setEmojis(emojiCounts);
             setMyEmoji(myEmojiState);
-            if(setWaitingEmojiBoxCnt!==null){
-                setWaitingEmojiBoxCnt((prevCount)=>prevCount-1);
-            }
+            setLoading(false);
         }
         fetchEmojis();
-    }, [diaryId, renderCount, setWaitingEmojiBoxCnt]);
+    }, [diaryId, renderCount]);
 
     return (
-        <div className="FlexRow" style={{ marginTop: '1vh' }}>
+        <div>
+            {loading ? <Loading/> : 
+            <div className="FlexRow" style={{ marginTop: '1vh' }}>
             <div style={{ flex: 1 }} />
             <div style={{ flex: 3 }}>
                 <div className="FlexRow" style={{ margin: '0 auto' }}>
@@ -76,6 +77,7 @@ export function EmojiBox({diaryId, setWaitingEmojiBoxCnt}
                 </div>
             </div>
             <div style={{ flex: 1 }} />
+        </div>}
         </div>
     );
 }
