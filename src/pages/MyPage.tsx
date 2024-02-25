@@ -18,10 +18,14 @@ export function MyPage(){
     const [diary, setDiary] = useState<any>(null);
     const [member, setMember] = useState<MemberType>();
     const [renderCount, setRenderCount] = useState<number>(0);
+    const [waitingEmojiCount, setWaitingEmojiCount] = useState<number>(1);
+    const [loading, setLoading] = useState<boolean>(true);
     useEffect(() => {
         const fetchUser = async () => {
             const member = await memberApi.parseMemberData();
-            setMember(member);}
+            setMember(member);
+            setLoading(false);
+        }
         fetchUser();
     }, []);
 
@@ -41,7 +45,8 @@ export function MyPage(){
     const navigate = useNavigate();
     return(
         <MainLayout>
-            {member===undefined ? <Loading/> : (
+            {(loading || waitingEmojiCount > 0) && <Loading/>}
+            {!loading && member!==undefined &&
             <div className="FlexColumn">
                 <div className="BoxL">
                     <div className="FlexRow"  onClick={() =>{navigate('/profilePage')}}>
@@ -62,7 +67,7 @@ export function MyPage(){
                 {diary === null ? <div className="BoxL" style={{textAlign: "center"}}> no diary </div> :
                 <div>
                     <div className="BoxL">
-                        <EmojiBox diaryId={diary.id}/>
+                        <EmojiBox diaryId={diary.id} setWaitingEmojiBoxCnt={setWaitingEmojiCount}/>
                     </div>
                     <DiaryView contents={diary.contents}/>
                     <Trash onClick={
@@ -72,7 +77,7 @@ export function MyPage(){
                         }
                     } style={{margin: '0 auto', display: 'block'}}/>
                 </div>}
-            </div>)}
+            </div>}
         </MainLayout>
     );
 }

@@ -4,7 +4,6 @@ import { MemberProfile } from "./MemberProfile";
 import { MidCategoryTile } from "./MidCategoryTile";
 import { Category, classifyByCategoryCode } from "../utils/manageCategory";
 import { MemberType } from "../services/api/MemberApi";
-import { wrap } from "module";
 
 function LargeCategoryWrapper({category, categoryList} : {category: string, categoryList: Category[]}){
     return (
@@ -29,8 +28,8 @@ export interface DiaryPreviewProps{
     member: MemberType,
 }
 
-export function DiaryPreview ({diaryPreviewProps, setLoading=null}
-    : {diaryPreviewProps:DiaryPreviewProps, setLoading?:React.Dispatch<React.SetStateAction<number>>|null}){
+export function DiaryPreview ({diaryPreviewProps, setWaitingEmojiBoxCnt}
+    : {diaryPreviewProps:DiaryPreviewProps, setWaitingEmojiBoxCnt:React.Dispatch<React.SetStateAction<number>>}){
     const navigate = useNavigate();
     const classifiedCategorys:Category[][] = classifyByCategoryCode(diaryPreviewProps.categories);
 
@@ -48,7 +47,7 @@ export function DiaryPreview ({diaryPreviewProps, setLoading=null}
                         );
                     })}
                 </div>
-                <EmojiBox diaryId={diaryPreviewProps.id} setLoading={setLoading}/>
+                <EmojiBox diaryId={diaryPreviewProps.id} setWaitingEmojiBoxCnt={setWaitingEmojiBoxCnt}/>
             </div>
     );
 }
