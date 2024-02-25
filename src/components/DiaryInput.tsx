@@ -153,7 +153,7 @@ export interface Diary {
     contents: JSON[];
 }
 
-export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, categorys: Category[]}) {
+export function DiaryInput({date, curDiary, categorys} : {date:string, curDiary: Diary|null, categorys: Category[]}) {
     const classifiedContents:Content[][] = classifyByCategoryCode(curDiary?.contents || []);
     const classifiedCategorys:Category[][] = classifyByCategoryCode(categorys);
     const [loading, setLoading] = useState<boolean>(false);
@@ -177,7 +177,7 @@ export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, catego
             const today = new Date();
             await diaryApi.create({date:today});
             console.log(`Diary created for ${today}`);
-            curDiary = await diaryApi.getByDate(today);
+            curDiary = await diaryApi.getByDate(`${today.getFullYear()}${(today.getMonth()+1).toString().padStart(2, '0')}${(today.getDate()).toString().padStart(2, '0')}`);
         }
         //trigger save in each midCategoryInput
         inputValues.forEach(async (content) => {
@@ -186,13 +186,9 @@ export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, catego
                 return;
             }
             if(content.contentId == null) {
-                console.log('create다');
-                console.log(content);
                 await contentApi.create({ ...content, diaryId: curDiary.id });
-                
+
             } else {
-                console.log('업데이트다');
-                console.log(content);
                 await contentApi.update({ ...content, diaryId: curDiary.id });
             }
         });
@@ -204,7 +200,7 @@ export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, catego
         <div>
             {loading && <Loading/>}
             <div className="BoxL" style={{paddingBottom: '1vh'}}>
-                <DateBox date={new Date()} needSave={true} clickHandler={onClickSaveBtn}/>
+                <DateBox date={date} needSave={true} clickHandler={onClickSaveBtn}/>
                 {curDiary!==null?<EmojiBox diaryId={curDiary.id}/>:<></>}
             </div>
             <div className = "FlexColumn">

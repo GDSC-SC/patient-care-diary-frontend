@@ -7,11 +7,11 @@ import { useEffect, useState } from "react";
 import { Diary, DiaryInput } from "../components/DiaryInput";
 import { categoryApi, diaryApi } from "../services/api";
 import { Loading } from "../components/Loading";
+import { useParams } from "react-router-dom";
 
 // 본 화면은 로그인 후 처음으로 접근하는 화면입니다.
 // 기능 : 기록.
 export function Home() {
-
     const [loading, setLoading] = useState<boolean>(true);
     const [diary, setDiary] = useState<Diary|null>(null);
     const [categorys, setCategorys] = useState<any>();
@@ -23,12 +23,12 @@ export function Home() {
             contents: diaryData.contents,
         };
     }
+    const { date } = useParams(); //20240225
 
     useEffect(() => {
         const fetchDiary = async () => {   
-            const today = new Date();
             try {
-                return await diaryApi.getByDate(today);
+                return await diaryApi.getByDate(date!);
             } catch (error) {
                 if ((error as any).response && (error as any).response.status === 404) {
                     console.log("Diary not found");
@@ -52,10 +52,8 @@ export function Home() {
     return (
         <MainLayout>
             {loading ? <Loading/> : 
-                <div>
-                    <DiaryInput curDiary={diary} categorys={categorys}/>
-                </div>
+                <DiaryInput date={date!} curDiary={diary} categorys={categorys}/>
             }
         </MainLayout>
     );
-}
+        }

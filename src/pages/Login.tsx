@@ -15,7 +15,8 @@ export function Login() {
         if (accessToken !== null && refreshToken !== null && accessToken !== '' ) {
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
-            navigate('/home');
+            const date = new Date();
+            navigate(`/home/${date.getFullYear()}${(date.getMonth()+1).toString().padStart(2, '0')}${(date.getDate()).toString().padStart(2, '0')}`)
         }
     };
 

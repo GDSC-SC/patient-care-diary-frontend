@@ -102,8 +102,8 @@ function CategoryEditor({selectedCategory, editorClose, setSelectedMCategory}: {
                                 if (selectedCategory?.id)
                                     await categoryApi.modify({categoryId: selectedCategory?.id, categoryCode: categoryCode!, subtitle: midCategory!, color: color!});
                                 else{
-                                        await categoryApi.create({categoryCode: categoryCode!, subtitle: midCategory!, color: color!});
-                                        firstSet();
+                                    await categoryApi.create({categoryCode: categoryCode!, subtitle: midCategory!, color: color!});
+                                    await firstSet();
                                 }
                                 afterAction();
                             }
@@ -128,15 +128,17 @@ export function MyCategory(){
     const [classifiedCategorys, setClassifiedCategorys] = useState<Category[][]>();
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isChanged, setIsChanged] = useState<boolean>(false);
     async function firstSet(){
         const categories = await categoryApi.my();
         setClassifiedCategorys(classifyByCategoryCode(categories));
+        setIsChanged(!isChanged);
         setIsLoading(false);
     }
     
     useEffect(() =>{
         firstSet();
-    }, [selectedMCategory]);
+    }, [selectedMCategory, isChanged]);
 
 
     return(

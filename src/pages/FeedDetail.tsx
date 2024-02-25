@@ -42,7 +42,7 @@ export function FeedDetail(){
             <div>
                 <div className="BoxL">
                     <div className="FlexColumn" style={{padding:'3vw'}}>
-                        <DateBox date={new Date(diary.date[0], diary.date[1], diary.date[2])} needSave={false}/>
+                        <DateBox date={diary.date} needSave={false}/>
                         <MemberProfile member={diary.member} />
                         <EmojiBox diaryId={diary.id}/>
                     </div>
