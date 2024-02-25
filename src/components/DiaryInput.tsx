@@ -174,10 +174,9 @@ export function DiaryInput({date, curDiary, categorys} : {date:string, curDiary:
         }
         if(curDiary === null) {
             console.log("curDiary is null, creating one");
-            const today = new Date();
-            await diaryApi.create({date:today});
-            console.log(`Diary created for ${today}`);
-            curDiary = await diaryApi.getByDate(`${today.getFullYear()}${(today.getMonth()+1).toString().padStart(2, '0')}${(today.getDate()).toString().padStart(2, '0')}`);
+            await diaryApi.create({date:date});
+            console.log(`Diary created for ${date}`);
+            curDiary = await diaryApi.getByDate(date);
         }
         //trigger save in each midCategoryInput
         inputValues.forEach(async (content) => {
