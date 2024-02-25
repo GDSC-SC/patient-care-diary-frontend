@@ -104,8 +104,13 @@ function MidCategoryInput({categoryName, categoryId, color, content, onChange, o
                             <FaCamera size={'60%'} color="#E5E5E5"/>
                         </div>
                     </div>
+                    
                     :
-                    <img src={typeof(fileInput)==='string'?fileInput:''} alt='' style={{overflow:'auto', maxHeight:'20vh', maxWidth: '70vw'}}/>
+                    <img src={typeof(fileInput)==='string'?fileInput:''} alt='' style={{overflow:'auto', maxHeight:'20vh', maxWidth: '70vw'}}
+                        onError={()=>{
+                            setFileInput(null);
+                        }}
+                    />
                     // TODO: 이미지가 이미 있을 때는 클릭해도 입력창이 뜨지 않음 
                 }
                 
@@ -202,8 +207,12 @@ export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, catego
                 return;
             }
             if(content.contentId == null) {
+                console.log('create다');
+                console.log(content);
                 await contentApi.create({ ...content, diaryId: curDiary.id });
             } else {
+                console.log('업데이트다');
+                console.log(content);
                 await contentApi.update({ ...content, diaryId: curDiary.id });
             }
         });
