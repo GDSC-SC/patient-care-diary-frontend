@@ -164,7 +164,6 @@ export interface Diary {
 export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, categorys: Category[]}) {
     const classifiedContents:Content[][] = classifyByCategoryCode(curDiary?.contents || []);
     const classifiedCategorys:Category[][] = classifyByCategoryCode(categorys);
-    const [waitingEmojiCount, setWaitingEmojiCount] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(false);
     const [hasInputChange, setHasInputChange] = useState<boolean>(false);
     const [inputValues, setInputValues] = useState<ContentForCreate[]>([]);
@@ -214,10 +213,10 @@ export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, catego
 
     return(
         <div>
-            {(loading || waitingEmojiCount > 0) && <Loading/>}
+            {loading && <Loading/>}
             <div className="BoxL" style={{paddingBottom: '1vh'}}>
                 <DateBox date={new Date()} needSave={true} clickHandler={onClickSaveBtn}/>
-                {curDiary!==null?<EmojiBox diaryId={curDiary.id} setWaitingEmojiBoxCnt={setWaitingEmojiCount}/>:<></>}
+                {curDiary!==null?<EmojiBox diaryId={curDiary.id}/>:<></>}
             </div>
             <div className = "FlexColumn">
                 {
