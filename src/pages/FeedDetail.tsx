@@ -9,6 +9,7 @@ import { DiaryApi } from "../services/api/DiaryApi";
 import { MemberType } from "../services/api/MemberApi";
 
 export interface Content {
+    id: number|null,
     category: string,
     categoryCode: string,
     color: string,

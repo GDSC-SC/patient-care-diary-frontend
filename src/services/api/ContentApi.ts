@@ -1,10 +1,11 @@
-import { DELETE, GET } from ".";
-
+import { DELETE, GET, POST, PUT } from ".";
+export interface ContentForCreate {
+    contentId:number|null, diaryId:number, categoryId:number, done:boolean, text:string, img:File|undefined
+}
 export class ContentApi{
     makeUrl(url:string){
         return `/api/contents/${url}`;
     }
-
 
     getContent(contentId: number){
         return (GET(this.makeUrl(contentId.toString()), null));
@@ -14,31 +15,44 @@ export class ContentApi{
         DELETE(this.makeUrl(contentId.toString()),null);
     }
 
-    create({diaryId, categoryId}:{diaryId:number, categoryId:number}){
+    create(props: ContentForCreate){
+        console.log("try to create", props)
         const formdata = new FormData();
-        // formdata.append("requestDto", `\n \{diaryId: ${diaryId},\n \categoryId: ${categoryId},\n \done: false,\n \text: ""}`);
-        formdata.append("requestDto", `{
-            "diaryId": ${diaryId},
-            "categoryId": ${categoryId},
-            "done": false,
-            "text": '',
-        }`)
-        formdata.append("image",'');
-        
-        const requestOptions = {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`,
-                'Content-Type': 'multipart/form-data'
-            },
-            body: formdata,
+        const requestData = {
+            diaryId: props.diaryId,
+            categoryId: props.categoryId,
+            done: props.done,
+            text: props.text,
         };
-        
-        fetch("https://patient-care-diary.fly.dev/api/contents/create", requestOptions)
-          .then((response) => response.text())
-          .then((result) => console.log(result))
-          .catch((error) => console.error(error));
+        formdata.append("requestDto", new Blob([JSON.stringify(requestData)], { type: 'application/json' }));
 
+        if(props.img !== undefined) {
+            formdata.append("image", props.img, props.img.name);
+        } else {
+            formdata.append("image", new Blob([JSON.stringify(null)], { type: 'application/json' }));
+        }
+        
+        POST(this.makeUrl("create"), formdata);
+    }
+
+    update(props: ContentForCreate){
+        if (props.contentId === null) {
+            throw new Error("contentId is null");
+        }
+        const formdata = new FormData();
+        const requestData = {
+            done: props.done,
+            text: props.text,
+        };
+        formdata.append("requestDto", new Blob([JSON.stringify(requestData)], { type: 'application/json' }));
+
+        if(props.img !== undefined) {
+            formdata.append("image", props.img, props.img.name);
+        } else {
+            formdata.append("image", new Blob([JSON.stringify(null)], { type: 'application/json' }));
+        }
+        
+        PUT(this.makeUrl(props.contentId.toString()), formdata);
     }
 
     getDiary(diaryId:number){

@@ -32,6 +32,7 @@ export async function GET(url:string, data:any){
         if ((error as AxiosError).isAxiosError && (error as AxiosError).message === 'Network Error') {
             //auth.login();
         }
+        console.error(error);
         throw error;
     }
 }
@@ -49,6 +50,7 @@ export async function POST(url:string, data:any,){
         if ((error as AxiosError).isAxiosError && (error as AxiosError).message === 'Network Error') {
             //auth.login();
         }
+        console.error(error);
         throw error; // 에러를 다시 던져서 상위 코드에서 처리할 수 있도록 함
     }
 }
@@ -66,6 +68,7 @@ export async function PUT(url:string, data:any){
         if ((error as AxiosError).isAxiosError && (error as AxiosError).message === 'Network Error') {
             //auth.login();
         }
+        console.error(error);
         throw error;
     }
 }
@@ -83,6 +86,7 @@ export async function DELETE(url:string, data:any){
         if ((error as AxiosError).isAxiosError && (error as AxiosError).message === 'Network Error') {
             //auth.login();
         }
+        console.error(error);
         throw error;
     }
 }
