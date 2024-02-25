@@ -17,8 +17,8 @@ export class DiaryApi{
         return (GET(this.makeUrl(diaryId.toString()), null));
     }
 
-    delete(diaryId:number){
-        DELETE(this.makeUrl(diaryId.toString()), null);
+    async delete(diaryId:number){
+        await DELETE(this.makeUrl(diaryId.toString()), null);
     }
     
     my(){

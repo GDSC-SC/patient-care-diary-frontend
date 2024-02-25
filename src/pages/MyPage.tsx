@@ -41,6 +41,10 @@ export function MyPage(){
         }
         fetchDiary();
     }, [selectedDate, renderCount]);
+
+    useEffect(()=>{
+        console.log(diary);
+    }, [diary])
     
     const navigate = useNavigate();
     return(
