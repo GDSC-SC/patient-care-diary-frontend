@@ -5,10 +5,9 @@ export class DiaryApi{
         return `/api/diarys/${url}`;
     }
 
-    async create({date}:{date: Date}){
-        const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+    async create({date}:{date: string}){
         const data = {
-            "date": formattedDate
+            "date": `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`
         }
         await POST(this.makeUrl('create'), data)
     }

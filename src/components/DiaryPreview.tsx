@@ -33,20 +33,23 @@ export function DiaryPreview ({diaryPreviewProps} : {diaryPreviewProps:DiaryPrev
     const classifiedCategorys:Category[][] = classifyByCategoryCode(diaryPreviewProps.categories);
 
     return (
-        <div className="BoxL" style={{ padding: '3vw' }}>
-                <div onClick={() => { navigate(`/feedDetail/${diaryPreviewProps.id}`) }}>
-                    <MemberProfile member={diaryPreviewProps.member}  />
-                    {classifiedCategorys.map((categoryList:Category[]) => {
-                        if (categoryList.length === 0) return null;
-                        return (
-                            <LargeCategoryWrapper
-                                category={categoryList[0].category}
-                                categoryList={categoryList}
-                            />
-                        );
-                    })}
-                </div>
-                <EmojiBox diaryId={diaryPreviewProps.id}/>
-            </div>
+        <div className="BoxL" style={{ padding: '3vw', position: 'relative' }}>
+    <div style={{fontSize: 'small', textAlign: 'right', color: 'grey', position: 'absolute', top: 5, right: 10}}>
+        {diaryPreviewProps.date[0]}.{diaryPreviewProps.date[1].toString().padStart(2,'0')}.{diaryPreviewProps.date[2].toString().padStart(2,'0')}
+    </div>
+    <div onClick={() => { navigate(`/feedDetail/${diaryPreviewProps.id}`) }}>
+        <MemberProfile member={diaryPreviewProps.member}  />
+        {classifiedCategorys.map((categoryList:Category[]) => {
+            if (categoryList.length === 0) return null;
+            return (
+                <LargeCategoryWrapper
+                    category={categoryList[0].category}
+                    categoryList={categoryList}
+                />
+            );
+        })}
+    </div>
+    <EmojiBox diaryId={diaryPreviewProps.id}/>
+</div>
     );
 }

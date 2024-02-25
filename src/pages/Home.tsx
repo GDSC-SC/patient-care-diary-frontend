@@ -23,7 +23,7 @@ export function Home() {
             contents: diaryData.contents,
         };
     }
-    const { date } = useParams(); //20240225
+    const { date } = useParams(); //YYYYMMDD
 
     useEffect(() => {
         const fetchDiary = async () => {   
@@ -47,7 +47,7 @@ export function Home() {
         }
 
         fetchAll();
-    }, []);
+    });
 
     return (
         <MainLayout>

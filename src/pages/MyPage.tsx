@@ -67,8 +67,16 @@ export function MyPage(){
                 <div className="BoxL">
                     <Calendar onChange={(value) => setSelectedDate(value as Date)} value={selectedDate} locale="en-GB" />
                 </div>
-                {diary === null ? <div className="BoxL" style={{textAlign: "center"}}> no diary </div> :
-                <div>
+                {diary === null ? <div>
+                <div className="BoxL" style={{textAlign: "center"}}>
+                     no diary
+                </div>
+                <MdOutlineModeEditOutline style={{margin: '0 auto', display: 'flex'}} onClick={()=>{
+                            const date = new Date(selectedDate);
+                            navigate(`/home/${date.getFullYear()}${(date.getMonth()+1).toString().padStart(2, '0')}${(date.getDate()).toString().padStart(2, '0')}`)
+                        }}/>
+                 </div> 
+                : <div>
                     <div className="BoxL">
                         <EmojiBox diaryId={diary.id}/>
                     </div>
