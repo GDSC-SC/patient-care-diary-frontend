@@ -22,7 +22,6 @@ function App(){
       <Route path="/profilePage" element={<ProfilePage/>}/>
       </Routes>
     </div>
-
   );
 }
 
