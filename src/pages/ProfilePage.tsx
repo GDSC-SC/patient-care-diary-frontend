@@ -15,7 +15,7 @@ function ProfileList({title,value,onEdit}:{title: string, value?: string, onEdit
     return(
         <div className='FlexRow'>
             <div style={{flex: 2}}><b>{title}</b></div>
-            <div style={{flex:5}}>
+            <div style={{flex:5, whiteSpace: 'normal'}}>
                 {onEdit?
                     <input
                         key={title}
@@ -62,7 +62,7 @@ export function ProfilePage(){
     }
 
     useEffect(() => {
-        fetchData(); 
+        fetchData();
     }, []);
 
     const onEditIllness = (value: string) => {

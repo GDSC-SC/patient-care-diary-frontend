@@ -24,6 +24,7 @@ export function MyPage(){
             setMember(member);
         }
         fetchUser();
+        
     }, []);
 
     useEffect(()=>{

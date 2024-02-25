@@ -11,8 +11,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ContentForCreate } from "../services/api/ContentApi";
 import { Loading } from "./Loading";
 
-function MidCategoryInput({categoryName, categoryId, color, content, onChange, onValueChange}
-    :{categoryName: string, categoryId: number, color: string, content:Content|null, onChange: (isChanged:boolean) => void, 
+function MidCategoryInput({categoryName, categoryId, color, content, onValueChange}
+    :{categoryName: string, categoryId: number, color: string, content:Content|null, 
     onValueChange: (newValue:ContentForCreate) => void}) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -36,7 +36,6 @@ function MidCategoryInput({categoryName, categoryId, color, content, onChange, o
             setFile(selectedFile);
             const fileUrl = URL.createObjectURL(selectedFile);
             setFileInput(fileUrl);
-            onChange(content?.photoUrl !== fileUrl);
             onValueChange({
                 contentId: content?.id||null,
                 diaryId: 0,
@@ -63,7 +62,7 @@ function MidCategoryInput({categoryName, categoryId, color, content, onChange, o
                 <div className="FlexRow" style={{gap: '3vw'}}>
                     <div className="RoundCenter" 
                     style={{width: '3vh', height: '3vh', backgroundColor: isDone? 'grey' : 'white'}}
-                    onClick={() => {setIsDone(!isDone); onChange(content?.done !== isDone); onValueChange({
+                    onClick={() => {setIsDone(!isDone); onValueChange({
                         contentId: content?.id||null,
                         diaryId: 0,
                         categoryId: categoryId,
@@ -101,6 +100,7 @@ function MidCategoryInput({categoryName, categoryId, color, content, onChange, o
                         onError={()=>{
                             setFileInput(null);
                         }}
+                        loading="lazy"
                     />
                     // TODO: 이미지가 이미 있을 때는 클릭해도 입력창이 뜨지 않음 
                 }
@@ -109,7 +109,7 @@ function MidCategoryInput({categoryName, categoryId, color, content, onChange, o
                     className="ContentsTextArea"
                     ref={textAreaRef}
                     value={contentsText}
-                    onChange={(e) => {setContentsText(e.target.value); onChange(content?.text !== contentsText); onValueChange({
+                    onChange={(e) => {setContentsText(e.target.value); onValueChange({
                         contentId: content?.id||null,
                         diaryId: 0,
                         categoryId: categoryId,
@@ -125,9 +125,8 @@ function MidCategoryInput({categoryName, categoryId, color, content, onChange, o
     );
 }
 
-function LargeCategoryWrapper({category, categoryList, contents, onInputChange, onInputValueChange} 
-    : {category: string, categoryList: Category[], contents: Content[],
-         onInputChange: (isChanged:boolean) => void, onInputValueChange: (newValue:ContentForCreate) => void}){
+function LargeCategoryWrapper({category, categoryList, contents, onInputValueChange} 
+    : {category: string, categoryList: Category[], contents: Content[], onInputValueChange: (newValue:ContentForCreate) => void}){
     return(
         <div className="BoxL" style={{padding: '3vw'}}>
             <h2>{category}</h2>
@@ -140,7 +139,6 @@ function LargeCategoryWrapper({category, categoryList, contents, onInputChange, 
                         categoryId={midCategory.id} 
                         color={midCategory.color} 
                         content={matchingContents || null} // Pass the matching contents as a prop, if undefined, pass null
-                        onChange={onInputChange}
                         onValueChange={onInputValueChange}
                     />
                 );
@@ -159,14 +157,7 @@ export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, catego
     const classifiedContents:Content[][] = classifyByCategoryCode(curDiary?.contents || []);
     const classifiedCategorys:Category[][] = classifyByCategoryCode(categorys);
     const [loading, setLoading] = useState<boolean>(false);
-    const [hasInputChange, setHasInputChange] = useState<boolean>(false);
     const [inputValues, setInputValues] = useState<ContentForCreate[]>([]);
-    const handleInputChange = (isChanged:boolean) => {
-        // Do something with the new value...
-        // Then set the hasInputChange state
-        setHasInputChange(isChanged);
-        console.log("input changed: ", isChanged); //TODO 제대로 감지 못함 컴포넌트가 새로 생겨서인지 무조건 true로 나옴
-    };
     const handleInputValueChange = (newValue:ContentForCreate) => {
         console.log("handleInputValueChange called with", newValue);
         setInputValues(prevValues => {
@@ -177,8 +168,7 @@ export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, catego
     }
     const onClickSaveBtn = async () => {
         setLoading(true);
-        if(!hasInputChange) {
-        // TODO: 사용자가 체크박스 체크했다가 취소하거나 뭔가 썼다 지워도 hasInputChange는 true로 남아있음. 수정 필요
+        if(inputValues.length === 0) {
             toast("You haven't added any information yet.");
             return;
         }
@@ -199,6 +189,7 @@ export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, catego
                 console.log('create다');
                 console.log(content);
                 await contentApi.create({ ...content, diaryId: curDiary.id });
+                
             } else {
                 console.log('업데이트다');
                 console.log(content);
@@ -225,7 +216,6 @@ export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, catego
                                 category={categoryList[0].category}
                                 categoryList={categoryList}
                                 contents={classifiedContents[index]}
-                                onInputChange={handleInputChange}
                                 onInputValueChange={handleInputValueChange}
                                 key={categoryList[0].categoryCode}
                             />

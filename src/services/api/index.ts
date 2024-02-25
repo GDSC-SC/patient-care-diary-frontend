@@ -5,10 +5,22 @@ import { DiaryApi } from "./DiaryApi";
 import { MemberApi } from "./MemberApi";
 import { EmojiApi } from "./EmojiApi";
 
-const accessToken = localStorage.getItem('accessToken');
 const baseAxios = axios.create({
     withCredentials: true
 });
+
+function getAccessToken() {
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (accessToken === null || accessToken === '') {
+        if(refreshToken !== null && refreshToken !== ''){
+            localStorage.setItem('accessToken', refreshToken);
+        }
+        window.location.href = '/';
+    } else {
+    return accessToken;
+    }
+}
 
 export const categoryApi = new CategoryApi();
 export const contentApi = new ContentApi();
@@ -20,22 +32,21 @@ export async function GET(url:string, data:any){
     try {
         const res = await baseAxios.get(url, {
             headers: {
-                Authorization: `Bearer ${accessToken}`,
+                Authorization: `Bearer ${getAccessToken()}`,
             },
             data: data,
         });
         const result = res.data;
-         console.log(url, data, accessToken)
-         console.log(result)
         return result;
     } catch (error) {
         if ((error as AxiosError).isAxiosError && (error as AxiosError).message === 'Network Error') {
             //auth.login();
         }
-        console.log("elrror from GET")
+        console.log("error from GET")
         console.error(error);
         throw error;
     }
+
 }
 
 
@@ -43,7 +54,7 @@ export async function POST(url:string, data:any,){
     try {
         const response = await baseAxios.post(url, data, {
             headers: {
-                Authorization: `Bearer ${accessToken}`,
+                Authorization: `Bearer ${getAccessToken()}`,
             },
         });
         return response.data; // POST 요청의 결과 값을 반환
@@ -59,7 +70,7 @@ export async function POST(url:string, data:any,){
 export async function PUT(url:string, data:any){
     try {await baseAxios.put(url, data, {
         headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${getAccessToken()}`,
         },
         data:data
     }).then((res)=>{
@@ -77,7 +88,7 @@ export async function PUT(url:string, data:any){
 export async function DELETE(url:string, data:any){
     try { await baseAxios.delete(url, {
       headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${getAccessToken()}`,
       },
       data:data
   }).then((res)=>{
