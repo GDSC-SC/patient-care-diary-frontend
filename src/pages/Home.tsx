@@ -47,7 +47,7 @@ export function Home() {
         }
 
         fetchAll();
-    }, []);
+    });
 
     return (
         <MainLayout>

@@ -22,7 +22,7 @@ export function Login() {
 
     useEffect(() => {
         getTocken();
-    }, []);
+    });
     
     return (
         <div 
