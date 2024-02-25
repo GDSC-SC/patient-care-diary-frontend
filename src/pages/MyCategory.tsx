@@ -7,7 +7,7 @@ import { categoryApi } from "../services/api";
 import { MidCategoryTile } from "../components/MidCategoryTile";
 import { FaChevronDown, FaChevronUp, FaEllipsisH } from "react-icons/fa";
 import { Modal } from "../components/Modal";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from 'react-toastify';
 
 type LargeCategory = {
     id: number,
@@ -152,13 +152,25 @@ export function MyCategory(){
 
     return(
         <MainLayout> 
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+                />
             <div className="FlexColumn">
                 <div className="BoxL">
                     <div className="FlexRow">
                         <h2>My Category</h2>
                     </div>
                 </div>
-                <div >
+                <div>
                         {classifiedCategorys?.map((category: Category[])=>{
                             if(category.length!=0)
                                 return(
