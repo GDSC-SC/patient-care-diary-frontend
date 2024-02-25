@@ -4,7 +4,7 @@ import '../styles/components/Box.css'
 
 export function Login() {
     const fetchData = () => {
-        window.location.href="http://patient-care-diary.dev/oauth2/authorization/google"
+        window.location.href="http://patient-care-diary.fly.dev/oauth2/authorization/google"
     };
     
     return (

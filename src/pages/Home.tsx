@@ -11,13 +11,8 @@ import { Loading } from "../components/Loading";
 // 본 화면은 로그인 후 처음으로 접근하는 화면입니다.
 // 기능 : 기록.
 export function Home(){
-    
     const token = new URL(window.location.href).searchParams.get("accessToken");
     const refreshToken = new URL(window.location.href).searchParams.get("refreshToken");
-    useEffect(() => {
-    localStorage.setItem('accessToken', token||'');
-    localStorage.setItem('refreshToken', refreshToken||'');
-    },);
 
     const [loading, setLoading] = useState<boolean>(true);
     const [diary, setDiary] = useState<Diary|null>(null);
@@ -32,6 +27,13 @@ export function Home(){
     }
 
     useEffect(() => {
+        const getTocken = async () => {
+            const token = await new URL(window.location.href).searchParams.get("accessToken");
+            const refreshToken = await new URL(window.location.href).searchParams.get("refreshToken");
+
+            localStorage.setItem('accessToken', token||'');
+            localStorage.setItem('refreshToken', refreshToken||'');
+        }
         const fetchDiary = async () => {   
             const today = new Date();
             try {
@@ -45,6 +47,8 @@ export function Home(){
         };
         
         const fetchAll = async () => {
+            await getTocken();
+            console.log(localStorage.getItem('accessToken'))
             setCategorys(await categoryApi.my());
             const diary = await fetchDiary();
             if (diary !== null) {
@@ -52,6 +56,7 @@ export function Home(){
             }
             setLoading(false);
         }
+
         fetchAll();
     }, []);
 
