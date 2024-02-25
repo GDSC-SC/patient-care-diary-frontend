@@ -15,7 +15,7 @@ export class ContentApi{
         DELETE(this.makeUrl(contentId.toString()),null);
     }
 
-    create(props: ContentForCreate){
+    async create(props: ContentForCreate){
         console.log("try to create", props)
         const formdata = new FormData();
         const requestData = {
@@ -32,10 +32,10 @@ export class ContentApi{
             formdata.append("image", new Blob([JSON.stringify(null)], { type: 'application/json' }));
         }
         
-        POST(this.makeUrl("create"), formdata);
+        await POST(this.makeUrl("create"), formdata);
     }
 
-    update(props: ContentForCreate){
+    async update(props: ContentForCreate){
         if (props.contentId === null) {
             throw new Error("contentId is null");
         }
@@ -52,7 +52,7 @@ export class ContentApi{
             formdata.append("image", new Blob([JSON.stringify(null)], { type: 'application/json' }));
         }
         
-        PUT(this.makeUrl(props.contentId.toString()), formdata);
+        await PUT(this.makeUrl(props.contentId.toString()), formdata);
     }
 
     getDiary(diaryId:number){
