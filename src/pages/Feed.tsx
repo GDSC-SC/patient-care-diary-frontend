@@ -5,21 +5,24 @@ import { DiaryApi } from "../services/api/DiaryApi";
 
 export function Feed() {
     const [loading, setLoading] = useState<boolean>(true);
+    const [waitingEmojiCount, setWaitingEmojiCount] = useState<number>(0);
     const [diarys, setDiarys] = useState<any>();
     useEffect(() => {
         const fetchDiarys = async () => {
             const diaryApi = new DiaryApi();
             const diarys = await diaryApi.all();
             setDiarys(diarys.reverse());
+            setWaitingEmojiCount(diarys.length);
             setLoading(false);
         }
         fetchDiarys();
     }, []);
     return (
         <MainLayout>
+            {(loading || waitingEmojiCount > 0) && <div>Loading...</div>}
             {loading ? <div>Loading...</div> : 
                 diarys.map((diary:DiaryPreviewProps) => {
-                    return <DiaryPreview diaryPreviewProps={diary} />
+                    return <DiaryPreview diaryPreviewProps={diary} setLoading={setWaitingEmojiCount}/>
                 })
             }
         </MainLayout>

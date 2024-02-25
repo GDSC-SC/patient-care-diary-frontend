@@ -26,7 +26,8 @@ export interface DiaryPreviewProps{
     member: MemberType,
 }
 
-export function DiaryPreview ({diaryPreviewProps}: {diaryPreviewProps:DiaryPreviewProps}){
+export function DiaryPreview ({diaryPreviewProps, setLoading=null}
+    : {diaryPreviewProps:DiaryPreviewProps, setLoading?:React.Dispatch<React.SetStateAction<number>>|null}){
     const navigate = useNavigate();
     const classifiedCategorys:Category[][] = classifyByCategoryCode(diaryPreviewProps.categories);
 
@@ -44,7 +45,7 @@ export function DiaryPreview ({diaryPreviewProps}: {diaryPreviewProps:DiaryPrevi
                         );
                     })}
                 </div>
-                <EmojiBox diaryId={diaryPreviewProps.id}/>
+                <EmojiBox diaryId={diaryPreviewProps.id} setLoading={setLoading}/>
             </div>
     );
 }
