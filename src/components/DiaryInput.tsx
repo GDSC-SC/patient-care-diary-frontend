@@ -227,6 +227,7 @@ export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, catego
                                 contents={classifiedContents[index]}
                                 onInputChange={handleInputChange}
                                 onInputValueChange={handleInputValueChange}
+                                key={categoryList[0].categoryCode}
                             />
                         );
                     })

@@ -91,7 +91,7 @@ function CategoryEditor({selectedCategory, editorClose, setSelectedMCategory}: {
                     {isColorOpen? <div style={{paddingTop:'4vw',}}><ColorSelector selectedColor={color} onColorChange={(c)=>setColor(c)}/></div>:<></>}
                 </div>
                 <div className="FlexRow" style={{width:'max-content', padding:'3vw'}}>
-                    <EditorBtn title={"Save"} clickHandler={()=>{
+                    <EditorBtn title={"Save"} clickHandler={async ()=>{
                             if(categoryCode === '') {
                                 toast("please select category");
                                 console.log("categoryCode is null")
@@ -100,17 +100,17 @@ function CategoryEditor({selectedCategory, editorClose, setSelectedMCategory}: {
                                 console.log("midCategory is null")
                             } else {
                                 if (selectedCategory?.id)
-                                    categoryApi.modify({categoryId: selectedCategory?.id, categoryCode: categoryCode!, subtitle: midCategory!, color: color!});
+                                    await categoryApi.modify({categoryId: selectedCategory?.id, categoryCode: categoryCode!, subtitle: midCategory!, color: color!});
                                 else{
-                                        categoryApi.create({categoryCode: categoryCode!, subtitle: midCategory!, color: color!});
+                                        await categoryApi.create({categoryCode: categoryCode!, subtitle: midCategory!, color: color!});
                                         firstSet();
                                 }
                                 afterAction();
                             }
                         }}/>
-                    {selectedCategory?.id && <EditorBtn title={"Delete"} clickHandler={()=>{
+                    {selectedCategory?.id && <EditorBtn title={"Delete"} clickHandler={async ()=>{
                         if(selectedCategory?.id)
-                            categoryApi.delete({categoryId:selectedCategory.id});
+                            await categoryApi.delete({categoryId:selectedCategory.id});
                             afterAction();
                         }}/>}
                     <EditorBtn title={"Close"} clickHandler={()=>{
@@ -165,12 +165,12 @@ export function MyCategory(){
                     {classifiedCategorys?.map((category: Category[])=>{
                         if(category.length!==0)
                             return(
-                                <div className="FlexColumn" style={{margin:'6vw'}}>
+                                <div className="FlexColumn" style={{margin:'6vw'}} key={category[0]?.categoryCode}>
                                     <h3>{category[0]?.category}</h3>
                                     <div style={{margin:'0 3vw'}}>
                                         {category.map((c)=>{
                                             return(
-                                                <div className="FlexRow" style={{margin: '1vw 0'}}>
+                                                <div className="FlexRow" style={{margin: '1vw 0'}} key={c.id}>
                                                     <MidCategoryTile title={c.midCategory} color={c.color}/>
                                                     <FaEllipsisH onClick={()=>{
                                                         setSelectedMCategory(c);

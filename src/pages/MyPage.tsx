@@ -18,13 +18,10 @@ export function MyPage(){
     const [diary, setDiary] = useState<any>(null);
     const [member, setMember] = useState<MemberType>();
     const [renderCount, setRenderCount] = useState<number>(0);
-    const [waitingEmojiCount, setWaitingEmojiCount] = useState<number>(1);
-    const [loading, setLoading] = useState<boolean>(true);
     useEffect(() => {
         const fetchUser = async () => {
             const member = await memberApi.parseMemberData();
             setMember(member);
-            setLoading(false);
         }
         fetchUser();
     }, []);
@@ -49,8 +46,7 @@ export function MyPage(){
     const navigate = useNavigate();
     return(
         <MainLayout>
-            {(loading || waitingEmojiCount > 0) && <Loading/>}
-            {!loading && member!==undefined &&
+            {member===undefined ? <Loading/> :
             <div className="FlexColumn">
                 <div className="BoxL">
                     <div className="FlexRow"  onClick={() =>{navigate('/profilePage')}}>

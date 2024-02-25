@@ -9,31 +9,31 @@ export class CategoryApi {
     }
 
     // subtitle 생성
-    create({categoryCode, subtitle, color}: {categoryCode:string, subtitle: string, color: string}){
+    async create({categoryCode, subtitle, color}: {categoryCode:string, subtitle: string, color: string}){
         const data = {
             "categoryCode" : categoryCode,
             "subtitle": subtitle,
             "color" : color
         }
-        POST(`${this.categoryBaseUrl}/create`, data);
+        await POST(`${this.categoryBaseUrl}/create`, data);
     }
 
-    delete({categoryId}:{categoryId: number}){
-        DELETE(`${this.categoryBaseUrl}/${categoryId}`,null);
+    async delete({categoryId}:{categoryId: number}){
+        await DELETE(`${this.categoryBaseUrl}/${categoryId}`,null);
     }
 
     // visible = false가 delete category와 같은 역할
-    visible(categoryId:number){
-        PUT(`${this.categoryBaseUrl}/visible/${categoryId}`,null)
+    async visible(categoryId:number){
+        await PUT(`${this.categoryBaseUrl}/visible/${categoryId}`,null)
     }
 
     // midCategory 수정
-    modify({categoryId, categoryCode, subtitle, color}:{categoryId:number, categoryCode:string, subtitle: string, color: string}){
+    async modify({categoryId, categoryCode, subtitle, color}:{categoryId:number, categoryCode:string, subtitle: string, color: string}){
         const data = {
             "categoryCode": categoryCode,
             "subtitle": subtitle,
             "color": color
         }
-        PUT(`${this.categoryBaseUrl}/${categoryId}`,data)
+        await PUT(`${this.categoryBaseUrl}/${categoryId}`,data)
     }
 }
