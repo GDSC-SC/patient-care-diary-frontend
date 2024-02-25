@@ -11,6 +11,14 @@ import { Loading } from "../components/Loading";
 // 본 화면은 로그인 후 처음으로 접근하는 화면입니다.
 // 기능 : 기록.
 export function Home(){
+    
+    const token = new URL(window.location.href).searchParams.get("accessToken");
+    const refreshToken = new URL(window.location.href).searchParams.get("refreshToken");
+    useEffect(() => {
+    localStorage.setItem('accessToken', token||'');
+    localStorage.setItem('refreshToken', refreshToken||'');
+    },);
+
     const [loading, setLoading] = useState<boolean>(true);
     const [diary, setDiary] = useState<Diary|null>(null);
     const [categorys, setCategorys] = useState<any>();

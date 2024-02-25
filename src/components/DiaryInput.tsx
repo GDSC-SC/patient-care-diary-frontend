@@ -45,6 +45,7 @@ function MidCategoryInput({categoryName, categoryId, color, content, onChange, o
                 text: contentsText,
                 img: selectedFile
             });
+            console.log("파일이 선택되었습니다." + selectedFile.name)
         } else {
             console.error("파일이 선택되지 않았습니다.");
         }
@@ -55,16 +56,6 @@ function MidCategoryInput({categoryName, categoryId, color, content, onChange, o
     };
 
     const [isDone, setIsDone] = useState<boolean>(content?.done || false);
-
-    // useEffect(() => {
-    //     onValueChange({
-    //         diaryId: 0,
-    //         categoryId: categoryId,
-    //         done: isDone,
-    //         text: contentsText,
-    //         img: file
-    //     });
-    // }, [categoryId, contentsText, file, isDone, onValueChange]);
 
     return(
         <div className = "BoxM" style={{backgroundColor: color}}>
@@ -163,8 +154,6 @@ export interface Diary {
     date: number[];
     contents: JSON[];
 }
-
-
 
 export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, categorys: Category[]}) {
     const classifiedContents:Content[][] = classifyByCategoryCode(curDiary?.contents || []);

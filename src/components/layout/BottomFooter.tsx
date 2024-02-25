@@ -8,7 +8,7 @@ const BottomFooter = () => {
     return(
         <Footer className="Footer"> 
             <Button icon={<Archive color="#666666" style={{width:'5vw', height:'5vw'}}/>} onClick={() => {navigator('/feed')}}></Button>
-            <Button icon={<HomeRounded color="#666666" style={{width:'5vw', height:'5vw'}}/>} onClick={() => {navigator('/')}}></Button>
+            <Button icon={<HomeRounded color="#666666" style={{width:'5vw', height:'5vw'}}/>} onClick={() => {navigator('/home')}}></Button>
             <Button icon={<FaRegUser color="#666666" style={{width:'5vw', height:'5vw'}}/>} onClick={() => {navigator('/myPage')}}></Button>
         </Footer>
     )
