@@ -6,22 +6,15 @@ import { Route, Routes } from "react-router-dom";
 import { MyPage } from "./pages/MyPage";
 import { MyCategory } from "./pages/MyCategory";
 import { ProfilePage } from "./pages/ProfilePage";
-import { useEffect } from "react";
-import { Authentication } from "./services/Authentication";
-
+import { Login } from "./pages/Login";
 
 function App(){
-  useEffect(() => {
-    const auth = new Authentication();
-    if(!auth.isLoggedIn()) {
-        auth.login();
-    }
-  }, []);
   return(
     <div>
       <ToastContainer/>
       <Routes>
-      <Route path="/" element={<Home/>}/>
+      <Route path="/" element={<Login/>}/>
+      <Route path="/home" element={<Home/>}/>
       <Route path="/feed" element={<Feed/>}/>
       <Route path="/feedDetail/:id" element={<FeedDetail/>}/>
       <Route path="/myPage" element={<MyPage/>}/>
