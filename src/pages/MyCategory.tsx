@@ -18,7 +18,7 @@ function EditorBtn({title, clickHandler}: {title: string, clickHandler:()=>void}
     )
 }
 
-function CategoryEditor({selectedCategory, editorClose, setSelectedMCategory}: {selectedCategory?: Category, editorClose: ()=>void, setSelectedMCategory: ()=>void}){
+function CategoryEditor({selectedCategory, editorClose, setSelectedMCategory, setIsChanged}: {selectedCategory?: Category, editorClose: ()=>void, setSelectedMCategory: ()=>void, setIsChanged:()=>void}){
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>();
     const [isColorOpen, setIsColorOpen] = useState<boolean>();
     const [category, setCategory] = useState<string>();
@@ -104,6 +104,7 @@ function CategoryEditor({selectedCategory, editorClose, setSelectedMCategory}: {
                                 else{
                                     await categoryApi.create({categoryCode: categoryCode!, subtitle: midCategory!, color: color!});
                                     await firstSet();
+                                    setIsChanged();
                                 }
                                 afterAction();
                             }
@@ -129,10 +130,14 @@ export function MyCategory(){
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isChanged, setIsChanged] = useState<boolean>(false);
+
+    const setChanged = () =>{
+        setIsChanged(!isChanged);
+    }
+
     async function firstSet(){
         const categories = await categoryApi.my();
         setClassifiedCategorys(classifyByCategoryCode(categories));
-        setIsChanged(!isChanged);
         setIsLoading(false);
     }
     
@@ -194,7 +199,7 @@ export function MyCategory(){
             </div>
             <Modal isOpen={isOpen} closeModal={()=>{setIsOpen(false);}}>
                 <div>
-                    <CategoryEditor selectedCategory={selectedMCategory} editorClose={() => setIsOpen(false)} setSelectedMCategory={()=> {setSelectedMCategory(undefined)}}/>
+                    <CategoryEditor selectedCategory={selectedMCategory} editorClose={() => setIsOpen(false)} setSelectedMCategory={() => { setSelectedMCategory(undefined); } } setIsChanged={setChanged}/>
                 </div>
             </Modal>
         </div>
