@@ -5,7 +5,6 @@ import { DiaryApi } from "./DiaryApi";
 import { MemberApi } from "./MemberApi";
 import { EmojiApi } from "./EmojiApi";
 
-const accessToken = localStorage.getItem('accessToken');
 const baseAxios = axios.create({
     withCredentials: true
 });
@@ -17,6 +16,7 @@ export const memberApi = new MemberApi();
 export const emojiApi = new EmojiApi();
 
 export async function GET(url:string, data:any){
+    const accessToken = localStorage.getItem('accessToken');
     try {
         const res = await baseAxios.get(url, {
             headers: {
@@ -25,14 +25,12 @@ export async function GET(url:string, data:any){
             data: data,
         });
         const result = res.data;
-         console.log(url, data, accessToken)
-         console.log(result)
         return result;
     } catch (error) {
         if ((error as AxiosError).isAxiosError && (error as AxiosError).message === 'Network Error') {
             //auth.login();
         }
-        console.log("elrror from GET")
+        console.log("error from GET")
         console.error(error);
         throw error;
     }
@@ -40,6 +38,8 @@ export async function GET(url:string, data:any){
 
 
 export async function POST(url:string, data:any,){
+    const accessToken = localStorage.getItem('accessToken');
+    
     try {
         const response = await baseAxios.post(url, data, {
             headers: {
@@ -57,6 +57,7 @@ export async function POST(url:string, data:any,){
 }
 
 export async function PUT(url:string, data:any){
+    const accessToken = localStorage.getItem('accessToken');
     try {await baseAxios.put(url, data, {
         headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -75,6 +76,7 @@ export async function PUT(url:string, data:any){
 }
 
 export async function DELETE(url:string, data:any){
+    const accessToken = localStorage.getItem('accessToken');
     try { await baseAxios.delete(url, {
       headers: {
           Authorization: `Bearer ${accessToken}`,

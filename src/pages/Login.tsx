@@ -1,11 +1,28 @@
 import { Hearts } from "react-loader-spinner";
 import '../styles/components/Box.css'
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export function Login() {
+    const navigate = useNavigate();
     const fetchData = () => {
-        window.location.href="https://patient-care-diary.dev/oauth2/authorization/google"
+        window.location.href = "https://patient-care-diary.dev/oauth2/authorization/google";
+    };
+    
+    const getTocken = () => {
+        const accessToken = new URL(window.location.href).searchParams.get("accessToken");
+        const refreshToken = new URL(window.location.href).searchParams.get("refreshToken");
+        if (accessToken !== null && refreshToken !== null && accessToken !== '' ) {
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+            navigate('/home');
+        }
     };
 
+    useEffect(() => {
+        getTocken();
+    }, []);
+    
     return (
         <div 
             style={{
