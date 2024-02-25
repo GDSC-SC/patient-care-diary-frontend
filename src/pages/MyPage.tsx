@@ -56,7 +56,7 @@ export function MyPage(){
                     
                 </div>
                 <div className="BoxL">
-                    <Calendar onChange={(value) => setSelectedDate(value as Date)} value={selectedDate} />
+                    <Calendar onChange={(value) => setSelectedDate(value as Date)} value={selectedDate} locale="en-GB" />
                 </div>
                 {diary === null ? <div className="BoxL" style={{textAlign: "center"}}> no diary </div> :
                 <div>
