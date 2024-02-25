@@ -6,7 +6,7 @@ import { useEffect } from "react";
 export function Login() {
     const navigate = useNavigate();
     const fetchData = () => {
-        window.location.href = "https://patient-care-diary.fly.dev/oauth2/authorization/google";
+        window.location.href = "https://patient-care-diary.dev/oauth2/authorization/google";
     };
     
     const getTocken = () => {
