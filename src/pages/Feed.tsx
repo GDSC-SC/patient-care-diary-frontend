@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { DiaryPreview, DiaryPreviewProps } from "../components/DiaryPreview";
 import { MainLayout } from "../components/layout/MainLayout";
 import { DiaryApi } from "../services/api/DiaryApi";
+import { Loading } from "../components/Loading";
 
 export function Feed() {
     const [loading, setLoading] = useState<boolean>(true);
@@ -19,8 +20,8 @@ export function Feed() {
     }, []);
     return (
         <MainLayout>
-            {(loading || waitingEmojiCount > 0) && <div>Loading...</div>}
-            {loading ? <div>Loading...</div> : 
+            {(loading || waitingEmojiCount > 0) && <Loading/>}
+            {!loading &&
                 diarys.map((diary:DiaryPreviewProps) => {
                     return <DiaryPreview diaryPreviewProps={diary} setLoading={setWaitingEmojiCount}/>
                 })

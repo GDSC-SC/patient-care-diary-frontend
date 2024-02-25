@@ -7,6 +7,7 @@ import { MainLayout } from "../components/layout/MainLayout";
 import { useEffect, useState } from "react";
 import { DiaryApi } from "../services/api/DiaryApi";
 import { MemberType } from "../services/api/MemberApi";
+import { Loading } from "../components/Loading";
 
 export interface Content {
     id: number|null,
@@ -39,7 +40,7 @@ export function FeedDetail(){
     }, [id]);
     return(
         <MainLayout>
-            {loading ? <div>Loading...</div> :
+            {loading ? <Loading/> :
             diary &&
             <div>
                 <div className="BoxL">

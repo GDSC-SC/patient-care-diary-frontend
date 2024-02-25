@@ -6,6 +6,7 @@ import 'autosize';
 import { useEffect, useState } from "react";
 import { Diary, DiaryInput } from "../components/DiaryInput";
 import { categoryApi, diaryApi } from "../services/api";
+import { Loading } from "../components/Loading";
 
 // 본 화면은 로그인 후 처음으로 접근하는 화면입니다.
 // 기능 : 기록.
@@ -48,7 +49,7 @@ export function Home(){
 
     return (
         <MainLayout>
-            {loading ? <div>Loading...</div> : (
+            {loading ? <Loading/> : (
                 <div>
                     <DiaryInput curDiary={diary} categorys={categorys}/>
                 </div>
