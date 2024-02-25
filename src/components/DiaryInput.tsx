@@ -233,13 +233,14 @@ export function DiaryInput({curDiary, categorys} : {curDiary: Diary|null, catego
             <ToastContainer
                 position="top-center"
                 autoClose={5000}
-                hideProgressBar
+                hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
                 rtl={false}
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
+                theme="colored"
                 />
         </div>
     );

@@ -4,17 +4,20 @@ import { MemberProfile } from "./MemberProfile";
 import { MidCategoryTile } from "./MidCategoryTile";
 import { Category, classifyByCategoryCode } from "../utils/manageCategory";
 import { MemberType } from "../services/api/MemberApi";
+import { wrap } from "module";
 
 function LargeCategoryWrapper({category, categoryList} : {category: string, categoryList: Category[]}){
     return (
-        <div className="FlexColumn">
+        <div className="FlexColumn" >
             <h3>{category}</h3>
+            <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start', alignItems:'flex-start', gap:'1vw'}}>
             {categoryList.map((midCategory) => {
                 if (midCategory.visible)
                     return(
                         <MidCategoryTile title={midCategory.midCategory} color={midCategory.color}/>
                     )
             })}
+            </div>
         </div>
     );
 }

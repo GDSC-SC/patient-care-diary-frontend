@@ -7,8 +7,8 @@ import { categoryApi } from "../services/api";
 import { MidCategoryTile } from "../components/MidCategoryTile";
 import { FaChevronDown, FaChevronUp, FaEllipsisH } from "react-icons/fa";
 import { Modal } from "../components/Modal";
-import { toast } from "react-toastify";
 import { Loading } from "../components/Loading";
+import { ToastContainer, toast } from 'react-toastify';
 
 function EditorBtn({title, clickHandler}: {title: string, clickHandler:()=>void}){
     return(
@@ -138,9 +138,23 @@ export function MyCategory(){
         firstSet();
     }, [selectedMCategory]);
 
+
     return(
         <MainLayout> 
             {isLoading? <Loading/> :
+            <div>
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
             <div className="FlexColumn">
             <div className="BoxL">
                 <div className="FlexRow">
@@ -181,7 +195,9 @@ export function MyCategory(){
                     <CategoryEditor selectedCategory={selectedMCategory} editorClose={() => setIsOpen(false)} setSelectedMCategory={()=> {setSelectedMCategory(undefined)}}/>
                 </div>
             </Modal>
-        </div>}
+        </div>
+            </div>
+            }
         </MainLayout>
     );
 }
