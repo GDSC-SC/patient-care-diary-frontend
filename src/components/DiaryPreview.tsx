@@ -14,15 +14,7 @@ function LargeCategoryWrapper({category, categoryList} : {category: string, cate
             {categoryList.map((midCategory) => {
                 if (midCategory.visible)
                     return(
-                        <>
-                        <MidCategoryTile title={midCategory.midCategory} color={'lightgrey'}/>
-                        <MidCategoryTile title={midCategory.midCategory} color={'lightgrey'}/>
-                        <MidCategoryTile title={midCategory.midCategory} color={'lightgrey'}/>
-                        <MidCategoryTile title={midCategory.midCategory} color={'lightgrey'}/>
-                        <MidCategoryTile title={midCategory.midCategory} color={'lightgrey'}/>
-                        <MidCategoryTile title={midCategory.midCategory} color={'lightgrey'}/>
-                        <MidCategoryTile title={midCategory.midCategory} color={'lightgrey'}/>
-                        </>
+                        <MidCategoryTile title={midCategory.midCategory} color={midCategory.color}/>
                     )
             })}
             </div>

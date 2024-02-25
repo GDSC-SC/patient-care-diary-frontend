@@ -1,6 +1,6 @@
 import { Button, Footer } from "grommet";
 import {Archive, HomeRounded } from "grommet-icons";
-import {FaUser} from 'react-icons/fa'
+import {FaRegUser, FaUser} from 'react-icons/fa'
 import { useNavigate } from "react-router-dom";
 
 const BottomFooter = () => {
@@ -9,7 +9,7 @@ const BottomFooter = () => {
         <Footer className="Footer">
             <Button icon={<Archive/>} onClick={() => {navigator('/feed')}}></Button>
             <Button icon={<HomeRounded/>} onClick={() => {navigator('/')}}></Button>
-            <Button icon={<FaUser/>} onClick={() => {navigator('/myPage')}}></Button>
+            <Button icon={<FaRegUser/>} onClick={() => {navigator('/myPage')}}></Button>
         </Footer>
     )
 }
