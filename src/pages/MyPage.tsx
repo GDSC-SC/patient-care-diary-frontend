@@ -11,7 +11,6 @@ import { DiaryView } from "../components/DiaryView";
 import { diaryApi, memberApi } from "../services/api";
 import { EmojiBox } from "../components/EmojiBox";
 import { MemberType } from "../services/api/MemberApi";
-import { Loading } from "../components/Loading";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 
 export function MyPage(){
@@ -49,7 +48,7 @@ export function MyPage(){
     const navigate = useNavigate();
     return(
         <MainLayout>
-            {member===undefined ? <Loading/> :
+            {member!==undefined &&
             <div className="FlexColumn">
                 <div className="BoxL">
                     <div className="FlexRow"  onClick={() =>{navigate('/profilePage')}}>

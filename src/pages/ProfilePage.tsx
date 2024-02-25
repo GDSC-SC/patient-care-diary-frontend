@@ -7,7 +7,6 @@ import { memberApi } from '../services/api';
 import { useEffect, useRef, useState } from 'react';
 import { ProflieImg } from '../components/MemberProfile';
 import { FaPen } from 'react-icons/fa';
-import { Loading } from '../components/Loading';
 
 function ProfileList({title,value,onEdit}:{title: string, value?: string, onEdit?(e:string):void}){
     const inputRef = useRef<HTMLInputElement>(null);
@@ -88,7 +87,7 @@ export function ProfilePage(){
 
     return(
         <MainLayout>
-            {loading ? <Loading/> :
+            {!loading &&
             <div className="FlexColumn">
             <div className='BoxL'>
                 <div className='FlexRow'>

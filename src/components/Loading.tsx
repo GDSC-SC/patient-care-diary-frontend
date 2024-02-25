@@ -3,6 +3,7 @@ import {MutatingDots} from 'react-loader-spinner'
 
 export function Loading() {
     return <div className="loading">
+        <div className="loadingIcon">
         <MutatingDots
           visible={true}
           height="100"
@@ -13,6 +14,7 @@ export function Loading() {
           ariaLabel="mutating-dots-loading"
           wrapperStyle={{}}
           wrapperClass=""
-          />
+        />
+        </div>
     </div>;
 }

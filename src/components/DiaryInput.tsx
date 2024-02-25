@@ -9,7 +9,6 @@ import { contentApi, diaryApi } from "../services/api";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ContentForCreate } from "../services/api/ContentApi";
-import { Loading } from "./Loading";
 
 function MidCategoryInput({categoryName, categoryId, color, content, onValueChange}
     :{categoryName: string, categoryId: number, color: string, content:Content|null, 
@@ -154,9 +153,18 @@ export interface Diary {
 }
 
 export function DiaryInput({date, curDiary, categorys} : {date:string, curDiary: Diary|null, categorys: Category[]}) {
-    const classifiedContents:Content[][] = classifyByCategoryCode(curDiary?.contents || []);
     const classifiedCategorys:Category[][] = classifyByCategoryCode(categorys);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [diary, setDiary] = useState<Diary|null>(curDiary);
+    const getClassifiedContents = (diary: Diary|null) => {
+        return (diary && diary.contents) ? classifyByCategoryCode(diary.contents) : classifyByCategoryCode([]);
+    }
+    
+    const [classifiedContents, setClassifiedContents] = useState<Content[][]>(getClassifiedContents(diary));
+    
+    useEffect(() => {
+        setClassifiedContents(getClassifiedContents(diary));
+        console.log(classifiedContents)
+    }, [diary]);
     const [inputValues, setInputValues] = useState<ContentForCreate[]>([]);
     const handleInputValueChange = (newValue:ContentForCreate) => {
         console.log("handleInputValueChange called with", newValue);
@@ -167,40 +175,38 @@ export function DiaryInput({date, curDiary, categorys} : {date:string, curDiary:
         });
     }
     const onClickSaveBtn = async () => {
-        setLoading(true);
         if(inputValues.length === 0) {
             toast("You haven't added any information yet.");
             return;
         }
-        if(curDiary === null) {
+        if(diary === null) {
             console.log("curDiary is null, creating one");
             await diaryApi.create({date:date});
             console.log(`Diary created for ${date}`);
-            curDiary = await diaryApi.getByDate(date);
+            setDiary(await diaryApi.getByDate(date));
         }
         //trigger save in each midCategoryInput
         inputValues.forEach(async (content) => {
-            if(curDiary === null) {
+            if(diary === null) {
                 console.error("curDiary is null, something went wrong");
                 return;
             }
             if(content.contentId == null) {
-                await contentApi.create({ ...content, diaryId: curDiary.id });
-
+                await contentApi.create({ ...content, diaryId: diary.id });
+                setDiary(await diaryApi.getByDate(date));
             } else {
-                await contentApi.update({ ...content, diaryId: curDiary.id });
+                await contentApi.update({ ...content, diaryId: diary.id });
+                setDiary(await diaryApi.getByDate(date));
             }
         });
-        setLoading(false);
         toast("One more piece of information has been added to help people.");
     }
 
     return(
         <div>
-            {loading && <Loading/>}
             <div className="BoxL" style={{paddingBottom: '1vh'}}>
                 <DateBox date={date} needSave={true} clickHandler={onClickSaveBtn}/>
-                {curDiary!==null?<EmojiBox diaryId={curDiary.id}/>:<></>}
+                {diary!==null?<EmojiBox diaryId={diary.id}/>:<></>}
             </div>
             <div className = "FlexColumn">
                 {
