@@ -25,6 +25,13 @@ export function Home() {
     }
 
     useEffect(() => {
+        const getTocken = async () => {
+            const token = await new URL(window.location.href).searchParams.get("accessToken");
+            const refreshToken = await new URL(window.location.href).searchParams.get("refreshToken");
+
+            localStorage.setItem('accessToken', token||'');
+            localStorage.setItem('refreshToken', refreshToken||'');
+        }
         const fetchDiary = async () => {   
             const today = new Date();
             try {
@@ -38,6 +45,8 @@ export function Home() {
         };
         
         const fetchAll = async () => {
+            await getTocken();
+            console.log(localStorage.getItem('accessToken'))
             setCategorys(await categoryApi.my());
             const diary = await fetchDiary();
             if (diary !== null) {
