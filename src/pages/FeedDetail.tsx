@@ -7,7 +7,6 @@ import { MainLayout } from "../components/layout/MainLayout";
 import { useEffect, useState } from "react";
 import { DiaryApi } from "../services/api/DiaryApi";
 import { MemberType } from "../services/api/MemberApi";
-import { Loading } from "../components/Loading";
 
 export interface Content {
     id: number|null,
@@ -27,7 +26,7 @@ export function FeedDetail(){
         date: number[],
         contents: Content[],
         member: MemberType
-    }>();
+    }|null>(null);
     useEffect(() => {
         const fetchDiary = async () => {
             const diaryApi = new DiaryApi();
@@ -38,7 +37,7 @@ export function FeedDetail(){
     }, [id]);
     return(
         <MainLayout>
-            {diary === undefined ? <Loading/> :
+            {diary !== null &&
             <div>
                 <div className="BoxL">
                     <div className="FlexColumn" style={{padding:'3vw'}}>

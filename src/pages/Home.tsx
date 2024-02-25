@@ -6,7 +6,6 @@ import 'autosize';
 import { useEffect, useState } from "react";
 import { Diary, DiaryInput } from "../components/DiaryInput";
 import { categoryApi, diaryApi } from "../services/api";
-import { Loading } from "../components/Loading";
 import { useParams } from "react-router-dom";
 
 // 본 화면은 로그인 후 처음으로 접근하는 화면입니다.
@@ -47,11 +46,11 @@ export function Home() {
         }
 
         fetchAll();
-    });
+    }, [date]);
 
     return (
         <MainLayout>
-            {loading ? <Loading/> : 
+            {!loading && 
                 <DiaryInput date={date!} curDiary={diary} categorys={categorys}/>
             }
         </MainLayout>

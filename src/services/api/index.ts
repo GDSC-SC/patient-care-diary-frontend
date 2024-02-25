@@ -4,6 +4,7 @@ import { ContentApi } from "./ContentApi";
 import { DiaryApi } from "./DiaryApi";
 import { MemberApi } from "./MemberApi";
 import { EmojiApi } from "./EmojiApi";
+import { LoadingHandler } from "../../App"; // Import the LoadingHandlerInstance
 
 const baseAxios = axios.create({
     withCredentials: true
@@ -29,6 +30,7 @@ export const memberApi = new MemberApi();
 export const emojiApi = new EmojiApi();
 
 export async function GET(url:string, data:any){
+    LoadingHandler.setLoading(true);
     try {
         const res = await baseAxios.get(url, {
             headers: {
@@ -37,6 +39,7 @@ export async function GET(url:string, data:any){
             data: data,
         });
         const result = res.data;
+        LoadingHandler.setLoading(false);
         return result;
     } catch (error) {
         if ((error as AxiosError).isAxiosError && (error as AxiosError).message === 'Network Error') {
@@ -44,6 +47,7 @@ export async function GET(url:string, data:any){
         }
         console.log("error from GET")
         console.error(error);
+        LoadingHandler.setLoading(false);
         throw error;
     }
 
@@ -51,23 +55,27 @@ export async function GET(url:string, data:any){
 
 
 export async function POST(url:string, data:any,){
+    LoadingHandler.setLoading(true);
     try {
         const response = await baseAxios.post(url, data, {
             headers: {
                 Authorization: `Bearer ${getAccessToken()}`,
             },
         });
+        LoadingHandler.setLoading(false);
         return response.data; // POST 요청의 결과 값을 반환
     } catch (error) {
         if ((error as AxiosError).isAxiosError && (error as AxiosError).message === 'Network Error') {
             //auth.login();
         }
         console.error(error);
+        LoadingHandler.setLoading(false);
         throw error; // 에러를 다시 던져서 상위 코드에서 처리할 수 있도록 함
     }
 }
 
 export async function PUT(url:string, data:any){
+    LoadingHandler.setLoading(true);
     try {await baseAxios.put(url, data, {
         headers: {
             Authorization: `Bearer ${getAccessToken()}`,
@@ -75,30 +83,35 @@ export async function PUT(url:string, data:any){
         data:data
     }).then((res)=>{
         const result = res.data;
+        LoadingHandler.setLoading(false);
         return result;
     })} catch (error) {
         if ((error as AxiosError).isAxiosError && (error as AxiosError).message === 'Network Error') {
             //auth.login();
         }
         console.error(error);
+        LoadingHandler.setLoading(false);
         throw error;
     }
 }
 
 export async function DELETE(url:string, data:any){
+    LoadingHandler.setLoading(true);
     try { await baseAxios.delete(url, {
       headers: {
           Authorization: `Bearer ${getAccessToken()}`,
       },
       data:data
   }).then((res)=>{
-      const result = res.data;
-      return result;
+        const result = res.data;
+        LoadingHandler.setLoading(false);
+        return result;
   })} catch (error) {
         if ((error as AxiosError).isAxiosError && (error as AxiosError).message === 'Network Error') {
             //auth.login();
         }
         console.error(error);
+        LoadingHandler.setLoading(false);
         throw error;
     }
 }

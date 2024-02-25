@@ -7,7 +7,6 @@ import { categoryApi } from "../services/api";
 import { MidCategoryTile } from "../components/MidCategoryTile";
 import { FaChevronDown, FaChevronUp, FaEllipsisH } from "react-icons/fa";
 import { Modal } from "../components/Modal";
-import { Loading } from "../components/Loading";
 import { ToastContainer, toast } from 'react-toastify';
 
 function EditorBtn({title, clickHandler}: {title: string, clickHandler:()=>void}){
@@ -148,7 +147,7 @@ export function MyCategory(){
 
     return(
         <MainLayout> 
-            {isLoading? <Loading/> :
+            {!isLoading &&
             <div>
             <ToastContainer
                 position="top-center"

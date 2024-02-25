@@ -7,10 +7,22 @@ import { MyPage } from "./pages/MyPage";
 import { MyCategory } from "./pages/MyCategory";
 import { ProfilePage } from "./pages/ProfilePage";
 import { Login } from "./pages/Login";
+import { Loading } from "./components/Loading";
+import { useState } from "react";
+
+export class LoadingHandler {
+  static setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  static setSetLoading(setLoading:React.Dispatch<React.SetStateAction<boolean>>){
+    LoadingHandler.setLoading = setLoading;
+  }
+}
 
 function App(){
+  const [loading, realSetLoading] = useState<boolean>(false);
+  LoadingHandler.setSetLoading(realSetLoading);
   return(
     <div>
+      {loading && <Loading/>}
       <ToastContainer/>
       <Routes>
       <Route path="/" element={<Login/>}/>
