@@ -12,6 +12,7 @@ import { diaryApi, memberApi } from "../services/api";
 import { EmojiBox } from "../components/EmojiBox";
 import { MemberType } from "../services/api/MemberApi";
 import { Loading } from "../components/Loading";
+import { MdOutlineModeEditOutline } from "react-icons/md";
 
 export function MyPage(){
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -30,7 +31,8 @@ export function MyPage(){
     useEffect(()=>{
         const fetchDiary = async () => {
             try{
-                setDiary(await diaryApi.getByDate(selectedDate));
+                const date = selectedDate;
+                setDiary(await diaryApi.getByDate(`${date.getFullYear()}${(date.getMonth()+1).toString().padStart(2, '0')}${(date.getDate()).toString().padStart(2, '0')}`));
             }catch(error){
                 if ((error as any).response && (error as any).response.status === 404) {
                     setDiary(null)
@@ -71,12 +73,19 @@ export function MyPage(){
                         <EmojiBox diaryId={diary.id}/>
                     </div>
                     <DiaryView contents={diary.contents}/>
-                    <Trash onClick={
-                        async () => {
-                            await diaryApi.delete(diary.id);
-                            setRenderCount((prev) => prev + 1);
-                        }
-                    } style={{margin: '0 auto', display: 'block'}}/>
+                    <div className="FlexRow" style={{margin: '0 auto', display: 'flex', justifyContent: 'space-around'}}>
+                        <Trash onClick={
+                            async () => {
+                                await diaryApi.delete(diary.id);
+                                setRenderCount((prev) => prev + 1);
+                            }
+                        }/>
+                        <MdOutlineModeEditOutline onClick={()=>{
+                            const date = new Date(selectedDate);
+                            navigate(`/home/${date.getFullYear()}${(date.getMonth()+1).toString().padStart(2, '0')}${(date.getDate()).toString().padStart(2, '0')}`)
+                        }}/>
+                    </div>
+                    
                 </div>}
             </div>}
         </MainLayout>

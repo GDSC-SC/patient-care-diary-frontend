@@ -25,10 +25,9 @@ export class DiaryApi{
         return(GET(this.makeUrl("my"),null));
     }
 
-    async getByDate(date:Date){
-        const formattedDate = `${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getDate().toString().padStart(2, '0')}`;
+    async getByDate(date:String){
         try {
-            const diary = await GET(this.makeUrl(`date/${formattedDate}`), null)
+            const diary = await GET(this.makeUrl(`date/${date}`), null)
             return diary;
         } catch (error) {
             throw error;

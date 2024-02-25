@@ -14,7 +14,7 @@ function App(){
       <ToastContainer/>
       <Routes>
       <Route path="/" element={<Login/>}/>
-      <Route path="/home" element={<Home/>}/>
+      <Route path="/home/:date" element={<Home/>}/>
       <Route path="/feed" element={<Feed/>}/>
       <Route path="/feedDetail/:id" element={<FeedDetail/>}/>
       <Route path="/myPage" element={<MyPage/>}/>
