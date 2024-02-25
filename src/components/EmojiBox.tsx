@@ -50,7 +50,7 @@ export function EmojiBox({diaryId}:{diaryId: number}){
 
     return (
         <div>
-            {loading ? <Loading/> : 
+            {loading  && <Loading/>} 
             <div className="FlexRow" style={{ marginTop: '1vh' }}>
             <div style={{ flex: 1 }} />
             <div style={{ flex: 3 }}>
@@ -82,7 +82,7 @@ export function EmojiBox({diaryId}:{diaryId: number}){
                 </div>
             </div>
             <div style={{ flex: 1 }} />
-        </div>}
+        </div>
         </div>
     );
 }
