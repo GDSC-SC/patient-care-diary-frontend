@@ -25,11 +25,14 @@ export async function GET(url:string, data:any){
             data: data,
         });
         const result = res.data;
+         console.log(url, data, accessToken)
+         console.log(result)
         return result;
     } catch (error) {
         if ((error as AxiosError).isAxiosError && (error as AxiosError).message === 'Network Error') {
             //auth.login();
         }
+        console.log("elrror from GET")
         console.error(error);
         throw error;
     }
