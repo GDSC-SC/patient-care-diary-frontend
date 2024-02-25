@@ -11,6 +11,7 @@ import { DiaryView } from "../components/DiaryView";
 import { diaryApi, memberApi } from "../services/api";
 import { EmojiBox } from "../components/EmojiBox";
 import { MemberType } from "../services/api/MemberApi";
+import { Loading } from "../components/Loading";
 
 export function MyPage(){
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -40,7 +41,7 @@ export function MyPage(){
     const navigate = useNavigate();
     return(
         <MainLayout>
-            {member===undefined ? <div>Loading...</div> : (
+            {member===undefined ? <Loading/> : (
             <div className="FlexColumn">
                 <div className="BoxL">
                     <div className="FlexRow"  onClick={() =>{navigate('/profilePage')}}>

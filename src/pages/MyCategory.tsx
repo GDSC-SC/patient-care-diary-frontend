@@ -7,6 +7,7 @@ import { categoryApi } from "../services/api";
 import { MidCategoryTile } from "../components/MidCategoryTile";
 import { FaChevronDown, FaChevronUp, FaEllipsisH } from "react-icons/fa";
 import { Modal } from "../components/Modal";
+import { Loading } from "../components/Loading";
 import { ToastContainer, toast } from 'react-toastify';
 
 function EditorBtn({title, clickHandler}: {title: string, clickHandler:()=>void}){
@@ -126,17 +127,22 @@ export function MyCategory(){
     const [selectedMCategory, setSelectedMCategory] = useState<Category|undefined>();
     const [classifiedCategorys, setClassifiedCategorys] = useState<Category[][]>();
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     async function firstSet(){
         const categories = await categoryApi.my();
         setClassifiedCategorys(classifyByCategoryCode(categories));
+        setIsLoading(false);
     }
     
     useEffect(() =>{
         firstSet();
     }, [selectedMCategory]);
 
+
     return(
         <MainLayout> 
+            {isLoading? <Loading/> :
+            <div>
             <ToastContainer
                 position="top-center"
                 autoClose={5000}
@@ -148,49 +154,50 @@ export function MyCategory(){
                 draggable
                 pauseOnHover
                 theme="colored"
-                />
+            />
             <div className="FlexColumn">
-                <div className="BoxL">
-                    <div className="FlexRow">
-                        <h2>My Category</h2>
-                    </div>
+            <div className="BoxL">
+                <div className="FlexRow">
+                    <h2>My Category</h2>
                 </div>
-                <div>
-                        {classifiedCategorys?.map((category: Category[])=>{
-                            if(category.length!=0)
-                                return(
-                                    <div className="FlexColumn" style={{margin:'6vw'}}>
-                                        <h3>{category[0]?.category}</h3>
-                                        <div style={{margin:'0 3vw'}}>
-                                            {category.map((c)=>{
-                                                return(
-                                                    <div className="FlexRow" style={{margin: '1vw 0'}}>
-                                                        <MidCategoryTile title={c.midCategory} color={c.color}/>
-                                                        <FaEllipsisH onClick={()=>{
-                                                            setSelectedMCategory(c);
-                                                            setIsOpen(true);
-                                                        }}/>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-                                );
-                        })}
-                </div>
-                <div style={{display:'flex', justifyContent:'center'}}>
-                    <EditorBtn title={"ADD"} clickHandler={()=>{
-                        setSelectedMCategory(undefined);
-                        setIsOpen(true);
-                    }}/>
-                </div>
-                <Modal isOpen={isOpen} closeModal={()=>{setIsOpen(false);}}>
-                    <div>
-                        <CategoryEditor selectedCategory={selectedMCategory} editorClose={() => setIsOpen(false)} setSelectedMCategory={()=> {setSelectedMCategory(undefined)}}/>
-                    </div>
-                </Modal>
-                
             </div>
+            <div>
+                    {classifiedCategorys?.map((category: Category[])=>{
+                        if(category.length!==0)
+                            return(
+                                <div className="FlexColumn" style={{margin:'6vw'}}>
+                                    <h3>{category[0]?.category}</h3>
+                                    <div style={{margin:'0 3vw'}}>
+                                        {category.map((c)=>{
+                                            return(
+                                                <div className="FlexRow" style={{margin: '1vw 0'}}>
+                                                    <MidCategoryTile title={c.midCategory} color={c.color}/>
+                                                    <FaEllipsisH onClick={()=>{
+                                                        setSelectedMCategory(c);
+                                                        setIsOpen(true);
+                                                    }}/>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            );
+                    })}
+            </div>
+            <div style={{display:'flex', justifyContent:'center'}}>
+                <EditorBtn title={"ADD"} clickHandler={()=>{
+                    setSelectedMCategory(undefined);
+                    setIsOpen(true);
+                }}/>
+            </div>
+            <Modal isOpen={isOpen} closeModal={()=>{setIsOpen(false);}}>
+                <div>
+                    <CategoryEditor selectedCategory={selectedMCategory} editorClose={() => setIsOpen(false)} setSelectedMCategory={()=> {setSelectedMCategory(undefined)}}/>
+                </div>
+            </Modal>
+        </div>
+            </div>
+            }
         </MainLayout>
     );
 }

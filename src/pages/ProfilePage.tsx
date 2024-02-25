@@ -7,6 +7,7 @@ import { memberApi } from '../services/api';
 import { useEffect, useRef, useState } from 'react';
 import { ProflieImg } from '../components/MemberProfile';
 import { FaPen } from 'react-icons/fa';
+import { Loading } from '../components/Loading';
 
 function ProfileList({title,value,onEdit}:{title: string, value?: string, onEdit?(e:string):void}){
     const inputRef = useRef<HTMLInputElement>(null);
@@ -45,6 +46,7 @@ export function ProfilePage(){
     const [gender, setGender] = useState<string>();
     const [type, setType] = useState<string>();
     const [description, setDescription] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(true);
     async function fetchData() {
         try {
             const userData = await memberApi.parseMemberData()
@@ -53,6 +55,7 @@ export function ProfilePage(){
             setGender(userData?.gender);
             setType(userData?.type);
             setDescription(userData?.description);
+            setLoading(false);
         } catch (error) {
             console.log(error);
         }
@@ -85,40 +88,41 @@ export function ProfilePage(){
 
     return(
         <MainLayout>
+            {loading ? <Loading/> :
             <div className="FlexColumn">
-                <div className='BoxL'>
-                    <div className='FlexRow'>
-                        <h2>Edit Profile</h2>
-                        <SaveBtn clickHandler={save}/>
-                    </div>
-                </div>
-                <div className='FlexColumn'>
-                    <div className='BoxL'>
-                        <div className='FlexColumn' style={{alignItems: 'center', alignContent:'center', padding: '1vh'}}>
-                            <ProflieImg imgUrl={userData?.picture}/>
-                            <div className='FlexRow' onClick={()=>{}}>
-                                <h5 style={{margin:0, paddingTop:'1vh'}}>Edit Picture</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='ProfileList'>
-                            <ProfileList title={'ID'} value={userData?.name}/>
-                            <ProfileList title={'Email'} value={userData?.email}/>
-                    </div>
-                    <div className='ProfileList'>
-                        <ProfileList title={'Illness'} value={illness} onEdit={onEditIllness}/>
-                    </div>
-                    <div className='ProfileList'>
-                        <ProfileList title={'Gender'} value={gender} onEdit={onEditGender}/>
-                    </div>
-                    <div className='ProfileList'>
-                        <ProfileList title={'Type'} value={type} onEdit={onEditType}/>
-                    </div>
-                    <div className='ProfileList'>
-                        <ProfileList title={'Info'} value={description} onEdit={onEditDescription}/>
-                    </div>
+            <div className='BoxL'>
+                <div className='FlexRow'>
+                    <h2>Edit Profile</h2>
+                    <SaveBtn clickHandler={save}/>
                 </div>
             </div>
+            <div className='FlexColumn'>
+                <div className='BoxL'>
+                    <div className='FlexColumn' style={{alignItems: 'center', alignContent:'center', padding: '1vh'}}>
+                        <ProflieImg imgUrl={userData?.picture}/>
+                        <div className='FlexRow' onClick={()=>{}}>
+                            <h5 style={{margin:0, paddingTop:'1vh'}}>Edit Picture</h5>
+                        </div>
+                    </div>
+                </div>
+                <div className='ProfileList'>
+                        <ProfileList title={'ID'} value={userData?.name}/>
+                        <ProfileList title={'Email'} value={userData?.email}/>
+                </div>
+                <div className='ProfileList'>
+                    <ProfileList title={'Illness'} value={illness} onEdit={onEditIllness}/>
+                </div>
+                <div className='ProfileList'>
+                    <ProfileList title={'Gender'} value={gender} onEdit={onEditGender}/>
+                </div>
+                <div className='ProfileList'>
+                    <ProfileList title={'Type'} value={type} onEdit={onEditType}/>
+                </div>
+                <div className='ProfileList'>
+                    <ProfileList title={'Info'} value={description} onEdit={onEditDescription}/>
+                </div>
+            </div>
+        </div>}
         </MainLayout>
     );
 }
