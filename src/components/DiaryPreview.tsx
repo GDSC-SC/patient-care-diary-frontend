@@ -28,8 +28,7 @@ export interface DiaryPreviewProps{
     member: MemberType,
 }
 
-export function DiaryPreview ({diaryPreviewProps, setWaitingEmojiBoxCnt}
-    : {diaryPreviewProps:DiaryPreviewProps, setWaitingEmojiBoxCnt:React.Dispatch<React.SetStateAction<number>>}){
+export function DiaryPreview ({diaryPreviewProps} : {diaryPreviewProps:DiaryPreviewProps}){
     const navigate = useNavigate();
     const classifiedCategorys:Category[][] = classifyByCategoryCode(diaryPreviewProps.categories);
 
@@ -47,7 +46,7 @@ export function DiaryPreview ({diaryPreviewProps, setWaitingEmojiBoxCnt}
                         );
                     })}
                 </div>
-                <EmojiBox diaryId={diaryPreviewProps.id} setWaitingEmojiBoxCnt={setWaitingEmojiBoxCnt}/>
+                <EmojiBox diaryId={diaryPreviewProps.id}/>
             </div>
     );
 }
