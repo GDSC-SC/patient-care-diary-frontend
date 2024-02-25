@@ -1,6 +1,6 @@
 import { Button, Footer } from "grommet";
 import {Archive, HomeRounded } from "grommet-icons";
-import {FaRegUser, FaUser} from 'react-icons/fa'
+import {FaRegUser} from 'react-icons/fa'
 import { useNavigate } from "react-router-dom";
 
 const BottomFooter = () => {

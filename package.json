@@ -57,5 +57,5 @@
   "devDependencies": {
     "@types/autosize": "^4.0.3"
   },
-  "proxy": "https://patient-care-diary.fly.dev"
+  "proxy": "https://patient-care-diary.dev"
 }
