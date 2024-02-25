@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Hearts } from "react-loader-spinner";
 import '../styles/components/Box.css'
 
@@ -7,18 +6,6 @@ export function Login() {
         window.location.href="https://patient-care-diary.dev/oauth2/authorization/google"
     };
 
-    useEffect(() => {
-        const getTocken = async () => {
-            const token = await new URL(window.location.href).searchParams.get("accessToken");
-            const refreshToken = await new URL(window.location.href).searchParams.get("refreshToken");
-    
-            localStorage.setItem('accessToken', token||'');
-            localStorage.setItem('refreshToken', refreshToken||'');
-        }
-        getTocken();
-    }, []);
-
-    
     return (
         <div 
             style={{
