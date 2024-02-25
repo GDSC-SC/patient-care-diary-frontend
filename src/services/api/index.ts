@@ -9,6 +9,19 @@ const baseAxios = axios.create({
     withCredentials: true
 });
 
+function getAccessToken() {
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (accessToken === null || accessToken === '') {
+        if(refreshToken !== null && refreshToken !== ''){
+            localStorage.setItem('accessToken', refreshToken);
+        }
+        window.location.href = '/';
+    } else {
+    return accessToken;
+    }
+}
+
 export const categoryApi = new CategoryApi();
 export const contentApi = new ContentApi();
 export const diaryApi = new DiaryApi();
@@ -16,11 +29,10 @@ export const memberApi = new MemberApi();
 export const emojiApi = new EmojiApi();
 
 export async function GET(url:string, data:any){
-    const accessToken = localStorage.getItem('accessToken');
     try {
         const res = await baseAxios.get(url, {
             headers: {
-                Authorization: `Bearer ${accessToken}`,
+                Authorization: `Bearer ${getAccessToken()}`,
             },
             data: data,
         });
@@ -34,16 +46,15 @@ export async function GET(url:string, data:any){
         console.error(error);
         throw error;
     }
+
 }
 
 
 export async function POST(url:string, data:any,){
-    const accessToken = localStorage.getItem('accessToken');
-    
     try {
         const response = await baseAxios.post(url, data, {
             headers: {
-                Authorization: `Bearer ${accessToken}`,
+                Authorization: `Bearer ${getAccessToken()}`,
             },
         });
         return response.data; // POST 요청의 결과 값을 반환
@@ -57,10 +68,9 @@ export async function POST(url:string, data:any,){
 }
 
 export async function PUT(url:string, data:any){
-    const accessToken = localStorage.getItem('accessToken');
     try {await baseAxios.put(url, data, {
         headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${getAccessToken()}`,
         },
         data:data
     }).then((res)=>{
@@ -76,10 +86,9 @@ export async function PUT(url:string, data:any){
 }
 
 export async function DELETE(url:string, data:any){
-    const accessToken = localStorage.getItem('accessToken');
     try { await baseAxios.delete(url, {
       headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${getAccessToken()}`,
       },
       data:data
   }).then((res)=>{
