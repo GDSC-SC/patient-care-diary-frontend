@@ -1,7 +1,8 @@
 # Patient Care Diary Frontend
-Patient-Care-Diary - GDSC Solution Challenge 2024
 
 _**We will help all patients and their families live with hope.**_
+
+Our project “Patient Care Diary” serves as a supportive platform where individuals, especially patients, can record their daily health experiences and activities which fosters a sense of community and empowerment among users.
 
 ## Links
 - [Try out](https://patient-care-diary.dev/)
